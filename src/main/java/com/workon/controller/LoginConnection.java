@@ -88,7 +88,6 @@ public class LoginConnection implements Initializable {
                 Scene mainScene = new Scene(mainParent);
                 Stage primaryStage = (Stage) loginConnectionButton.getScene().getWindow();
                 primaryStage.setResizable(true);
-                primaryStage.hide();
                 primaryStage.setScene(mainScene);
                 primaryStage.setMaximized(true);
                 primaryStage.show();
