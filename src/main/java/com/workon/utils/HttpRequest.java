@@ -18,13 +18,14 @@ public class HttpRequest {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod(requestType);
 
-            String urlParameters = ParameterStringBuilder.getParamsString(parameters);
-
             con.setDoOutput(true);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(urlParameters);
-            wr.flush();
-            wr.close();
+            if(requestType.equals("POST")){
+                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                String urlParameters = ParameterStringBuilder.getParamsString(parameters);
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+            }
 
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -32,10 +33,13 @@ public class HttpRequest {
             while ((inputLine = in.readLine()) != null) {
                 content.append(inputLine);
             }
+            System.out.println(content);
             in.close();
             return true;
         }catch (IOException e){
-            LabelHelper.setLabel(errorLabel, errorMessage, Pos.CENTER, "#FF0000");
+            if(errorLabel != null){
+                LabelHelper.setLabel(errorLabel, errorMessage, Pos.CENTER, "#FF0000");
+            }
             return false;
         }
     }
