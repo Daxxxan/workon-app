@@ -69,7 +69,7 @@
       <ScrollPane fx:id="mainScrollPane" fitToHeight="true" fitToWidth="true" layoutX="238.0" layoutY="111.0" prefHeight="470.0" prefWidth="673.0" style="-fx-border-color: #483D8B;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="238.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="111.0" />
       <AnchorPane layoutY="166.0" prefHeight="55.0" prefWidth="239.0" style="-fx-background-color: #483D8B;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="166.0">
          <children>
-            <JFXButton fx:id="createProjectButton" layoutX="-1.0" onAction="#handleCreateProjectAction" prefHeight="57.0" prefWidth="239.0" style="-fx-border-color: #000000; -fx-border-width: 0.5;" text="Créer un projet" textFill="WHITE">
+            <JFXButton fx:id="createProjectButton" layoutX="-1.0" onAction="#handleCreateProjectView" prefHeight="57.0" prefWidth="239.0" style="-fx-border-color: #000000; -fx-border-width: 0.5;" text="Créer un projet" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -96,6 +96,11 @@
               <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Plugin">
+              <items>
+                <MenuItem fx:id="pluginMenuItem" mnemonicParsing="false" onAction="#handlePluginMenuItem" text="Télécharger un plugin" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
    </children>
