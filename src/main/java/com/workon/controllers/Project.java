@@ -1,8 +1,10 @@
-package com.workon.controller;
+package com.workon.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import com.workon.models.Step;
+import com.workon.models.User;
 import com.workon.plugin.CoffeePluginInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,11 +17,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
-public class Project {
+public class Project{
     @FXML
     private ScrollPane mainScrollPane;
 
@@ -42,8 +43,27 @@ public class Project {
     private JFXButton createDocumentationButton;
 
     private ArrayList<JFXTextField> textFieldCollaboratorArray = new ArrayList<>();
-    private ArrayList<JFXTextField> textFieldStepNameArray = new ArrayList<>();;
-    private ArrayList<JFXDatePicker> datePickerStepArray = new ArrayList<>();;
+    private ArrayList<JFXTextField> textFieldStepNameArray = new ArrayList<>();
+    private ArrayList<JFXDatePicker> datePickerStepArray = new ArrayList<>();
+
+    private static ArrayList<User> usersArrayList = new ArrayList<>();
+    private static ArrayList<Step> stepsArrayList = new ArrayList<>();
+
+    private static ArrayList<User> getUsers() {
+        return usersArrayList;
+    }
+
+    private static void setUser(User user) {
+        Project.usersArrayList.add(user);
+    }
+
+    private static ArrayList<Step> getSteps() {
+        return stepsArrayList;
+    }
+
+    private static void setStep(Step step) {
+        Project.stepsArrayList.add(step);
+    }
 
     private void setTextFieldCollaboratorArray(JFXTextField textFieldCollaborator){
         this.textFieldCollaboratorArray.add(textFieldCollaborator);
@@ -102,13 +122,25 @@ public class Project {
     @FXML
     protected void handleValidateProjectButtonAction() throws IOException {
         for(JFXTextField textField : getTextFieldCollaboratorArray()) {
-            System.out.println(textField.getText());
+            User user = new User(textField.getText());
+            Project.setUser(user);
+        }
+
+        for(User user : Project.getUsers()){
+            System.out.println(user.getEmail());
         }
 
         for(int i = 0; i < getTextFieldStepNameArray().size(); i++){
-            System.out.println(getTextFieldStepNameArray().get(i).getText());
-            System.out.println(getDatePickerStepArray().get(i).getValue());
+            Step step = new Step(getTextFieldStepNameArray().get(i).getText(), getDatePickerStepArray().get(i).getValue());
+            Project.setStep(step);
         }
+
+        for(Step step : Project.stepsArrayList){
+            System.out.println(step.getName());
+            System.out.println(step.getDate());
+        }
+
+        System.out.println(LoginConnection.getUserId());
     }
 
     @FXML

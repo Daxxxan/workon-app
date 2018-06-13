@@ -1,4 +1,4 @@
-package com.workon.controller;
+package com.workon.controllers;
 
 import com.workon.utils.LabelHelper;
 import com.workon.utils.HttpRequest;
@@ -56,8 +56,18 @@ public class LoginConnection implements Initializable {
     @FXML
     private Label registerErrorLabel;
 
+    private static Integer userId;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {}
+
+    public static Integer getUserId() {
+        return userId;
+    }
+
+    private void setUserId(Integer userId) {
+        LoginConnection.userId = userId;
+    }
 
     /**
      * Connection method
@@ -81,9 +91,18 @@ public class LoginConnection implements Initializable {
             parameters.put("email", loginEmailField.getText());
             parameters.put("password", loginPasswordField.getText());
 
-            boolean status = HttpRequest.setRequest("http://localhost:3000/api/accounts/login", parameters, loginErrorConnectionLabel, "POST", "Le compte n'existe pas");
-            if(status){
-                LabelHelper.setLabel(loginErrorConnectionLabel, "Connexion ok!", Pos.CENTER,"#00CD00");
+            StringBuffer content = HttpRequest.setRequest("http://localhost:3000/api/accounts/login", parameters, loginErrorConnectionLabel, "POST", "Le compte n'existe pas");
+            if(content != null){
+                String stringBufferContentToString = content.toString();
+                String[] bufferParts = stringBufferContentToString.split(",");
+
+                for (String bufferPart : bufferParts) {
+                    String[] keyValue = bufferPart.split(":");
+                    if("\"userId\"".equals(keyValue[0])){
+                        setUserId(Integer.parseInt(keyValue[1].substring(0,keyValue[1].length() - 1)));
+                    }
+                }
+
                 Parent mainParent = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
                 Scene mainScene = new Scene(mainParent);
                 Stage primaryStage = (Stage) loginConnectionButton.getScene().getWindow();
@@ -116,8 +135,8 @@ public class LoginConnection implements Initializable {
                 parameters.put("email", registerEmailField.getText());
                 parameters.put("password", registerPasswordField.getText());
 
-                boolean status = HttpRequest.setRequest("http://localhost:3000/api/accounts", parameters, registerErrorLabel, "POST", "Le compte existe déjà !");
-                if(status){
+                StringBuffer content = HttpRequest.setRequest("http://localhost:3000/api/accounts", parameters, registerErrorLabel, "POST", "Le compte existe déjà !");
+                if(content != null){
                     LabelHelper.setLabel(registerErrorLabel, "Votre compte a été créé avec succes", Pos.CENTER, "#00CD00");
                 }
             }else{

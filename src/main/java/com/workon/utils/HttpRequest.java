@@ -9,10 +9,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 public class HttpRequest {
-    public static boolean setRequest(String stringUrl, Map<String, String> parameters, Label errorLabel, String requestType, String errorMessage) throws IOException {
+    public static StringBuffer setRequest(String stringUrl, Map<String, String> parameters, Label errorLabel, String requestType, String errorMessage) throws IOException {
         try{
             URL url = new URL(stringUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -35,12 +36,12 @@ public class HttpRequest {
             }
             System.out.println(content);
             in.close();
-            return true;
+            return content;
         }catch (IOException e){
             if(errorLabel != null){
                 LabelHelper.setLabel(errorLabel, errorMessage, Pos.CENTER, "#FF0000");
             }
-            return false;
+            return null;
         }
     }
 }
