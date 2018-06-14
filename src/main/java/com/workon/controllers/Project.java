@@ -6,19 +6,21 @@ import com.jfoenix.controls.JFXTextField;
 import com.workon.models.Step;
 import com.workon.models.User;
 import com.workon.plugin.CoffeePluginInterface;
+import com.workon.utils.HttpRequest;
+import com.workon.utils.ParseRequestContent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ServiceLoader;
+import java.util.*;
 
 public class Project{
     @FXML
@@ -29,6 +31,9 @@ public class Project{
 
     @FXML
     private VBox vboxStep;
+
+    @FXML
+    private TextField projectNameTextField;
 
     @FXML
     private JFXButton validateProjectButton;
@@ -121,6 +126,14 @@ public class Project{
 
     @FXML
     protected void handleValidateProjectButtonAction() throws IOException {
+        String request = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnection.getUserId())).concat("/projects");
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("name", projectNameTextField.getText());
+
+        StringBuffer contentCreateProject = HttpRequest.setRequest(request, parameters, null, "POST", null, LoginConnection.getUserToken());
+
+        //Add collaborators to project
+
         for(JFXTextField textField : getTextFieldCollaboratorArray()) {
             User user = new User(textField.getText());
             Project.setUser(user);

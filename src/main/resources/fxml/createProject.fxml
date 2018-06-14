@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<GridPane maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.Project">
+<GridPane maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.Project">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -27,7 +26,7 @@
       <RowConstraints maxHeight="244.3999755859375" minHeight="0.0" prefHeight="209.19996337890626" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <JFXTextField fx:id="hboxCollaborators" maxWidth="1.7976931348623157E308" promptText="Nom du projet" GridPane.columnIndex="3" GridPane.columnSpan="2">
+      <JFXTextField fx:id="projectNameTextField" maxWidth="1.7976931348623157E308" promptText="Nom du projet" GridPane.columnIndex="3" GridPane.columnSpan="2">
          <padding>
             <Insets left="10.0" right="10.0" />
          </padding>

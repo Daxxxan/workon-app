@@ -2,6 +2,7 @@ package com.workon.controllers;
 
 import com.workon.utils.LabelHelper;
 import com.workon.utils.HttpRequest;
+import com.workon.utils.ParseRequestContent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -57,6 +58,7 @@ public class LoginConnection implements Initializable {
     private Label registerErrorLabel;
 
     private static Integer userId;
+    private static String userToken;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {}
@@ -67,6 +69,14 @@ public class LoginConnection implements Initializable {
 
     private void setUserId(Integer userId) {
         LoginConnection.userId = userId;
+    }
+
+    public static String getUserToken() {
+        return userToken;
+    }
+
+    private void setUserToken(String userToken) {
+        LoginConnection.userToken = userToken;
     }
 
     /**
@@ -91,16 +101,13 @@ public class LoginConnection implements Initializable {
             parameters.put("email", loginEmailField.getText());
             parameters.put("password", loginPasswordField.getText());
 
-            StringBuffer content = HttpRequest.setRequest("http://localhost:3000/api/accounts/login", parameters, loginErrorConnectionLabel, "POST", "Le compte n'existe pas");
+            StringBuffer content = HttpRequest.setRequest("http://localhost:3000/api/accounts/login", parameters, loginErrorConnectionLabel, "POST", "Le compte n'existe pas", null);
             if(content != null){
-                String stringBufferContentToString = content.toString();
-                String[] bufferParts = stringBufferContentToString.split(",");
-
-                for (String bufferPart : bufferParts) {
-                    String[] keyValue = bufferPart.split(":");
-                    if("\"userId\"".equals(keyValue[0])){
-                        setUserId(Integer.parseInt(keyValue[1].substring(0,keyValue[1].length() - 1)));
-                    }
+                String userId = ParseRequestContent.getValueOf(content, "\"userId\"");
+                String userToken = ParseRequestContent.getValueOf(content, "{\"id\"");
+                if(userId != null && userToken != null){
+                    setUserId(Integer.parseInt(userId.substring(0, userId.length() - 1)));
+                    setUserToken(userToken.substring(1, userToken.length() - 1));
                 }
 
                 Parent mainParent = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
@@ -135,7 +142,7 @@ public class LoginConnection implements Initializable {
                 parameters.put("email", registerEmailField.getText());
                 parameters.put("password", registerPasswordField.getText());
 
-                StringBuffer content = HttpRequest.setRequest("http://localhost:3000/api/accounts", parameters, registerErrorLabel, "POST", "Le compte existe déjà !");
+                StringBuffer content = HttpRequest.setRequest("http://localhost:3000/api/accounts", parameters, registerErrorLabel, "POST", "Le compte existe déjà !", null);
                 if(content != null){
                     LabelHelper.setLabel(registerErrorLabel, "Votre compte a été créé avec succes", Pos.CENTER, "#00CD00");
                 }

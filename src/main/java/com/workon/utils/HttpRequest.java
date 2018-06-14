@@ -13,10 +13,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpRequest {
-    public static StringBuffer setRequest(String stringUrl, Map<String, String> parameters, Label errorLabel, String requestType, String errorMessage) throws IOException {
+    public static StringBuffer setRequest(String stringUrl, Map<String, String> parameters, Label errorLabel, String requestType, String errorMessage, String token) throws IOException {
         try{
             URL url = new URL(stringUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+            if(token != null){
+                String accessToken = "Bearer ";
+                accessToken = accessToken.concat(token);
+                con.setRequestProperty("Authorization", accessToken);
+            }
+
             con.setRequestMethod(requestType);
 
             con.setDoOutput(true);
