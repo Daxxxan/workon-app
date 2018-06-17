@@ -7,12 +7,14 @@ import com.workon.models.Project;
 import com.workon.models.Step;
 import com.workon.models.User;
 import com.workon.plugin.CoffeePluginInterface;
+import com.workon.utils.ButtonHelper;
 import com.workon.utils.HttpRequest;
 import com.workon.utils.ParseRequestContent;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -49,14 +51,12 @@ public class ProjectController {
     @FXML
     private JFXButton createDocumentationButton;
 
-    @FXML
-    private ScrollPane projectListScrollPane;
-
     private ArrayList<JFXTextField> textFieldCollaboratorArray = new ArrayList<>();
     private ArrayList<JFXTextField> textFieldStepNameArray = new ArrayList<>();
     private ArrayList<JFXDatePicker> datePickerStepArray = new ArrayList<>();
 
     private static Project project = new Project();
+
 
     public static Project getProject() {
         return project;
@@ -121,7 +121,7 @@ public class ProjectController {
     }
 
     @FXML
-    protected void handleValidateProjectButtonAction() throws IOException {
+    protected void handleValidateProjectButtonAction() throws Exception {
         Project project = new Project();
         //Root pour la création d'un projet
         String createProjectRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
@@ -217,6 +217,19 @@ public class ProjectController {
                 setProject(project);
 
                 //Création du bouton projet dans l'interface
+                JFXButton button = ButtonHelper.setButton(projectNameTextField.getText(), projectId, Double.MAX_VALUE,
+                        "-fx-border-color: #000000");
+
+                //Récupération de la VBox pour insérer le bouton
+                ObservableList<Node> observableList = validateProjectButton.getParent().getParent().getParent().getParent()
+                        .getParent().getChildrenUnmodifiable();
+                for(Node node : observableList){
+                    if(Objects.equals(node.getId(), "scrollPaneProjectList")){
+                        ScrollPane scrollPane = (ScrollPane)node;
+                        VBox projectListVBox = (VBox)scrollPane.lookup("#projectListVBox");
+                        projectListVBox.getChildren().add(button);
+                    }
+                }
             }
         }
     }
