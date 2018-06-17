@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -46,5 +47,6 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
+      <Label fx:id="projectNameErrorLabel" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="203.0" GridPane.columnIndex="5" GridPane.columnSpan="2" />
    </children>
 </GridPane>
