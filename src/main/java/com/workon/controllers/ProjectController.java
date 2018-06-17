@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ProjectController {
@@ -136,6 +137,7 @@ public class ProjectController {
             String projectId = ParseRequestContent.getValueOf(contentCreateProject, "\"id\"");
             projectId = projectId.substring(0, Objects.requireNonNull(projectId).length() - 1);
             String addCollaboratorsRequest;
+            String addStepsRequest;
 
             //Set d'un objet ProjectController
             project.setName(projectNameTextField.getText());
@@ -180,16 +182,38 @@ public class ProjectController {
                         }
                     }
                 }
-                //Ajout du tableau d'utilisateur au projet
+                //Ajout du tableau d'utilisateur au projet local
                 project.setUsers(usersList);
 
                 //Ajout de chaque steps au projet
                 ArrayList<Step> stepsList = new ArrayList<>();
                 for(int counter = 0; counter < getTextFieldStepNameArray().size(); counter++){
-                    Step step = new Step(getTextFieldStepNameArray().get(counter).getText(), getDatePickerStepArray().get(counter).getValue());
-                    stepsList.add(step);
+                    //Request pour l'ajout des steps au projet
+                    addStepsRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnectionController.getUserId()))
+                    .concat("/projects/").concat(projectId).concat("/steps");
+
+                    //Convert LocalDate to String
+                    DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+                    String stepDate = getDatePickerStepArray().get(counter).getValue().format(formatter);
+
+                    //Set des parameters de la requete en POST
+                    Map<String, String> parameters = new HashMap<>();
+                    parameters.put("name", getTextFieldStepNameArray().get(counter).getText());
+                    parameters.put("date", stepDate);
+                    parameters.put("state", "En cours");
+
+                    //Lancement de l'ajout des steps
+                    StringBuffer contentAddStepsToProject = HttpRequest.setRequest(addStepsRequest, parameters, null, "POST", null, LoginConnectionController.getUserToken());
+
+                    //Si l'ajout a bien été effectué
+                    if(contentAddStepsToProject != null){
+                        Step step = new Step(getTextFieldStepNameArray().get(counter).getText(), getDatePickerStepArray().get(counter).getValue());
+                        stepsList.add(step);
+                    }
                 }
+                //Ajout des steps au projet local
                 project.setSteps(stepsList);
+                //Création du projet global
                 setProject(project);
 
                 //Création du bouton projet dans l'interface
