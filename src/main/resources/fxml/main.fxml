@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="911.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.Project">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="911.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.ProjectController">
    <children>
-      <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="223.0" prefHeight="343.0" prefWidth="239.0" style="-fx-border-color: #483D8B;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="223.0" />
+      <ScrollPane fx:id="projectListScrollPane" fitToHeight="true" fitToWidth="true" layoutY="223.0" onDragDetected="#handleProjectListScrollPane" prefHeight="343.0" prefWidth="239.0" style="-fx-border-color: #483D8B;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="223.0" />
       <AnchorPane layoutX="238.0" layoutY="26.0" prefHeight="85.0" prefWidth="673.0" style="-fx-background-color: #483D8B; -fx-border-color: #483D8B;" AnchorPane.leftAnchor="238.0" AnchorPane.rightAnchor="0.0">
          <children>
             <GridPane gridLinesVisible="true" prefHeight="140.0" prefWidth="638.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

@@ -1,7 +1,5 @@
 package com.workon.utils;
 
-import com.workon.controllers.LoginConnection;
-
 public class ParseRequestContent {
     public static String getValueOf(StringBuffer content, String key){
         String stringBufferContentToString = content.toString();

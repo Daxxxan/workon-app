@@ -1,5 +1,6 @@
 package com.workon.controllers;
 
+import com.workon.models.Project;
 import com.workon.utils.LabelHelper;
 import com.workon.utils.HttpRequest;
 import com.workon.utils.ParseRequestContent;
@@ -24,7 +25,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LoginConnection implements Initializable {
+public class LoginConnectionController implements Initializable {
     /**
      * Connection fields
      */
@@ -68,7 +69,7 @@ public class LoginConnection implements Initializable {
     }
 
     private void setUserId(Integer userId) {
-        LoginConnection.userId = userId;
+        LoginConnectionController.userId = userId;
     }
 
     public static String getUserToken() {
@@ -76,7 +77,7 @@ public class LoginConnection implements Initializable {
     }
 
     private void setUserToken(String userToken) {
-        LoginConnection.userToken = userToken;
+        LoginConnectionController.userToken = userToken;
     }
 
     /**

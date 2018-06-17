@@ -1,22 +1,32 @@
 package com.workon.models;
 
 public class User {
-    private String id;
+    private int id;
     private String email;
     private String firstname;
     private String lastname;
     private String accessToken;
+    private String role;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+    public User(int id){
         this.id = id;
     }
 
     public User(String email) {
         this.email = email;
+    }
+
+    public User(int id, String email) {
+        this.id = id;
+        this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -49,5 +59,13 @@ public class User {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
