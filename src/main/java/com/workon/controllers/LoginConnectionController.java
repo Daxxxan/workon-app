@@ -98,17 +98,21 @@ public class LoginConnectionController implements Initializable {
 
         //Si tout est ok on test la connexion
         if(!(loginPasswordField.getText().isEmpty()) && !(loginEmailField.getText().isEmpty())){
+            //Set des parameters
             Map<String, String> parameters = new HashMap<>();
             parameters.put("email", loginEmailField.getText());
             parameters.put("password", loginPasswordField.getText());
 
+            //Lancement de la requete
             StringBuffer content = HttpRequest.setRequest("http://localhost:3000/api/accounts/login", parameters, loginErrorConnectionLabel, "POST", "Le compte n'existe pas", null);
             if(content != null){
+                //Récupération de l'id et du token user
                 String userId = ParseRequestContent.getValueOf(content.toString(), "userId");
                 String userToken = ParseRequestContent.getValueOf(content.toString(), "id");
                 setUserId(Integer.parseInt(userId));
                 setUserToken(userToken.substring(1, userToken.length() - 1));
 
+                //Load de la nouvelle scene
                 Parent mainParent = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
                 Scene mainScene = new Scene(mainParent);
                 Stage primaryStage = (Stage) loginConnectionButton.getScene().getWindow();
@@ -117,11 +121,13 @@ public class LoginConnectionController implements Initializable {
                 primaryStage.setMaximized(true);
                 primaryStage.show();
 
+                //Récupération de la VBOX gauche pour load tous les projets du user
                 ObservableList<Node> nodes = mainParent.getChildrenUnmodifiable();
                 for(Node node : nodes){
                     if(Objects.equals(node.getId(), "scrollPaneProjectList")){
                         ScrollPane scrollPane = (ScrollPane)node;
                         VBox projectListVBox = (VBox)scrollPane.lookup("#projectListVBox");
+                        projectListVBox.setSpacing(5);
                         String getProjectRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(getUserId())).concat("/projects");
                         StringBuffer contentRequest = HttpRequest.setRequest(getProjectRequest, null, null, "GET", null, getUserToken());
 
