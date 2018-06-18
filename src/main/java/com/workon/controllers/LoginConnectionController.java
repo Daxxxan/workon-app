@@ -1,27 +1,27 @@
 package com.workon.controllers;
 
-import com.workon.models.Project;
-import com.workon.utils.LabelHelper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jfoenix.controls.JFXButton;
+import com.workon.utils.ButtonHelper;
 import com.workon.utils.HttpRequest;
+import com.workon.utils.LabelHelper;
 import com.workon.utils.ParseRequestContent;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,7 +84,7 @@ public class LoginConnectionController implements Initializable {
      * Connection method
      */
     @FXML
-    protected void handleLoginConnectionButtonAction() throws IOException {
+    protected void handleLoginConnectionButtonAction() throws IOException{
         if(loginEmailField.getText().isEmpty() ) {
             LabelHelper.setLabel(loginEmailErrorLabel, "Saisissez votre adresse mail.", Pos.CENTER_LEFT, "#FF0000");
         }else{
@@ -104,12 +104,10 @@ public class LoginConnectionController implements Initializable {
 
             StringBuffer content = HttpRequest.setRequest("http://localhost:3000/api/accounts/login", parameters, loginErrorConnectionLabel, "POST", "Le compte n'existe pas", null);
             if(content != null){
-                String userId = ParseRequestContent.getValueOf(content, "\"userId\"");
-                String userToken = ParseRequestContent.getValueOf(content, "{\"id\"");
-                if(userId != null && userToken != null){
-                    setUserId(Integer.parseInt(userId.substring(0, userId.length() - 1)));
-                    setUserToken(userToken.substring(1, userToken.length() - 1));
-                }
+                String userId = ParseRequestContent.getValueOf(content.toString(), "userId");
+                String userToken = ParseRequestContent.getValueOf(content.toString(), "id");
+                setUserId(Integer.parseInt(userId));
+                setUserToken(userToken.substring(1, userToken.length() - 1));
 
                 Parent mainParent = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
                 Scene mainScene = new Scene(mainParent);
@@ -118,6 +116,27 @@ public class LoginConnectionController implements Initializable {
                 primaryStage.setScene(mainScene);
                 primaryStage.setMaximized(true);
                 primaryStage.show();
+
+                ObservableList<Node> nodes = mainParent.getChildrenUnmodifiable();
+                for(Node node : nodes){
+                    if(Objects.equals(node.getId(), "scrollPaneProjectList")){
+                        ScrollPane scrollPane = (ScrollPane)node;
+                        VBox projectListVBox = (VBox)scrollPane.lookup("#projectListVBox");
+                        String getProjectRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(getUserId())).concat("/projects");
+                        StringBuffer contentRequest = HttpRequest.setRequest(getProjectRequest, null, null, "GET", null, getUserToken());
+
+                        ArrayList<String> names = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentRequest).toString(), "name");
+                        ArrayList<String> ids = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentRequest).toString(), "id");
+                        for(int counter = 0; counter < names.size(); counter++){
+                            JFXButton button = ButtonHelper.setButton(names.get(counter).substring(1, names.get(counter).length() - 1),
+                                    ids.get(counter), Double.MAX_VALUE,
+                                    "-fx-border-color: #000000");
+                            projectListVBox.getChildren().add(button);
+                        }
+                        //Ajouter les boutons à la liste
+                        //Mettre l'id du projet dans le bouton
+                    }
+                }
             }
         }
     }

@@ -141,8 +141,7 @@ public class ProjectController {
             //Si le projet a été créé
             if(contentCreateProject != null){
                 //Récupération de l'ID du projet créé
-                String projectId = ParseRequestContent.getValueOf(contentCreateProject, "\"id\"");
-                projectId = projectId.substring(0, Objects.requireNonNull(projectId).length() - 1);
+                String projectId = ParseRequestContent.getValueOf(contentCreateProject.toString(), "id");
                 String addCollaboratorsRequest;
                 String addStepsRequest;
 
@@ -153,7 +152,6 @@ public class ProjectController {
                 //Root pour l'ajout du directeur aux collaborateurs
                 String addDirectorRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnectionController.getUserId()))
                         .concat("/projects/").concat(projectId).concat("/accounts/rel/").concat(Integer.toString(LoginConnectionController.getUserId()));
-
                 //Lancement de l'ajout du directeur aux collaborateurs
                 StringBuffer contentAddDirectorToProjectCollaborators = HttpRequest.setRequest(addDirectorRequest, null, null, "PUT", null, LoginConnectionController.getUserToken());
 
@@ -173,7 +171,7 @@ public class ProjectController {
                         StringBuffer contentAddCollaboratorsToProject = HttpRequest.setRequest(addCollaboratorsRequest, null, null, "PUT", null, LoginConnectionController.getUserToken());
                         if(contentAddCollaboratorsToProject != null){
                             //Récupération de l'id du collaborateur
-                            int collaboratorId = Integer.parseInt(Objects.requireNonNull(ParseRequestContent.getValueOf(contentAddCollaboratorsToProject, "\"accountId\"")));
+                            int collaboratorId = Integer.parseInt(Objects.requireNonNull(ParseRequestContent.getValueOf(contentAddCollaboratorsToProject.toString(), "accountId")));
 
                             //Vérifier que l'id n'est pas déjà dans le tableau des users
                             int exist = 0;
@@ -240,7 +238,6 @@ public class ProjectController {
                 }
             }
         }else{
-            System.out.println("ok");
             LabelHelper.setLabel(projectNameErrorLabel, "Veuillez saisir le nom du projet", Pos.CENTER_LEFT, "#FF0000");
         }
     }

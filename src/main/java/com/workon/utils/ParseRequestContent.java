@@ -1,16 +1,29 @@
 package com.workon.utils;
 
-public class ParseRequestContent {
-    public static String getValueOf(StringBuffer content, String key){
-        String stringBufferContentToString = content.toString();
-        String[] bufferParts = stringBufferContentToString.split(",");
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
-        for (String bufferPart : bufferParts) {
-            String[] keyValue = bufferPart.split(":");
-            if(key.equals(keyValue[0])){
-                return  keyValue[1];
-            }
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class ParseRequestContent {
+    public static String getValueOf(String content, String key) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonContent = objectMapper.readTree(content);
+        JsonNode jsonObject = jsonContent.get(key);
+        return jsonObject.toString();
+    }
+
+    public static ArrayList<String> getValuesOf(String content, String key) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayList<String> contents = new ArrayList<>();
+        JsonNode jsonContent = objectMapper.readTree(content);
+
+        for(JsonNode jsonNode : jsonContent){
+            contents.add(jsonNode.get(key).toString());
         }
-        return null;
+
+        return contents;
     }
 }
