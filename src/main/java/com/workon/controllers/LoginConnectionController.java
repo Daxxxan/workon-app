@@ -1,7 +1,5 @@
 package com.workon.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jfoenix.controls.JFXButton;
 import com.workon.utils.ButtonHelper;
 import com.workon.utils.HttpRequest;
@@ -12,11 +10,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.LightBase;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -57,6 +58,8 @@ public class LoginConnectionController implements Initializable {
     private PasswordField registerPasswordVerifyField;
     @FXML
     private Label registerErrorLabel;
+    @FXML
+    private ScrollPane mainScrollPane;
 
     private static Integer userId;
     private static String userToken;
@@ -120,29 +123,6 @@ public class LoginConnectionController implements Initializable {
                 primaryStage.setScene(mainScene);
                 primaryStage.setMaximized(true);
                 primaryStage.show();
-
-                //Récupération de la VBOX gauche pour load tous les projets du user
-                ObservableList<Node> nodes = mainParent.getChildrenUnmodifiable();
-                for(Node node : nodes){
-                    if(Objects.equals(node.getId(), "scrollPaneProjectList")){
-                        ScrollPane scrollPane = (ScrollPane)node;
-                        VBox projectListVBox = (VBox)scrollPane.lookup("#projectListVBox");
-                        projectListVBox.setSpacing(5);
-                        String getProjectRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(getUserId())).concat("/projects");
-                        StringBuffer contentRequest = HttpRequest.setRequest(getProjectRequest, null, null, "GET", null, getUserToken());
-
-                        ArrayList<String> names = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentRequest).toString(), "name");
-                        ArrayList<String> ids = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentRequest).toString(), "id");
-                        for(int counter = 0; counter < names.size(); counter++){
-                            JFXButton button = ButtonHelper.setButton(names.get(counter).substring(1, names.get(counter).length() - 1),
-                                    ids.get(counter), Double.MAX_VALUE,
-                                    "-fx-border-color: #000000");
-                            projectListVBox.getChildren().add(button);
-                        }
-                        //Ajouter les boutons à la liste
-                        //Mettre l'id du projet dans le bouton
-                    }
-                }
             }
         }
     }

@@ -6,56 +6,38 @@ import com.jfoenix.controls.JFXTextField;
 import com.workon.models.Project;
 import com.workon.models.Step;
 import com.workon.models.User;
-import com.workon.plugin.CoffeePluginInterface;
 import com.workon.utils.ButtonHelper;
 import com.workon.utils.HttpRequest;
 import com.workon.utils.LabelHelper;
 import com.workon.utils.ParseRequestContent;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
-public class ProjectController {
-    @FXML
-    private ScrollPane mainScrollPane;
-
+public class CreateProjectController {
     @FXML
     private VBox vboxCollaborators;
-
     @FXML
     private VBox vboxStep;
-
     @FXML
     private TextField projectNameTextField;
-
     @FXML
     private JFXButton validateProjectButton;
-
-    @FXML
-    private JFXButton createBugButton;
-
-    @FXML
-    private JFXButton createEvolutionButton;
-
-    @FXML
-    private JFXButton createDocumentationButton;
-
     @FXML
     private Label projectNameErrorLabel;
+
 
     private ArrayList<JFXTextField> textFieldCollaboratorArray = new ArrayList<>();
     private ArrayList<JFXTextField> textFieldStepNameArray = new ArrayList<>();
@@ -63,45 +45,12 @@ public class ProjectController {
 
     private static Project project = new Project();
 
-
-    public static Project getProject() {
-        return project;
-    }
-
-    public static void setProject(Project project) {
-        ProjectController.project = project;
-    }
-
-    private void setTextFieldCollaboratorArray(JFXTextField textFieldCollaborator){
-        this.textFieldCollaboratorArray.add(textFieldCollaborator);
-    }
-
-    public ArrayList<JFXTextField> getTextFieldCollaboratorArray(){
-        return this.textFieldCollaboratorArray;
-    }
-
-    private void setTextFieldStepNameArray(JFXTextField textFieldStep){
-        this.textFieldStepNameArray.add(textFieldStep);
-    }
-
-    public ArrayList<JFXTextField> getTextFieldStepNameArray(){
-        return this.textFieldStepNameArray;
-    }
-
-    private void setDatePickerStepArray(JFXDatePicker datePickerStep){
-        this.datePickerStepArray.add(datePickerStep);
-    }
-
-    public ArrayList<JFXDatePicker> getDatePickerStepArray() {
-        return this.datePickerStepArray;
-    }
-
     @FXML
-    protected void handleCreateProjectView() throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("/fxml/createProject.fxml"));
-        mainScrollPane.setContent(parent);
-        mainScrollPane.setFitToHeight(true);
-        mainScrollPane.setFitToWidth(true);
+    public void initialize(){
+        vboxCollaborators.setSpacing(10);
+        vboxCollaborators.setStyle("-fx-padding: 5px");
+        vboxStep.setSpacing(10);
+        vboxStep.setStyle("-fx-padding: 5px");
     }
 
     @FXML
@@ -145,7 +94,7 @@ public class ProjectController {
                 String addCollaboratorsRequest;
                 String addStepsRequest;
 
-                //Set d'un objet ProjectController
+                //Set d'un objet ProjectsController
                 project.setName(projectNameTextField.getText());
                 project.setDirector(LoginConnectionController.getUserId());
 
@@ -193,27 +142,29 @@ public class ProjectController {
                     //Ajout de chaque steps au projet
                     ArrayList<Step> stepsList = new ArrayList<>();
                     for(int counter = 0; counter < getTextFieldStepNameArray().size(); counter++){
-                        //Request pour l'ajout des steps au projet
-                        addStepsRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnectionController.getUserId()))
-                                .concat("/projects/").concat(projectId).concat("/steps");
+                        if(getTextFieldStepNameArray() != null && getDatePickerStepArray().get(counter).getValue() != null){
+                            //Request pour l'ajout des steps au projet
+                            addStepsRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnectionController.getUserId()))
+                                    .concat("/projects/").concat(projectId).concat("/steps");
 
-                        //Convert LocalDate to String
-                        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-                        String stepDate = getDatePickerStepArray().get(counter).getValue().format(formatter);
+                            //Convert LocalDate to String
+                            DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+                            String stepDate = getDatePickerStepArray().get(counter).getValue().format(formatter);
 
-                        //Set des parameters de la requete en POST
-                        Map<String, String> parameters = new HashMap<>();
-                        parameters.put("name", getTextFieldStepNameArray().get(counter).getText());
-                        parameters.put("date", stepDate);
-                        parameters.put("state", "En cours");
+                            //Set des parameters de la requete en POST
+                            Map<String, String> parameters = new HashMap<>();
+                            parameters.put("name", getTextFieldStepNameArray().get(counter).getText());
+                            parameters.put("date", stepDate);
+                            parameters.put("state", "En cours");
 
-                        //Lancement de l'ajout des steps
-                        StringBuffer contentAddStepsToProject = HttpRequest.setRequest(addStepsRequest, parameters, null, "POST", null, LoginConnectionController.getUserToken());
+                            //Lancement de l'ajout des steps
+                            StringBuffer contentAddStepsToProject = HttpRequest.setRequest(addStepsRequest, parameters, null, "POST", null, LoginConnectionController.getUserToken());
 
-                        //Si l'ajout a bien été effectué
-                        if(contentAddStepsToProject != null){
-                            Step step = new Step(getTextFieldStepNameArray().get(counter).getText(), getDatePickerStepArray().get(counter).getValue());
-                            stepsList.add(step);
+                            //Si l'ajout a bien été effectué
+                            if(contentAddStepsToProject != null){
+                                Step step = new Step(getTextFieldStepNameArray().get(counter).getText(), getDatePickerStepArray().get(counter).getValue());
+                                stepsList.add(step);
+                            }
                         }
                     }
                     //Ajout des steps au projet local
@@ -223,7 +174,7 @@ public class ProjectController {
 
                     //Création du bouton projet dans l'interface
                     JFXButton button = ButtonHelper.setButton(projectNameTextField.getText(), projectId, Double.MAX_VALUE,
-                            "-fx-border-color: #000000");
+                            "-fx-border-color: #000000; " + "-fx-border-radius: 7;");
 
                     //Récupération de la VBox pour insérer le bouton
                     ObservableList<Node> observableList = validateProjectButton.getParent().getParent().getParent().getParent()
@@ -232,6 +183,8 @@ public class ProjectController {
                         if(Objects.equals(node.getId(), "scrollPaneProjectList")){
                             ScrollPane scrollPane = (ScrollPane)node;
                             VBox projectListVBox = (VBox)scrollPane.lookup("#projectListVBox");
+                            projectListVBox.setSpacing(10);
+                            projectListVBox.setStyle("-fx-padding: 5px");
                             projectListVBox.getChildren().add(button);
                         }
                     }
@@ -242,28 +195,35 @@ public class ProjectController {
         }
     }
 
-    @FXML
-    protected void handlePluginMenuItem() throws Exception {
-        Parent parent = FXMLLoader.load(getClass().getResource("/fxml/pluginPanel.fxml"));
-        mainScrollPane.setContent(parent);
-        mainScrollPane.setFitToHeight(true);
-        mainScrollPane.setFitToWidth(true);
+    public static Project getProject() {
+        return project;
+    }
 
-        File location = new File("src/main/resources/pluginsWorkon");
-        File[] fileList = location.listFiles();
+    public static void setProject(Project project) {
+        CreateProjectController.project = project;
+    }
 
-        URL[] urls = new URL[fileList.length];
-        for (int i = 0; i < fileList.length; i++){
-            urls[i] = fileList[i].toURI().toURL();
-        }
+    private void setTextFieldCollaboratorArray(JFXTextField textFieldCollaborator){
+        this.textFieldCollaboratorArray.add(textFieldCollaborator);
+    }
 
-        URLClassLoader ucl = new URLClassLoader(urls);
+    public ArrayList<JFXTextField> getTextFieldCollaboratorArray(){
+        return this.textFieldCollaboratorArray;
+    }
 
-        ServiceLoader<CoffeePluginInterface> sl = ServiceLoader.load(CoffeePluginInterface.class, ucl);
-        Iterator<CoffeePluginInterface> apit = sl.iterator();
+    private void setTextFieldStepNameArray(JFXTextField textFieldStep){
+        this.textFieldStepNameArray.add(textFieldStep);
+    }
 
-        while (apit.hasNext()){
-            apit.next().coffeeAction();
-        }
+    public ArrayList<JFXTextField> getTextFieldStepNameArray(){
+        return this.textFieldStepNameArray;
+    }
+
+    private void setDatePickerStepArray(JFXDatePicker datePickerStep){
+        this.datePickerStepArray.add(datePickerStep);
+    }
+
+    public ArrayList<JFXDatePicker> getDatePickerStepArray() {
+        return this.datePickerStepArray;
     }
 }
