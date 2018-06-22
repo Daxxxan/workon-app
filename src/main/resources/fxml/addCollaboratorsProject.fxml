@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.MainProjectUIController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="-Infinity" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="500.7999863624573" minHeight="0.0" prefHeight="423.2" vgrow="SOMETIMES" />
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <VBox fx:id="vboxCollaboratorList" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Liste de étapes du projet" textFill="WHITE" />
+         </children>
+      </VBox>
+      <VBox fx:id="vboxAddCollaborators" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
+         <children>
+            <JFXButton fx:id="addCollaboratorProjectButton" alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" onAction="#handleAddCollaboratorButtonAction" style="-fx-background-color: #483d8b;" text="Ajouter un jalon" textAlignment="CENTER" textFill="WHITE" />
+         </children>
+      </VBox>
+      <JFXButton fx:id="validateCollaborators" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleValidateCollaborators" text="Valider" textFill="#2a8212" GridPane.columnIndex="5" GridPane.columnSpan="2">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="projectTitleLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.columnSpan="2">
+         <font>
+            <Font name="Times New Roman" size="24.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="switchToSteps" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleSwitchToSteps" text="Ajouter un jalon" textFill="#2a8212" GridPane.columnIndex="1" GridPane.columnSpan="2">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+   </children>
+</GridPane>

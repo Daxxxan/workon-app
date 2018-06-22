@@ -6,21 +6,19 @@ import com.jfoenix.controls.JFXTextField;
 import com.workon.models.Project;
 import com.workon.models.Step;
 import com.workon.models.User;
-import com.workon.utils.ButtonHelper;
-import com.workon.utils.HttpRequest;
-import com.workon.utils.LabelHelper;
-import com.workon.utils.ParseRequestContent;
+import com.workon.utils.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,14 +61,11 @@ public class CreateProjectController {
 
     @FXML
     protected void handleAddStepButtonAction() throws  IOException{
-        JFXTextField textFieldStepName = new JFXTextField();
-        JFXDatePicker datePickerStep = new JFXDatePicker();
+        JFXTextField textFieldStepName = AddStep.setStepName();
+        JFXDatePicker datePickerStep = AddStep.setDatePicker();
 
-        textFieldStepName.setPromptText("Nom du jalon");
-        datePickerStep.setPromptText("Date de fin du jalon");
-
-        setTextFieldStepNameArray(textFieldStepName);
         setDatePickerStepArray(datePickerStep);
+        setTextFieldStepNameArray(textFieldStepName);
 
         vboxStep.getChildren().addAll(textFieldStepName, datePickerStep);
     }
@@ -140,33 +135,7 @@ public class CreateProjectController {
                     project.setUsers(usersList);
 
                     //Ajout de chaque steps au projet
-                    ArrayList<Step> stepsList = new ArrayList<>();
-                    for(int counter = 0; counter < getTextFieldStepNameArray().size(); counter++){
-                        if(getTextFieldStepNameArray() != null && getDatePickerStepArray().get(counter).getValue() != null){
-                            //Request pour l'ajout des steps au projet
-                            addStepsRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnectionController.getUserId()))
-                                    .concat("/projects/").concat(projectId).concat("/steps");
-
-                            //Convert LocalDate to String
-                            DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-                            String stepDate = getDatePickerStepArray().get(counter).getValue().format(formatter);
-
-                            //Set des parameters de la requete en POST
-                            Map<String, String> parameters = new HashMap<>();
-                            parameters.put("name", getTextFieldStepNameArray().get(counter).getText());
-                            parameters.put("date", stepDate);
-                            parameters.put("state", "En cours");
-
-                            //Lancement de l'ajout des steps
-                            StringBuffer contentAddStepsToProject = HttpRequest.setRequest(addStepsRequest, parameters, null, "POST", null, LoginConnectionController.getUserToken());
-
-                            //Si l'ajout a bien été effectué
-                            if(contentAddStepsToProject != null){
-                                Step step = new Step(getTextFieldStepNameArray().get(counter).getText(), getDatePickerStepArray().get(counter).getValue());
-                                stepsList.add(step);
-                            }
-                        }
-                    }
+                    ArrayList<Step> stepsList = AddStep.addStepsInDB(textFieldStepNameArray, datePickerStepArray, projectId);
                     //Ajout des steps au projet local
                     project.setSteps(stepsList);
                     //Création du projet global
@@ -174,9 +143,11 @@ public class CreateProjectController {
 
                     //Création du bouton projet dans l'interface
                     JFXButton button = ButtonHelper.setButton(projectNameTextField.getText(), projectId, Double.MAX_VALUE,
-                            "-fx-border-color: #000000; " + "-fx-border-radius: 7;");
+                            "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
+                            new Font("Times New Roman", 16));
+                    CreateProjectController.getProject().setId(button.getId());
 
-                    //Récupération de la VBox pour insérer le bouton
+                    //Récupération de la VBox pour insérer le bouton et le mainScrollPane pour loader le fxml lors du clic bouton
                     ObservableList<Node> observableList = validateProjectButton.getParent().getParent().getParent().getParent()
                             .getParent().getChildrenUnmodifiable();
                     for(Node node : observableList){
@@ -186,6 +157,17 @@ public class CreateProjectController {
                             projectListVBox.setSpacing(10);
                             projectListVBox.setStyle("-fx-padding: 5px");
                             projectListVBox.getChildren().add(button);
+                        }
+                        if(Objects.equals(node.getId(), "mainScrollPane")){
+                            ScrollPane mainScrollPane = (ScrollPane)node;
+                            button.setOnAction(event -> {
+                                try {
+                                    LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", mainScrollPane, true, true);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                            LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", mainScrollPane,true, true);
                         }
                     }
                 }

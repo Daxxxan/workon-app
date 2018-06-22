@@ -3,6 +3,7 @@ package com.workon.models;
 import java.util.ArrayList;
 
 public class Project {
+    private String id;
     private String name;
     private int director;
     private ArrayList<Step> steps = new ArrayList<>();
@@ -13,6 +14,14 @@ public class Project {
     public Project(String name, int director) {
         this.name = name;
         this.director = director;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

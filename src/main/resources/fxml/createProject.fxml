@@ -22,7 +22,7 @@
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="-Infinity" minHeight="80.8" prefHeight="80.8" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="-Infinity" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="500.7999863624573" minHeight="0.0" prefHeight="423.2" vgrow="SOMETIMES" />
       <RowConstraints />
   </rowConstraints>
@@ -42,7 +42,7 @@
             <JFXButton fx:id="addStepButton" alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" onAction="#handleAddStepButtonAction" style="-fx-background-color: #483d8b;" text="Ajouter un jalon" textAlignment="CENTER" textFill="WHITE" />
          </children>
       </VBox>
-      <Label fx:id="projectNameErrorLabel" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="203.0" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+      <Label fx:id="projectNameErrorLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="203.0" GridPane.columnIndex="1" GridPane.columnSpan="2" />
       <JFXButton fx:id="validateProjectButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleValidateProjectButtonAction" text="Valider" textFill="#2a8212" GridPane.columnIndex="5" GridPane.columnSpan="2">
          <font>
             <Font size="14.0" />
