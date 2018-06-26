@@ -1,7 +1,7 @@
 package com.workon.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import com.workon.plugin.CoffeePluginInterface;
+import com.workon.plugin.PluginLoader;
 import com.workon.utils.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -12,14 +12,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Objects;
-import java.util.ServiceLoader;
 
 public class ProjectsController {
     @FXML
@@ -31,7 +26,7 @@ public class ProjectsController {
 
     @FXML
     public void initialize() throws IOException {
-        String getProjectRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
+        String getProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
         StringBuffer contentRequest = HttpRequest.setRequest(getProjectRequest, null, null, "GET", null, LoginConnectionController.getUserToken());
 
         projectListVBox.setSpacing(10);
@@ -46,7 +41,7 @@ public class ProjectsController {
                     new Font("Times New Roman", 16));
             button.setOnAction(event -> {
                 CreateProjectController.getProject().setId(button.getId());
-                try {
+                    try {
                     LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", mainScrollPane, true, true);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -55,7 +50,7 @@ public class ProjectsController {
             projectListVBox.getChildren().add(button);
         }
 
-        String getAccountInformations = "http://localhost:3000/api/accounts/".concat(LoginConnectionController.getUserId().toString());
+        String getAccountInformations = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString());
         StringBuffer contentAccountInformations = HttpRequest.setRequest(getAccountInformations, null, null, "GET", null, LoginConnectionController.getUserToken());
         String firstname = ParseRequestContent.getValueOf(Objects.requireNonNull(contentAccountInformations).toString(), "firstname");
         firstname = firstname.substring(1, firstname.length() - 1);
@@ -73,21 +68,6 @@ public class ProjectsController {
     protected void handlePluginMenuItem() throws Exception {
         LoadFXML.loadFXMLInScrollPane("/fxml/pluginPanel.fxml", mainScrollPane, true, true);
 
-        File location = new File("src/main/resources/pluginsWorkon");
-        File[] fileList = location.listFiles();
-
-        URL[] urls = new URL[fileList.length];
-        for (int i = 0; i < fileList.length; i++){
-            urls[i] = fileList[i].toURI().toURL();
-        }
-
-        URLClassLoader ucl = new URLClassLoader(urls);
-
-        ServiceLoader<CoffeePluginInterface> sl = ServiceLoader.load(CoffeePluginInterface.class, ucl);
-        Iterator<CoffeePluginInterface> apit = sl.iterator();
-
-        while (apit.hasNext()){
-            apit.next().coffeeAction();
-        }
+        PluginLoader pluginLoader = new PluginLoader();
     }
 }

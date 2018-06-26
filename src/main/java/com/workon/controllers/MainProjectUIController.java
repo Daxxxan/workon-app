@@ -1,12 +1,16 @@
 package com.workon.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import com.workon.models.Step;
 import com.workon.utils.*;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -24,18 +28,20 @@ public class MainProjectUIController {
     private  VBox vboxAddSteps;
     @FXML
     private Label projectTitleLabel;
+    @FXML
+    private JFXButton switchToCollaborators;
 
     private ArrayList<JFXTextField> textFieldStepNameArray = new ArrayList<>();
     private ArrayList<JFXDatePicker> datePickerStepArray = new ArrayList<>();
 
     public void initialize() throws IOException {
         //Get steps du projet
-        String getProjectSteps = "http://localhost:3000/api/accounts/".concat(LoginConnectionController.getUserId().toString())
+        String getProjectSteps = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/steps");
         StringBuffer contentProjectSteps = HttpRequest.setRequest(getProjectSteps, null, null, "GET", null, LoginConnectionController.getUserToken());
 
         //Get du projet
-        String getProject = "http://localhost:3000/api/accounts/".concat(LoginConnectionController.getUserId().toString())
+        String getProject = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId());
         StringBuffer contentProject = HttpRequest.setRequest(getProject, null, null, "GET", null, LoginConnectionController.getUserToken());
 
@@ -89,7 +95,18 @@ public class MainProjectUIController {
 
     @FXML
     protected void handleSwitchToCollaborators() throws Exception{
-        System.out.println("Switch");
+        ObservableList<Node> observableList = switchToCollaborators.getParent().getParent().getParent().getParent()
+                .getParent().getChildrenUnmodifiable();
+        for(Node node : observableList){
+            if(Objects.equals(node.getId(), "mainScrollPane")){
+                ScrollPane mainScrollPane = (ScrollPane)node;
+                try {
+                    LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsProject.fxml", mainScrollPane, true, true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void setTextFieldStepNameArray(JFXTextField textFieldStep){

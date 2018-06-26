@@ -12,12 +12,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,9 +58,25 @@ public class LoginConnectionController implements Initializable {
 
     private static Integer userId;
     private static String userToken;
+    private static String path;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {}
+    public void initialize(URL location, ResourceBundle resources) {
+        //Récupération du path de l'api
+        Properties properties = new Properties();
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream("src/main/resources/properties/path.properties");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setPath(properties.getProperty("apiPath"));
+    }
 
     public static Integer getUserId() {
         return userId;
@@ -76,6 +92,14 @@ public class LoginConnectionController implements Initializable {
 
     private void setUserToken(String userToken) {
         LoginConnectionController.userToken = userToken;
+    }
+
+    public static String getPath() {
+        return path;
+    }
+
+    public static void setPath(String path) {
+        LoginConnectionController.path = path;
     }
 
     /**
@@ -102,7 +126,7 @@ public class LoginConnectionController implements Initializable {
             parameters.put("password", loginPasswordField.getText());
 
             //Lancement de la requete
-            StringBuffer content = HttpRequest.setRequest("http://localhost:3000/api/accounts/login", parameters, loginErrorConnectionLabel, "POST", "Le compte n'existe pas", null);
+            StringBuffer content = HttpRequest.setRequest(getPath().concat("accounts/login"), parameters, loginErrorConnectionLabel, "POST", "Le compte n'existe pas", null);
             if(content != null){
                 //Récupération de l'id et du token user
                 String userId = ParseRequestContent.getValueOf(content.toString(), "userId");
@@ -143,7 +167,7 @@ public class LoginConnectionController implements Initializable {
                 parameters.put("email", registerEmailField.getText());
                 parameters.put("password", registerPasswordField.getText());
 
-                StringBuffer content = HttpRequest.setRequest("http://localhost:3000/api/accounts", parameters, registerErrorLabel, "POST", "Le compte existe déjà !", null);
+                StringBuffer content = HttpRequest.setRequest(getPath().concat("accounts"), parameters, registerErrorLabel, "POST", "Le compte existe déjà !", null);
                 if(content != null){
                     LabelHelper.setLabel(registerErrorLabel, "Votre compte a été créé avec succes", Pos.CENTER, "#00CD00");
                 }

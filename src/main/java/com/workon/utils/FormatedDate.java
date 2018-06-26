@@ -37,7 +37,6 @@ abstract public class FormatedDate implements Comparable{
         Set setss = localDateMap.entrySet();
         for (Object aSet : setss) {
             Map.Entry entry = (Map.Entry) aSet;
-            System.out.println("first key: " + entry.getKey() + " value: " + entry.getValue());
         }
 
         localDateMapSorted = sortByValue(localDateMap);
