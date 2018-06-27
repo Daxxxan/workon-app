@@ -93,7 +93,7 @@ public class CreateProjectController {
                 project.setName(projectNameTextField.getText());
                 project.setDirector(LoginConnectionController.getUserId());
 
-                //Root pour l'ajout du directeur aux collaborateurs
+                //Route pour l'ajout du directeur aux collaborateurs
                 String addDirectorRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId()))
                         .concat("/projects/").concat(projectId).concat("/accounts/rel/").concat(Integer.toString(LoginConnectionController.getUserId()));
                 //Lancement de l'ajout du directeur aux collaborateurs

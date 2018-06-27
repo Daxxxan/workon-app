@@ -41,9 +41,7 @@ public class MainProjectUIController {
         StringBuffer contentProjectSteps = HttpRequest.setRequest(getProjectSteps, null, null, "GET", null, LoginConnectionController.getUserToken());
 
         //Get du projet
-        String getProject = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
-                .concat("/projects/").concat(CreateProjectController.getProject().getId());
-        StringBuffer contentProject = HttpRequest.setRequest(getProject, null, null, "GET", null, LoginConnectionController.getUserToken());
+        StringBuffer contentProject = HttpRequest.getProject();
 
         //Fill des dates
         ArrayList<String> stepsName = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectSteps).toString(), "name");

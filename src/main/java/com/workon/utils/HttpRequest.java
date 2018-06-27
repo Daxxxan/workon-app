@@ -1,5 +1,7 @@
 package com.workon.utils;
 
+import com.workon.controllers.CreateProjectController;
+import com.workon.controllers.LoginConnectionController;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 
@@ -50,5 +52,13 @@ public class HttpRequest {
             }
             return null;
         }
+    }
+
+    public static StringBuffer getProject() throws IOException {
+        //Get du projet
+        String getProject = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
+                .concat("/projects/").concat(CreateProjectController.getProject().getId());
+        return HttpRequest.setRequest(getProject, null, null, "GET", null, LoginConnectionController.getUserToken());
+
     }
 }
