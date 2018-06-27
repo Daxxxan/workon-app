@@ -23,11 +23,21 @@ public class ProjectsController {
     private VBox projectListVBox;
     @FXML
     private GridPane mainGridPane;
+    @FXML
+    private JFXButton createBugButton;
+    @FXML
+    private JFXButton createEvolutionButton;
+    @FXML
+    private JFXButton createDocumentationButton;
 
     @FXML
     public void initialize() throws IOException {
         String getProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
         StringBuffer contentRequest = HttpRequest.setRequest(getProjectRequest, null, null, "GET", null, LoginConnectionController.getUserToken());
+
+        createBugButton.setDisable(true);
+        createEvolutionButton.setDisable(true);
+        createDocumentationButton.setDisable(true);
 
         projectListVBox.setSpacing(10);
         projectListVBox.setStyle("-fx-padding: 5px");
@@ -43,6 +53,7 @@ public class ProjectsController {
                 CreateProjectController.getProject().setId(button.getId());
                     try {
                     LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", mainScrollPane, true, true);
+                    createBugButton.setDisable(false);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -69,5 +80,10 @@ public class ProjectsController {
         LoadFXML.loadFXMLInScrollPane("/fxml/pluginPanel.fxml", mainScrollPane, true, true);
 
         PluginLoader pluginLoader = new PluginLoader();
+    }
+
+    @FXML
+    protected void handleCreateBugButton() throws Exception{
+        LoadFXML.loadFXMLInScrollPane("/fxml/bugList.fxml", mainScrollPane, true, true);
     }
 }

@@ -33,7 +33,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <JFXButton fx:id="createBugButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="135.0" prefWidth="600.0" text="Bugs" textFill="WHITE">
+                  <JFXButton fx:id="createBugButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleCreateBugButton" prefHeight="135.0" prefWidth="600.0" text="Bugs" textFill="WHITE">
                      <font>
                         <Font name="Book Antiqua" size="18.0" />
                      </font>
