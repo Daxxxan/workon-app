@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -9,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.BugListController">
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.CardBugController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -22,13 +24,13 @@
    </columnConstraints>
    <rowConstraints>
       <RowConstraints maxHeight="-Infinity" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="500.7999863624573" minHeight="0.0" prefHeight="423.2" vgrow="SOMETIMES" />
-      <RowConstraints />
+      <RowConstraints maxHeight="500.7999863624573" minHeight="0.0" prefHeight="95.20001831054688" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="353.59996032714844" minHeight="6.39996337890625" prefHeight="328.79998168945315" />
    </rowConstraints>
    <children>
       <VBox fx:id="vboxStepsList" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefWidth="351.0" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Liste des bugs" textFill="WHITE" />
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefWidth="351.0" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Création d'une fiche de bug" textFill="WHITE" />
          </children>
       </VBox>
       <Label fx:id="projectTitleLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.columnSpan="2">
@@ -36,7 +38,17 @@
             <Font name="Times New Roman" size="24.0" />
          </font>
       </Label>
-      <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleCreateBug" text="Créer une fiche" textFill="#2a8212" GridPane.columnIndex="5" GridPane.columnSpan="2">
+      <JFXTextField promptText="Nom du bug" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+      <JFXTextArea promptText="Déscription du problème" style="-fx-border-color: #000000;" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+      <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Valider" textFill="#2a8212" GridPane.columnIndex="5" GridPane.columnSpan="2">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Liste des bugs" textFill="#2a8212" GridPane.columnIndex="1" GridPane.columnSpan="2">
          <font>
             <Font size="14.0" />
          </font>

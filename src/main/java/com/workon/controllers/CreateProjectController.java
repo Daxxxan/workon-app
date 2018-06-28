@@ -7,13 +7,10 @@ import com.workon.models.Project;
 import com.workon.models.Step;
 import com.workon.models.User;
 import com.workon.utils.*;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -147,30 +144,21 @@ public class CreateProjectController {
                             new Font("Times New Roman", 16));
                     CreateProjectController.getProject().setId(button.getId());
 
-                    //Récupération de la VBox pour insérer le bouton et le mainScrollPane pour loader le fxml lors du clic bouton
-                    ObservableList<Node> observableList = validateProjectButton.getParent().getParent().getParent().getParent()
-                            .getParent().getChildrenUnmodifiable();
-                    for(Node node : observableList){
-                        if(Objects.equals(node.getId(), "scrollPaneProjectList")){
-                            ScrollPane scrollPane = (ScrollPane)node;
-                            VBox projectListVBox = (VBox)scrollPane.lookup("#projectListVBox");
-                            projectListVBox.setSpacing(10);
-                            projectListVBox.setStyle("-fx-padding: 5px");
-                            projectListVBox.getChildren().add(button);
+                    button.setOnAction(event -> {
+                        try {
+                            CreateProjectController.getProject().setId(button.getId());
+                            LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                        if(Objects.equals(node.getId(), "mainScrollPane")){
-                            ScrollPane mainScrollPane = (ScrollPane)node;
-                            button.setOnAction(event -> {
-                                try {
-                                    CreateProjectController.getProject().setId(button.getId());
-                                    LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", mainScrollPane, true, true);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            });
-                            LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", mainScrollPane,true, true);
-                        }
-                    }
+                    });
+
+                    VBox projectListVBox = (VBox)ProjectsController.getProjectListPane().lookup("#projectListVBox");
+                    projectListVBox.setSpacing(10);
+                    projectListVBox.setStyle("-fx-padding: 5px");
+                    projectListVBox.getChildren().add(button);
+
+                    LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(),true, true);
                 }
             }
         }else{

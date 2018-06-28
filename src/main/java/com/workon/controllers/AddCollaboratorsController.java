@@ -2,17 +2,13 @@ package com.workon.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import com.workon.models.Step;
 import com.workon.utils.HttpRequest;
 import com.workon.utils.LabelHelper;
 import com.workon.utils.LoadFXML;
 import com.workon.utils.ParseRequestContent;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -61,18 +57,7 @@ public class AddCollaboratorsController {
 
     @FXML
     protected void handleSwitchToSteps() throws Exception{
-        ObservableList<Node> observableList = switchToSteps.getParent().getParent().getParent().getParent()
-                .getParent().getChildrenUnmodifiable();
-        for(Node node : observableList){
-            if(Objects.equals(node.getId(), "mainScrollPane")){
-                ScrollPane mainScrollPane = (ScrollPane)node;
-                try {
-                    LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", mainScrollPane, true, true);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
     }
 
     @FXML

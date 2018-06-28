@@ -29,11 +29,19 @@ public class ProjectsController {
     private JFXButton createEvolutionButton;
     @FXML
     private JFXButton createDocumentationButton;
+    @FXML
+    private ScrollPane scrollPaneProjectList;
+
+    private static ScrollPane mainPane;
+    private static ScrollPane projectListPane;
 
     @FXML
     public void initialize() throws IOException {
         String getProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
         StringBuffer contentRequest = HttpRequest.setRequest(getProjectRequest, null, null, "GET", null, LoginConnectionController.getUserToken());
+
+        setMainPane(mainScrollPane);
+        setProjectListPane(scrollPaneProjectList);
 
         createBugButton.setDisable(true);
         createEvolutionButton.setDisable(true);
@@ -85,5 +93,21 @@ public class ProjectsController {
     @FXML
     protected void handleCreateBugButton() throws Exception{
         LoadFXML.loadFXMLInScrollPane("/fxml/bugList.fxml", mainScrollPane, true, true);
+    }
+
+    public static ScrollPane getMainPane() {
+        return mainPane;
+    }
+
+    public static void setMainPane(ScrollPane mainPane) {
+        ProjectsController.mainPane = mainPane;
+    }
+
+    public static ScrollPane getProjectListPane() {
+        return projectListPane;
+    }
+
+    public static void setProjectListPane(ScrollPane projectListPane) {
+        ProjectsController.projectListPane = projectListPane;
     }
 }

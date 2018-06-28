@@ -93,18 +93,7 @@ public class MainProjectUIController {
 
     @FXML
     protected void handleSwitchToCollaborators() throws Exception{
-        ObservableList<Node> observableList = switchToCollaborators.getParent().getParent().getParent().getParent()
-                .getParent().getChildrenUnmodifiable();
-        for(Node node : observableList){
-            if(Objects.equals(node.getId(), "mainScrollPane")){
-                ScrollPane mainScrollPane = (ScrollPane)node;
-                try {
-                    LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsProject.fxml", mainScrollPane, true, true);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsProject.fxml", ProjectsController.getMainPane(), true, true);
     }
 
     private void setTextFieldStepNameArray(JFXTextField textFieldStep){
