@@ -48,7 +48,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Liste des bugs" textFill="#2a8212" GridPane.columnIndex="1" GridPane.columnSpan="2">
+      <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleBugsList" text="Liste des bugs" textFill="#2a8212" GridPane.columnIndex="1" GridPane.columnSpan="2">
          <font>
             <Font size="14.0" />
          </font>

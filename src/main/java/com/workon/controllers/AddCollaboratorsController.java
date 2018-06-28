@@ -35,13 +35,9 @@ public class AddCollaboratorsController {
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/accounts");
         StringBuffer contentProjectCollaborators = HttpRequest.setRequest(getProjectCollaborators, null, null, "GET", null, LoginConnectionController.getUserToken());
 
-        //Get project
-        StringBuffer contentProject = HttpRequest.getProject();
-        String projectNames = ParseRequestContent.getValueOf(Objects.requireNonNull(contentProject).toString(), "name");
-        projectTitleLabel.setText(projectNames.substring(1, projectNames.length() - 1));
+        projectTitleLabel.setText(CreateProjectController.getProject().getName());
 
         ArrayList<String> collaborators = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectCollaborators).toString(), "email");
-
 
         vboxCollaboratorList.setSpacing(10);
         vboxCollaboratorList.setStyle("-fx-padding: 5px");

@@ -53,12 +53,13 @@ public class ProjectsController {
         ArrayList<String> ids = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentRequest).toString(), "id");
 
         for(int counter = 0; counter < names.size(); counter++){
-            JFXButton button = ButtonHelper.setButton(names.get(counter).substring(1, names.get(counter).length() - 1),
-                    ids.get(counter), Double.MAX_VALUE,
+            String projectName = names.get(counter).substring(1, names.get(counter).length() - 1);
+            JFXButton button = ButtonHelper.setButton(projectName, ids.get(counter), Double.MAX_VALUE,
                     "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
                     new Font("Times New Roman", 16));
             button.setOnAction(event -> {
                 CreateProjectController.getProject().setId(button.getId());
+                CreateProjectController.getProject().setName(projectName);
                     try {
                     LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", mainScrollPane, true, true);
                     createBugButton.setDisable(false);

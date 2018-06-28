@@ -5,12 +5,9 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import com.workon.models.Step;
 import com.workon.utils.*;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -40,9 +37,6 @@ public class MainProjectUIController {
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/steps");
         StringBuffer contentProjectSteps = HttpRequest.setRequest(getProjectSteps, null, null, "GET", null, LoginConnectionController.getUserToken());
 
-        //Get du projet
-        StringBuffer contentProject = HttpRequest.getProject();
-
         //Fill des dates
         ArrayList<String> stepsName = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectSteps).toString(), "name");
         ArrayList<String> stepsDate = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectSteps).toString(), "date");
@@ -51,8 +45,7 @@ public class MainProjectUIController {
         //Sorted map
         Map<String, LocalDate> formated = FormatedDate.sortStringLocalDate(Objects.requireNonNull(steps));
         //Fill project name
-        String projectName = ParseRequestContent.getValueOf(Objects.requireNonNull(contentProject).toString(), "name");
-        projectTitleLabel.setText(projectName.substring(1, projectName.length() - 1));
+        projectTitleLabel.setText(CreateProjectController.getProject().getName());
 
         vboxStepsList.setSpacing(10);
         vboxStepsList.setStyle("-fx-padding: 5px");

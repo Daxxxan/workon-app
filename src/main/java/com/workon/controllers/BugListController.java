@@ -14,10 +14,7 @@ public class BugListController {
 
     @FXML
     public void initialize() throws Exception{
-        //Get du projet
-        StringBuffer contentProject = HttpRequest.getProject();
-        String projectName = ParseRequestContent.getValueOf(Objects.requireNonNull(contentProject).toString(), "name");
-        projectTitleLabel.setText(projectName.substring(1, projectName.length() - 1));
+        projectTitleLabel.setText(CreateProjectController.getProject().getName());
     }
 
     @FXML

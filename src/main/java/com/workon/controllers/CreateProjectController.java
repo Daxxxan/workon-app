@@ -143,10 +143,12 @@ public class CreateProjectController {
                             "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
                             new Font("Times New Roman", 16));
                     CreateProjectController.getProject().setId(button.getId());
+                    CreateProjectController.getProject().setName(projectNameTextField.getText());
 
                     button.setOnAction(event -> {
                         try {
                             CreateProjectController.getProject().setId(button.getId());
+                            CreateProjectController.getProject().setName(projectNameTextField.getText());
                             LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
                         } catch (IOException e) {
                             e.printStackTrace();
