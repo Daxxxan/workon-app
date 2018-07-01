@@ -37,9 +37,7 @@ public class ProjectsController {
 
     @FXML
     public void initialize() throws IOException {
-        String getProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
-        StringBuffer contentRequest = HttpRequest.setRequest(getProjectRequest, null, null, "GET", null, LoginConnectionController.getUserToken());
-
+        StringBuffer contentRequest = HttpRequest.getProjects();
         setMainPane(mainScrollPane);
         setProjectListPane(scrollPaneProjectList);
 
@@ -70,8 +68,7 @@ public class ProjectsController {
             projectListVBox.getChildren().add(button);
         }
 
-        String getAccountInformations = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString());
-        StringBuffer contentAccountInformations = HttpRequest.setRequest(getAccountInformations, null, null, "GET", null, LoginConnectionController.getUserToken());
+        StringBuffer contentAccountInformations = HttpRequest.getAccount(LoginConnectionController.getUserId().toString());
         String firstname = ParseRequestContent.getValueOf(Objects.requireNonNull(contentAccountInformations).toString(), "firstname");
         firstname = firstname.substring(1, firstname.length() - 1);
 

@@ -2,6 +2,7 @@ package com.workon.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import com.workon.models.Project;
 import com.workon.utils.HttpRequest;
 import com.workon.utils.LabelHelper;
 import com.workon.utils.LoadFXML;
@@ -31,9 +32,7 @@ public class AddCollaboratorsController {
 
     public void initialize() throws IOException {
         //Get collaborators
-        String getProjectCollaborators = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
-                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/accounts");
-        StringBuffer contentProjectCollaborators = HttpRequest.setRequest(getProjectCollaborators, null, null, "GET", null, LoginConnectionController.getUserToken());
+        StringBuffer contentProjectCollaborators = HttpRequest.getCollaborators();
 
         projectTitleLabel.setText(CreateProjectController.getProject().getName());
 
@@ -48,7 +47,6 @@ public class AddCollaboratorsController {
             vboxCollaboratorList.getChildren().add(collaboratorLabel);
             setCollaboratorsNames(collaborator.substring(1, collaborator.length() - 1));
         }
-
     }
 
     @FXML

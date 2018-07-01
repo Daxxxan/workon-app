@@ -71,30 +71,21 @@ public class CreateProjectController {
     protected void handleValidateProjectButtonAction() throws Exception {
         if(!(projectNameTextField.getText().isEmpty())){
             Project project = new Project();
-            //Root pour la création d'un projet
-            String createProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
-            Map<String, String> createProjectParameters = new HashMap<>();
-            createProjectParameters.put("name", projectNameTextField.getText());
-
             //Lancement de la création d'un projet
-            StringBuffer contentCreateProject = HttpRequest.setRequest(createProjectRequest, createProjectParameters, null, "POST", null, LoginConnectionController.getUserToken());
+            StringBuffer contentCreateProject = HttpRequest.addProject(projectNameTextField.getText());
 
             //Si le projet a été créé
             if(contentCreateProject != null){
                 //Récupération de l'ID du projet créé
                 String projectId = ParseRequestContent.getValueOf(contentCreateProject.toString(), "id");
                 String addCollaboratorsRequest;
-                String addStepsRequest;
 
                 //Set d'un objet ProjectsController
                 project.setName(projectNameTextField.getText());
                 project.setDirector(LoginConnectionController.getUserId());
 
-                //Route pour l'ajout du directeur aux collaborateurs
-                String addDirectorRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId()))
-                        .concat("/projects/").concat(projectId).concat("/accounts/rel/").concat(Integer.toString(LoginConnectionController.getUserId()));
                 //Lancement de l'ajout du directeur aux collaborateurs
-                StringBuffer contentAddDirectorToProjectCollaborators = HttpRequest.setRequest(addDirectorRequest, null, null, "PUT", null, LoginConnectionController.getUserToken());
+                StringBuffer contentAddDirectorToProjectCollaborators = HttpRequest.addCollaboratorsToProject(LoginConnectionController.getUserId().toString(), projectId);
 
                 //Si le directeur a bien été ajouté
                 if(contentAddDirectorToProjectCollaborators != null){
@@ -105,11 +96,8 @@ public class CreateProjectController {
 
                     //Ajout de chaque collaborateurs au projet
                     for(JFXTextField textField : getTextFieldCollaboratorArray()) {
-                        //Requête pour l'ajout des collaborateurs au projet
-                        addCollaboratorsRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId()))
-                                .concat("/projects/").concat(projectId).concat("/accounts/rel/").concat(textField.getText());
                         //Lancement de l'ajout des collaborateurs
-                        StringBuffer contentAddCollaboratorsToProject = HttpRequest.setRequest(addCollaboratorsRequest, null, null, "PUT", null, LoginConnectionController.getUserToken());
+                        StringBuffer contentAddCollaboratorsToProject = HttpRequest.addCollaboratorsToProject(textField.getText(), projectId);
                         if(contentAddCollaboratorsToProject != null){
                             //Récupération de l'id du collaborateur
                             int collaboratorId = Integer.parseInt(Objects.requireNonNull(ParseRequestContent.getValueOf(contentAddCollaboratorsToProject.toString(), "accountId")));

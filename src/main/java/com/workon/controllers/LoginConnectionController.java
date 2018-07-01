@@ -120,13 +120,7 @@ public class LoginConnectionController implements Initializable {
 
         //Si tout est ok on test la connexion
         if(!(loginPasswordField.getText().isEmpty()) && !(loginEmailField.getText().isEmpty())){
-            //Set des parameters
-            Map<String, String> parameters = new HashMap<>();
-            parameters.put("email", loginEmailField.getText());
-            parameters.put("password", loginPasswordField.getText());
-
-            //Lancement de la requete
-            StringBuffer content = HttpRequest.setRequest(getPath().concat("accounts/login"), parameters, loginErrorConnectionLabel, "POST", "Le compte n'existe pas", null);
+            StringBuffer content = HttpRequest.connection(loginEmailField.getText(), loginPasswordField.getText(), loginErrorConnectionLabel);
             if(content != null){
                 //Récupération de l'id et du token user
                 String userId = ParseRequestContent.getValueOf(content.toString(), "userId");
@@ -161,13 +155,8 @@ public class LoginConnectionController implements Initializable {
         }else{
             Matcher emailMatcher = emailPattern.matcher(registerEmailField.getText());
             if(emailMatcher.matches()){
-                Map<String, String> parameters = new HashMap<>();
-                parameters.put("lastname", registerLastnameField.getText());
-                parameters.put("firstname", registerFirstnameField.getText());
-                parameters.put("email", registerEmailField.getText());
-                parameters.put("password", registerPasswordField.getText());
-
-                StringBuffer content = HttpRequest.setRequest(getPath().concat("accounts"), parameters, registerErrorLabel, "POST", "Le compte existe déjà !", null);
+                StringBuffer content = HttpRequest.createAccount(registerLastnameField.getText(), registerFirstnameField.getText(),
+                        registerEmailField.getText(), registerPasswordField.getText(), registerErrorLabel);
                 if(content != null){
                     LabelHelper.setLabel(registerErrorLabel, "Votre compte a été créé avec succes", Pos.CENTER, "#00CD00");
                 }

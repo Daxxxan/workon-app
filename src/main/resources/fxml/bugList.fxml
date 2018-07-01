@@ -26,9 +26,9 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <VBox fx:id="vboxStepsList" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
+      <VBox fx:id="vboxBugsList" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefWidth="351.0" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Liste des bugs" textFill="WHITE" />
+            <Label fx:id="listBugLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefWidth="351.0" style="-fx-padding: 5px; -fx-background-color: #483d8b;" textFill="WHITE" />
          </children>
       </VBox>
       <Label fx:id="projectTitleLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.columnSpan="2">

@@ -6,8 +6,11 @@ public class Project {
     private String id;
     private String name;
     private int director;
+    private String currentBugId;
+    private String currentBugName;
     private ArrayList<Step> steps = new ArrayList<>();
     private ArrayList<User> users = new ArrayList<>();
+    private ArrayList<Bug> bugs = new ArrayList<>();
 
     public Project(){}
 
@@ -56,7 +59,35 @@ public class Project {
         this.users = users;
     }
 
-    public void addUserInUsers(User user){
+    public void addUserToArrayList(User user){
         this.users.add(user);
+    }
+
+    public ArrayList<Bug> getBugs() {
+        return bugs;
+    }
+
+    public void setBugs(ArrayList<Bug> bugs) {
+        this.bugs = bugs;
+    }
+
+    public void addBugToArrayList(Bug bug){
+        this.bugs.add(bug);
+    }
+
+    public String getCurrentBugId() {
+        return currentBugId;
+    }
+
+    public void setCurrentBugId(String currentBugId) {
+        this.currentBugId = currentBugId;
+    }
+
+    public String getCurrentBugName() {
+        return currentBugName;
+    }
+
+    public void setCurrentBugName(String currentBugName) {
+        this.currentBugName = currentBugName;
     }
 }

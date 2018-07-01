@@ -33,10 +33,7 @@ public class MainProjectUIController {
 
     public void initialize() throws IOException {
         //Get steps du projet
-        String getProjectSteps = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
-                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/steps");
-        StringBuffer contentProjectSteps = HttpRequest.setRequest(getProjectSteps, null, null, "GET", null, LoginConnectionController.getUserToken());
-
+        StringBuffer contentProjectSteps = HttpRequest.getProjectSteps();
         //Fill des dates
         ArrayList<String> stepsName = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectSteps).toString(), "name");
         ArrayList<String> stepsDate = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectSteps).toString(), "date");
@@ -59,7 +56,6 @@ public class MainProjectUIController {
                             Double.MAX_VALUE, new Font("Times New Roman", 14), Pos.CENTER);
             vboxStepsList.getChildren().add(labelStepName);
         }
-
     }
 
     @FXML
