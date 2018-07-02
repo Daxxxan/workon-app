@@ -80,6 +80,12 @@ public class HttpRequest {
         return HttpRequest.setRequest(getCreator, null, null, "GET", null, LoginConnectionController.getUserToken());
     }
 
+    public static StringBuffer getCollaboratorAccount(String id) throws IOException {
+        String getCreator = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
+                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/accounts/").concat(id);
+        return HttpRequest.setRequest(getCreator, null, null, "GET", null, LoginConnectionController.getUserToken());
+    }
+
     public static StringBuffer getBugs() throws IOException {
         String getBugs = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/bugs");
@@ -141,5 +147,20 @@ public class HttpRequest {
     public static StringBuffer getProjects() throws IOException {
         String getProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
         return HttpRequest.setRequest(getProjectRequest, null, null, "GET", null, LoginConnectionController.getUserToken());
+    }
+
+    public static StringBuffer addMessage(String content) throws IOException{
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("content", content);
+        parameters.put("accountId", LoginConnectionController.getUserId().toString());
+        String addMessageRequest = LoginConnectionController.getPath().concat("Bugs/").concat(CreateProjectController.getProject().getCurrentBugId())
+                .concat("/messages");
+        return HttpRequest.setRequest(addMessageRequest, parameters, null, "POST", null, LoginConnectionController.getUserToken());
+    }
+
+    public static StringBuffer getBugMessages() throws Exception{
+        String getMessageRequest = LoginConnectionController.getPath().concat("Bugs/").concat(CreateProjectController.getProject().getCurrentBugId())
+                .concat("/messages");
+        return HttpRequest.setRequest(getMessageRequest, null, null, "GET", null, LoginConnectionController.getUserToken());
     }
 }
