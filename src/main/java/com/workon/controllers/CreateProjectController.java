@@ -149,6 +149,8 @@ public class CreateProjectController {
                     projectListVBox.getChildren().add(button);
 
                     LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(),true, true);
+                    ProjectsController.getBug().setDisable(false);
+                    ProjectsController.getDocumentation().setDisable(false);
                 }
             }
         }else{

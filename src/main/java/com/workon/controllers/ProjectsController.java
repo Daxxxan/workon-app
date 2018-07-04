@@ -4,17 +4,12 @@ import com.jfoenix.controls.JFXButton;
 import com.workon.Main;
 import com.workon.plugin.PluginLoader;
 import com.workon.utils.*;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -42,6 +37,9 @@ public class ProjectsController {
 
     private static ScrollPane mainPane;
     private static ScrollPane projectListPane;
+    private static JFXButton bug;
+    private static JFXButton documentation;
+    private static JFXButton evolution;
 
     @FXML
     public void initialize() throws IOException {
@@ -52,6 +50,9 @@ public class ProjectsController {
         createBugButton.setDisable(true);
         createEvolutionButton.setDisable(true);
         createDocumentationButton.setDisable(true);
+        setBug(createBugButton);
+        setEvolution(createEvolutionButton);
+        setDocumentation(createDocumentationButton);
 
         projectListVBox.setSpacing(10);
         projectListVBox.setStyle("-fx-padding: 5px");
@@ -69,6 +70,7 @@ public class ProjectsController {
                     try {
                     LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", mainScrollPane, true, true);
                     createBugButton.setDisable(false);
+                    createDocumentationButton.setDisable(false);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -102,6 +104,11 @@ public class ProjectsController {
     }
 
     @FXML
+    protected void handleDocumentationButton() throws Exception {
+        LoadFXML.loadFXMLInScrollPane("/fxml/fileList.fxml", mainScrollPane, true, true);
+    }
+
+    @FXML
     protected void handleLogout() throws Exception{
         HttpRequest.logout();
         Main.getMainStage().close();
@@ -128,5 +135,29 @@ public class ProjectsController {
 
     public static void setProjectListPane(ScrollPane projectListPane) {
         ProjectsController.projectListPane = projectListPane;
+    }
+
+    public static JFXButton getBug() {
+        return bug;
+    }
+
+    public static void setBug(JFXButton bug) {
+        ProjectsController.bug = bug;
+    }
+
+    public static JFXButton getDocumentation() {
+        return documentation;
+    }
+
+    public static void setDocumentation(JFXButton documentation) {
+        ProjectsController.documentation = documentation;
+    }
+
+    public static JFXButton getEvolution() {
+        return evolution;
+    }
+
+    public static void setEvolution(JFXButton evolution) {
+        ProjectsController.evolution = evolution;
     }
 }

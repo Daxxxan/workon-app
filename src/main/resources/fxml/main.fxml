@@ -49,7 +49,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="createDocumentationButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="169.0" prefWidth="600.0" text="Documentation" textFill="WHITE" GridPane.columnIndex="2">
+                  <JFXButton fx:id="createDocumentationButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleDocumentationButton" prefHeight="169.0" prefWidth="600.0" text="Documentation" textFill="WHITE" GridPane.columnIndex="2">
                      <font>
                         <Font name="Book Antiqua" size="18.0" />
                      </font>

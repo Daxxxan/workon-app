@@ -29,12 +29,14 @@ public class HttpRequest {
             con.setRequestMethod(requestType);
 
             con.setDoOutput(true);
-            if(requestType.equals("POST")){
-                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-                String urlParameters = ParameterStringBuilder.getParamsString(parameters);
-                wr.writeBytes(urlParameters);
-                wr.flush();
-                wr.close();
+            if(requestType.equals("POST") || requestType.equals("PUT")){
+                if(parameters != null){
+                    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                    String urlParameters = ParameterStringBuilder.getParamsString(parameters);
+                    wr.writeBytes(urlParameters);
+                    wr.flush();
+                    wr.close();
+                }
             }
 
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -50,6 +52,7 @@ public class HttpRequest {
             if(errorLabel != null){
                 LabelHelper.setLabel(errorLabel, errorMessage, Pos.CENTER, "#FF0000");
             }
+            System.out.println(e);
             return null;
         }
     }
@@ -58,38 +61,38 @@ public class HttpRequest {
         //Get du projet
         String getProject = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId());
-        return HttpRequest.setRequest(getProject, null, null, "GET", null, LoginConnectionController.getUserToken());
+        return setRequest(getProject, null, null, "GET", null, LoginConnectionController.getUserToken());
     }
 
     public static StringBuffer getCollaborators() throws IOException {
         String getProjectCollaborators = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/accounts");
-        return HttpRequest.setRequest(getProjectCollaborators, null, null, "GET", null, LoginConnectionController.getUserToken());
+        return setRequest(getProjectCollaborators, null, null, "GET", null, LoginConnectionController.getUserToken());
     }
 
     public static StringBuffer getCurrentBugs() throws IOException {
         String getBug = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/bugs/")
                 .concat(CreateProjectController.getProject().getCurrentBugId());
-        return HttpRequest.setRequest(getBug, null, null, "GET", null, LoginConnectionController.getUserToken());
+        return setRequest(getBug, null, null, "GET", null, LoginConnectionController.getUserToken());
 
     }
 
     public static StringBuffer getAccount(String id) throws IOException {
         String getCreator = LoginConnectionController.getPath().concat("accounts/").concat(id);
-        return HttpRequest.setRequest(getCreator, null, null, "GET", null, LoginConnectionController.getUserToken());
+        return setRequest(getCreator, null, null, "GET", null, LoginConnectionController.getUserToken());
     }
 
     public static StringBuffer getCollaboratorAccount(String id) throws IOException {
         String getCreator = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/accounts/").concat(id);
-        return HttpRequest.setRequest(getCreator, null, null, "GET", null, LoginConnectionController.getUserToken());
+        return setRequest(getCreator, null, null, "GET", null, LoginConnectionController.getUserToken());
     }
 
     public static StringBuffer getBugs() throws IOException {
         String getBugs = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/bugs");
-        return HttpRequest.setRequest(getBugs, null, null, "GET", null, LoginConnectionController.getUserToken());
+        return setRequest(getBugs, null, null, "GET", null, LoginConnectionController.getUserToken());
     }
 
     public static StringBuffer addBug(String name, String description, String projectId) throws IOException {
@@ -100,7 +103,7 @@ public class HttpRequest {
         bugParameters.put("description", description);
         bugParameters.put("projectId", projectId);
 
-        return HttpRequest.setRequest(getBugRequest, bugParameters, null, "POST", null, LoginConnectionController.getUserToken());
+        return setRequest(getBugRequest, bugParameters, null, "POST", null, LoginConnectionController.getUserToken());
     }
 
     public static StringBuffer addProject(String name) throws IOException {
@@ -108,7 +111,7 @@ public class HttpRequest {
         Map<String, String> createProjectParameters = new HashMap<>();
         createProjectParameters.put("name", name);
 
-        return HttpRequest.setRequest(createProjectRequest, createProjectParameters, null, "POST", null, LoginConnectionController.getUserToken());
+        return setRequest(createProjectRequest, createProjectParameters, null, "POST", null, LoginConnectionController.getUserToken());
 
     }
 
@@ -116,7 +119,7 @@ public class HttpRequest {
         String addDirectorRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId()))
                 .concat("/projects/").concat(projectId).concat("/accounts/rel/").concat(collaboratorIdOrEmail);
         //Lancement de l'ajout du directeur aux collaborateurs
-        return HttpRequest.setRequest(addDirectorRequest, null, null, "PUT", null, LoginConnectionController.getUserToken());
+        return setRequest(addDirectorRequest, null, null, "PUT", null, LoginConnectionController.getUserToken());
     }
 
     public static StringBuffer connection(String email, String password, Label loginErrorConnectionLabel) throws IOException {
@@ -125,7 +128,7 @@ public class HttpRequest {
         parameters.put("password", password);
 
         //Lancement de la requete
-        return HttpRequest.setRequest(LoginConnectionController.getPath().concat("accounts/login"), parameters, loginErrorConnectionLabel, "POST", "Le compte n'existe pas", null);
+        return setRequest(LoginConnectionController.getPath().concat("accounts/login"), parameters, loginErrorConnectionLabel, "POST", "Le compte n'existe pas", null);
     }
 
     public static StringBuffer createAccount(String lastname, String firstname, String email, String password, Label registerErrorLabel) throws IOException {
@@ -135,18 +138,18 @@ public class HttpRequest {
         parameters.put("email", email);
         parameters.put("password", password);
 
-        return HttpRequest.setRequest(LoginConnectionController.getPath().concat("accounts"), parameters, registerErrorLabel, "POST", "Le compte existe déjà !", null);
+        return setRequest(LoginConnectionController.getPath().concat("accounts"), parameters, registerErrorLabel, "POST", "Le compte existe déjà !", null);
     }
 
     public static StringBuffer getProjectSteps() throws IOException{
         String getProjectSteps = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/steps");
-        return HttpRequest.setRequest(getProjectSteps, null, null, "GET", null, LoginConnectionController.getUserToken());
+        return setRequest(getProjectSteps, null, null, "GET", null, LoginConnectionController.getUserToken());
     }
 
     public static StringBuffer getProjects() throws IOException {
         String getProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
-        return HttpRequest.setRequest(getProjectRequest, null, null, "GET", null, LoginConnectionController.getUserToken());
+        return setRequest(getProjectRequest, null, null, "GET", null, LoginConnectionController.getUserToken());
     }
 
     public static StringBuffer addMessage(String content) throws IOException{
@@ -155,12 +158,38 @@ public class HttpRequest {
         parameters.put("accountId", LoginConnectionController.getUserId().toString());
         String addMessageRequest = LoginConnectionController.getPath().concat("Bugs/").concat(CreateProjectController.getProject().getCurrentBugId())
                 .concat("/messages");
-        return HttpRequest.setRequest(addMessageRequest, parameters, null, "POST", null, LoginConnectionController.getUserToken());
+        return setRequest(addMessageRequest, parameters, null, "POST", null, LoginConnectionController.getUserToken());
     }
 
     public static StringBuffer getBugMessages() throws Exception{
         String getMessageRequest = LoginConnectionController.getPath().concat("Bugs/").concat(CreateProjectController.getProject().getCurrentBugId())
                 .concat("/messages");
-        return HttpRequest.setRequest(getMessageRequest, null, null, "GET", null, LoginConnectionController.getUserToken());
+        return setRequest(getMessageRequest, null, null, "GET", null, LoginConnectionController.getUserToken());
+    }
+
+    public static StringBuffer updateBug() throws IOException {
+        String getBugRequest = LoginConnectionController.getPath().concat("Bugs/").concat(CreateProjectController.getProject().getCurrentBugId());
+
+        Map<String, String> bugParameters = new HashMap<>();
+        bugParameters.put("name", "nom");
+        bugParameters.put("state", "Fermer");
+        bugParameters.put("description", "desc");
+
+        return setRequest(getBugRequest, bugParameters, null, "PUT", null, LoginConnectionController.getUserToken());
+    }
+
+    public static StringBuffer logout() throws Exception {
+        String logout = LoginConnectionController.getPath().concat("accounts/logout");
+        return setRequest(logout, null, null, "POST", null, LoginConnectionController.getUserToken());
+    }
+
+    public static StringBuffer getFiles() throws Exception {
+        String getFiles = LoginConnectionController.getPath().concat("Containers/").concat(CreateProjectController.getProject().getId()).concat("/files");
+        return setRequest(getFiles, null, null, "GET", null, LoginConnectionController.getUserToken());
+    }
+
+    public static StringBuffer downloadFile(String container, String fileName) throws Exception{
+        String download = LoginConnectionController.getPath().concat("Containers/").concat(container).concat("/download/").concat(fileName);
+        return setRequest(download, null, null, "GET", null, LoginConnectionController.getUserToken());
     }
 }
