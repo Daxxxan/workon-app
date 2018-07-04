@@ -51,13 +51,7 @@ public class FileController {
                 try {
                     StringBuffer result = HttpRequest.downloadFile(fileDirectory.get(finalCounter).substring(1, fileDirectory.get(finalCounter).length() - 1),
                             filesNames.get(finalCounter).substring(1, filesNames.get(finalCounter).length() - 1));
-
-                    FileWriter fileWriter = new FileWriter(filesNames.get(finalCounter).substring(1, filesNames.get(finalCounter).length() - 1))
-                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                    bufferedWriter.write(result.toString());
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    openFile((File)fileWriter);
+                    
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
