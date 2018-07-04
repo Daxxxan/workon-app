@@ -17,7 +17,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="911.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.ProjectsController">
    <children>
-      <ScrollPane fx:id="scrollPaneProjectList" fitToHeight="true" fitToWidth="true" layoutY="223.0" prefHeight="343.0" prefWidth="239.0" style="-fx-border-color: #483D8B;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="223.0">
+      <ScrollPane fx:id="scrollPaneProjectList" fitToHeight="true" fitToWidth="true" layoutY="223.0" prefHeight="343.0" prefWidth="239.0" style="-fx-border-color: #483D8B;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="275.0">
          <content>
             <VBox fx:id="projectListVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" />
          </content></ScrollPane>
@@ -70,9 +70,9 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="166.0" prefHeight="55.0" prefWidth="239.0" style="-fx-background-color: #483D8B;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="166.0">
+      <AnchorPane layoutY="166.0" prefHeight="55.0" prefWidth="239.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="166.0">
          <children>
-            <JFXButton fx:id="createProjectButton" buttonType="RAISED" layoutX="-1.0" onAction="#handleCreateProjectView" prefHeight="57.0" prefWidth="239.0" style="-fx-border-color: #000000; -fx-border-width: 0.5;" text="Créer un projet" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="-1.0" onAction="#handleLogout" prefHeight="55.0" prefWidth="239.0" style="-fx-border-color: #000000; -fx-border-width: 0.5;" text="Déconnexion" textFill="RED">
                <font>
                   <Font name="Book Antiqua" size="14.0" />
                </font>
@@ -125,5 +125,17 @@
               </rowConstraints>
             </GridPane>
          </content></ScrollPane>
+      <AnchorPane layoutY="220.0" prefHeight="55.0" prefWidth="239.0" style="-fx-background-color: #483D8B;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="220.0">
+         <children>
+            <JFXButton fx:id="createProjectButton1" buttonType="RAISED" layoutX="-1.0" onAction="#handleCreateProjectView" prefHeight="57.0" prefWidth="239.0" style="-fx-border-color: #000000; -fx-border-width: 0.5;" text="Créer un projet" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="Book Antiqua" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

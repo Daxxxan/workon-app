@@ -8,9 +8,12 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application{
+
+    private static Stage main;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        System.out.println(getClass());
+        setMain(primaryStage);
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/connection.fxml"));
         primaryStage.setTitle("Connexion");
         primaryStage.setScene(new Scene(root, 600, 400));
@@ -21,5 +24,13 @@ public class Main extends Application{
 
     public static void main(String[] args){
         launch(args);
+    }
+
+    public static Stage getMainStage() {
+        return main;
+    }
+
+    public static void setMain(Stage main) {
+        Main.main = main;
     }
 }

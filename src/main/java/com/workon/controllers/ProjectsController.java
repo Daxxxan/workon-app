@@ -1,16 +1,24 @@
 package com.workon.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.workon.Main;
 import com.workon.plugin.PluginLoader;
 import com.workon.utils.*;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,6 +99,19 @@ public class ProjectsController {
     @FXML
     protected void handleCreateBugButton() throws Exception{
         LoadFXML.loadFXMLInScrollPane("/fxml/bugList.fxml", mainScrollPane, true, true);
+    }
+
+    @FXML
+    protected void handleLogout() throws Exception{
+        HttpRequest.logout();
+        Main.getMainStage().close();
+        Platform.runLater( () -> {
+            try {
+                new Main().start( new Stage() );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public static ScrollPane getMainPane() {
