@@ -25,8 +25,6 @@ public class MainProjectUIController {
     private  VBox vboxAddSteps;
     @FXML
     private Label projectTitleLabel;
-    @FXML
-    private JFXButton switchToCollaborators;
 
     private ArrayList<JFXTextField> textFieldStepNameArray = new ArrayList<>();
     private ArrayList<JFXDatePicker> datePickerStepArray = new ArrayList<>();
@@ -72,12 +70,7 @@ public class MainProjectUIController {
     @FXML
     protected void handleValidateSteps() throws Exception{
         ArrayList<Step> steps = AddStep.addStepsInDB(textFieldStepNameArray, datePickerStepArray, CreateProjectController.getProject().getId());
-        for (Step step : steps){
-            Label labelStepName = LabelHelper.createLabel(step.getName()
-                            + " : " + FormatedDate.StringFormater(step.getDate().toString()),
-                    Double.MAX_VALUE, new Font("Times New Roman", 14), Pos.CENTER);
-            vboxStepsList.getChildren().add(labelStepName);
-        }
+        LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
     }
 
     @FXML

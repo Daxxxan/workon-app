@@ -3,22 +3,15 @@ package com.workon.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.workon.Main;
 import com.workon.utils.*;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
-import java.net.URL;
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -31,8 +24,6 @@ public class FileController {
     private JFXButton importFileButton;
     @FXML
     private VBox vboxFiles;
-
-    private Desktop desktop = Desktop.getDesktop();
 
     @FXML
     public void initialize() throws Exception {
@@ -73,19 +64,8 @@ public class FileController {
                 LoginConnectionController.getPath().concat("Containers/").concat(CreateProjectController.getProject().getId()).concat("/upload")
         );
         httpRequestFile.addFormField("description", "Cool Pictures");
-
         httpRequestFile.addFilePart("fileUpload", file);
-
-        String response = httpRequestFile.finish();
-        System.out.println("SERVER REPLIED:");
-        System.out.println("response: " + response);
-    }
-
-    private void openFile(File file) {
-        try {
-            desktop.open(file);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+        httpRequestFile.finish();
+        LoadFXML.loadFXMLInScrollPane("/fxml/fileList.fxml", ProjectsController.getMainPane(), true, true);
     }
 }

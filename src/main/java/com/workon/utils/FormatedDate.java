@@ -4,6 +4,8 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static com.workon.utils.FormatedDate.sortByValue;
+
 abstract public class FormatedDate implements Comparable{
     public static String StringFormater(String date){
         LocalDate localDate = LocalDate.parse(date);
@@ -44,19 +46,14 @@ abstract public class FormatedDate implements Comparable{
         return localDateMapSorted;
     }
 
-    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> unsortMap) {
+    public static Map<String, LocalDate> sortByValue(Map<String, LocalDate> unsortMap) {
 
-        List<Map.Entry<K, V>> list =
-                new LinkedList<Map.Entry<K, V>>(unsortMap.entrySet());
+        List<Map.Entry<String, LocalDate>> list = new LinkedList<>(unsortMap.entrySet());
 
-        Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
-            public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2) {
-                return (o1.getValue()).compareTo(o2.getValue());
-            }
-        });
+        list.sort(Comparator.comparing(o -> (o.getValue())));
 
-        Map<K, V> result = new LinkedHashMap<K, V>();
-        for (Map.Entry<K, V> entry : list) {
+        Map<String, LocalDate> result = new LinkedHashMap<>();
+        for (Map.Entry<String, LocalDate> entry : list) {
             result.put(entry.getKey(), entry.getValue());
         }
 

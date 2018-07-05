@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -196,5 +197,21 @@ public class HttpRequest {
             public void start(Stage stage) {}
         };
         application.getHostServices().showDocument(LoginConnectionController.getPath().concat("Containers/").concat(container).concat("/download/").concat(fileName));
+    }
+
+    public static StringBuffer addStep(String projectId, String name, String date) throws Exception{
+        //Request pour l'ajout des steps au projet
+        String addStepsRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnectionController.getUserId()))
+                .concat("/projects/").concat(projectId).concat("/steps");
+
+        //Set des parameters de la requete en POST
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("name", name);
+        parameters.put("date", date);
+        parameters.put("state", "En cours");
+
+        //Lancement de l'ajout des steps
+        return HttpRequest.setRequest(addStepsRequest, parameters, null, "POST", null, LoginConnectionController.getUserToken());
+
     }
 }

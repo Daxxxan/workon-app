@@ -23,28 +23,15 @@ public abstract class AddStep implements Comparable{
         return datePickerStep;
     }
 
-    public static ArrayList<Step> addStepsInDB(ArrayList<JFXTextField> textFieldStepNameArray, ArrayList<JFXDatePicker> datePickerStepArray, String projectId) throws IOException {
+    public static ArrayList<Step> addStepsInDB(ArrayList<JFXTextField> textFieldStepNameArray, ArrayList<JFXDatePicker> datePickerStepArray, String projectId) throws Exception {
         ArrayList<Step> stepsList = new ArrayList<>();
-        String addStepsRequest;
         for(int counter = 0; counter < textFieldStepNameArray.size(); counter++){
             if(datePickerStepArray.get(counter).getValue() != null && textFieldStepNameArray.get(counter).getText() != null){
-                //Request pour l'ajout des steps au projet
-                addStepsRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnectionController.getUserId()))
-                        .concat("/projects/").concat(projectId).concat("/steps");
-                System.out.println(addStepsRequest);
                 //Convert LocalDate to String
                 DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-                String stepDate = datePickerStepArray.get(counter).getValue().format(formatter);
 
-                //Set des parameters de la requete en POST
-                Map<String, String> parameters = new HashMap<>();
-                parameters.put("name", textFieldStepNameArray.get(counter).getText());
-                parameters.put("date", stepDate);
-                parameters.put("state", "En cours");
+                StringBuffer contentAddStepsToProject = HttpRequest.addStep(projectId, textFieldStepNameArray.get(counter).getText(), datePickerStepArray.get(counter).getValue().format(formatter));
 
-                //Lancement de l'ajout des steps
-                StringBuffer contentAddStepsToProject = HttpRequest.setRequest(addStepsRequest, parameters, null, "POST", null, LoginConnectionController.getUserToken());
-                System.out.println(contentAddStepsToProject);
                 //Si l'ajout a bien été effectué
                 if(contentAddStepsToProject != null){
                     Step step = new Step(textFieldStepNameArray.get(counter).getText(), datePickerStepArray.get(counter).getValue());
