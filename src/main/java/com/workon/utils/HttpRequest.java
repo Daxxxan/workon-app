@@ -2,8 +2,10 @@ package com.workon.utils;
 
 import com.workon.controllers.CreateProjectController;
 import com.workon.controllers.LoginConnectionController;
+import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -188,8 +190,11 @@ public class HttpRequest {
         return setRequest(getFiles, null, null, "GET", null, LoginConnectionController.getUserToken());
     }
 
-    public static StringBuffer downloadFile(String container, String fileName) throws Exception{
-        String download = LoginConnectionController.getPath().concat("Containers/").concat(container).concat("/download/").concat(fileName);
-        return setRequest(download, null, null, "GET", null, LoginConnectionController.getUserToken());
+    public static void downloadFile(String container, String fileName) throws Exception{
+        Application application = new Application() {
+            @Override
+            public void start(Stage stage) {}
+        };
+        application.getHostServices().showDocument(LoginConnectionController.getPath().concat("Containers/").concat(container).concat("/download/").concat(fileName));
     }
 }
