@@ -74,7 +74,7 @@
          <content>
             <VBox fx:id="vboxMessages" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
-                  <Label fx:id="description1" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="586.0" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Discution" textFill="WHITE">
+                  <Label fx:id="description1" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="586.0" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Discussion" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>

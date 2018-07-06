@@ -1,8 +1,6 @@
 package com.workon.controllers;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import com.workon.models.Project;
 import com.workon.utils.HttpRequest;
 import com.workon.utils.LabelHelper;
 import com.workon.utils.LoadFXML;
@@ -18,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class AddCollaboratorsController {
-    @FXML
-    private JFXButton switchToSteps;
     @FXML
     private Label projectTitleLabel;
     @FXML
