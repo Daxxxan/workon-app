@@ -78,5 +78,6 @@ public class BugController {
     @FXML
     protected void handleClose() throws Exception{
         String str = HttpRequest.updateBug();
+        LoadFXML.loadFXMLInScrollPane("/fxml/bugList.fxml", ProjectsController.getMainPane(), true, true);
     }
 }

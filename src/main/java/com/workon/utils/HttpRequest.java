@@ -92,9 +92,11 @@ public class HttpRequest {
         return setOkHttpRequest(getCreator, null, false, "GET");
     }
 
-    public static String getBugs() throws Exception {
+    public static String getBugs(String state) throws Exception {
         String getBugs = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
-                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/bugs");
+                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/bugs")
+                .concat("?filter={\"where\":{\"state\":" + state + "}}");
+
         return setOkHttpRequest(getBugs, null, false, "GET");
     }
 
@@ -184,7 +186,7 @@ public class HttpRequest {
         String getBugRequest = LoginConnectionController.getPath().concat("Bugs/").concat(CreateProjectController.getProject().getCurrentBugId());
 
         RequestBody formBody = new FormBody.Builder()
-                .add("state", "Fermer")
+                .add("state", "1")
                 .build();
 
         return setOkHttpRequest(getBugRequest, formBody, false, "PATCH");

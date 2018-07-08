@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class BugListController {
+    
     @FXML
     private Label projectTitleLabel;
     @FXML
@@ -24,7 +25,7 @@ public class BugListController {
     @FXML
     public void initialize() throws Exception{
         projectTitleLabel.setText(CreateProjectController.getProject().getName());
-        String contentBugs = HttpRequest.getBugs();
+        String contentBugs = HttpRequest.getBugs("0");
         if(contentBugs != null){
             ArrayList<String> bugsNames;
             ArrayList<String> bugsId;
