@@ -110,7 +110,7 @@ public class ProjectsController {
 
     @FXML
     protected void handleMessagesList() throws Exception {
-        LoadFXML.loadFXMLInScrollPane("/fxml/messagesList.fxml", mainScrollPane, true, true);
+        LoadFXML.loadFXMLInScrollPane("/fxml/conversationList.fxml", mainScrollPane, true, true);
     }
 
     @FXML

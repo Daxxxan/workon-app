@@ -86,6 +86,12 @@ public class HttpRequest {
         return setOkHttpRequest(getCreator, null, false, "GET");
     }
 
+    public static String getAccountFromConversation(String conversationId, String accountId) throws Exception{
+        String getAccount = LoginConnectionController.getPath().concat("/Conversations/").concat(conversationId)
+                .concat("/accounts/").concat(accountId);
+        return setOkHttpRequest(getAccount, null, false, "GET");
+    }
+
     public static String getCollaboratorAccount(String id) throws Exception {
         String getCreator = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/accounts/").concat(id);
@@ -174,6 +180,43 @@ public class HttpRequest {
                 .add("accountId", LoginConnectionController.getUserId().toString())
                 .build();
         return setOkHttpRequest(addMessageRequest, formBody, false, "POST");
+    }
+
+    public static String addMessageToConversation(String content, String conversationId) throws Exception {
+        String addMessageRequest = LoginConnectionController.getPath().concat("Conversations/").concat(conversationId).concat("/messages");
+        RequestBody formBody = new FormBody.Builder()
+                .add("content", content)
+                .add("accountId", LoginConnectionController.getUserId().toString())
+                .add("conversationId", conversationId)
+                .build();
+        return setOkHttpRequest(addMessageRequest, formBody, false, "POST");
+    }
+
+    public static String getMessagesFromConversation(String conversationId) throws Exception{
+        String addMessageRequest = LoginConnectionController.getPath().concat("Conversations/").concat(conversationId).concat("/messages");
+        return setOkHttpRequest(addMessageRequest, null, false, "GET");
+    }
+
+    public static String createConversation(String name) throws Exception{
+        String createConversationRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
+                .concat("/conversations");
+        RequestBody formBody = new FormBody.Builder()
+                .add("name", name)
+                .build();
+        return setOkHttpRequest(createConversationRequest, formBody, false, "POST");
+    }
+
+    public static String addCollaboratorToConversation(String conversationId, String accountIdOrEmail) throws Exception{
+        String addCollaborator = LoginConnectionController.getPath().concat("Conversations/").concat(conversationId).concat("/accounts/rel/")
+                .concat(accountIdOrEmail);
+        RequestBody formBody = RequestBody.create(null, new byte[]{});
+        return setOkHttpRequest(addCollaborator, formBody, false, "PUT");
+    }
+
+    public static String getConversations() throws Exception{
+        String accountConversationsRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
+                .concat("/conversations");
+        return setOkHttpRequest(accountConversationsRequest, null, false, "GET");
     }
 
     public static String getBugMessages() throws Exception{

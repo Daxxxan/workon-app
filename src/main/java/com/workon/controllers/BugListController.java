@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class BugListController {
-    
+
     @FXML
     private Label projectTitleLabel;
     @FXML

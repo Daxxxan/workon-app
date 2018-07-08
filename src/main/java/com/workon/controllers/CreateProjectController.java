@@ -17,8 +17,6 @@ import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class CreateProjectController {
@@ -29,10 +27,7 @@ public class CreateProjectController {
     @FXML
     private TextField projectNameTextField;
     @FXML
-    private JFXButton validateProjectButton;
-    @FXML
     private Label projectNameErrorLabel;
-
 
     private ArrayList<JFXTextField> textFieldCollaboratorArray = new ArrayList<>();
     private ArrayList<JFXTextField> textFieldStepNameArray = new ArrayList<>();
