@@ -106,7 +106,7 @@ public class LoginConnectionController implements Initializable {
      * Connection method
      */
     @FXML
-    protected void handleLoginConnectionButtonAction() throws IOException{
+    protected void handleLoginConnectionButtonAction() throws Exception {
         if(loginEmailField.getText().isEmpty() ) {
             LabelHelper.setLabel(loginEmailErrorLabel, "Saisissez votre adresse mail.", Pos.CENTER_LEFT, "#FF0000");
         }else{
@@ -120,7 +120,8 @@ public class LoginConnectionController implements Initializable {
 
         //Si tout est ok on test la connexion
         if(!(loginPasswordField.getText().isEmpty()) && !(loginEmailField.getText().isEmpty())){
-            StringBuffer content = HttpRequest.connection(loginEmailField.getText(), loginPasswordField.getText(), loginErrorConnectionLabel);
+            String content = HttpRequest.connection(loginEmailField.getText(), loginPasswordField.getText(), loginErrorConnectionLabel);
+
             if(content != null){
                 //Récupération de l'id et du token user
                 String userId = ParseRequestContent.getValueOf(content.toString(), "userId");
@@ -144,7 +145,7 @@ public class LoginConnectionController implements Initializable {
      * Registration method
      */
     @FXML
-    protected void handleRegisterValidateButtonAction() throws IOException {
+    protected void handleRegisterValidateButtonAction() throws Exception {
         Pattern emailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         if(registerEmailField.getText().isEmpty() || registerFirstnameField.getText().isEmpty()
                 || registerLastnameField.getText().isEmpty() || registerPasswordField.getText().isEmpty()
@@ -155,7 +156,7 @@ public class LoginConnectionController implements Initializable {
         }else{
             Matcher emailMatcher = emailPattern.matcher(registerEmailField.getText());
             if(emailMatcher.matches()){
-                StringBuffer content = HttpRequest.createAccount(registerLastnameField.getText(), registerFirstnameField.getText(),
+                String content = HttpRequest.createAccount(registerLastnameField.getText(), registerFirstnameField.getText(),
                         registerEmailField.getText(), registerPasswordField.getText(), registerErrorLabel);
                 if(content != null){
                     LabelHelper.setLabel(registerErrorLabel, "Votre compte a été créé avec succes", Pos.CENTER, "#00CD00");

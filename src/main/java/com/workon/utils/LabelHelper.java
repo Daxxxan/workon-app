@@ -7,9 +7,15 @@ import javafx.scene.text.Font;
 
 public class LabelHelper {
     public static void setLabel(Label label, String text, Pos position, String color){
-        label.setText(text);
-        label.setAlignment(position);
-        label.setTextFill(Color.web(color));
+        if(text != null){
+            label.setText(text);
+        }
+        if(text != null){
+            label.setAlignment(position);
+        }
+        if(color != null){
+            label.setTextFill(Color.web(color));
+        }
     }
 
     public static Label createLabel(String name, Double maxWidth, Font font, Pos pos){

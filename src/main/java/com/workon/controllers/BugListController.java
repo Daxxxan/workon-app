@@ -24,12 +24,12 @@ public class BugListController {
     @FXML
     public void initialize() throws Exception{
         projectTitleLabel.setText(CreateProjectController.getProject().getName());
-        StringBuffer contentBugs = HttpRequest.getBugs();
+        String contentBugs = HttpRequest.getBugs();
         if(contentBugs != null){
             ArrayList<String> bugsNames;
             ArrayList<String> bugsId;
-            bugsNames = ParseRequestContent.getValuesOf(contentBugs.toString(), "name");
-            bugsId = ParseRequestContent.getValuesOf(contentBugs.toString(), "id");
+            bugsNames = ParseRequestContent.getValuesOf(contentBugs, "name");
+            bugsId = ParseRequestContent.getValuesOf(contentBugs, "id");
             if(bugsNames.isEmpty() || bugsId.isEmpty()){
                 LabelHelper.setLabel(listBugLabel, "Pas de bug dans ce projet", Pos.CENTER, "#FFFFFF");
             }else{

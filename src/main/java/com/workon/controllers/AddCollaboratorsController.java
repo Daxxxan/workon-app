@@ -26,13 +26,13 @@ public class AddCollaboratorsController {
     private ArrayList<JFXTextField> collaboratorsList = new ArrayList<>();
     private ArrayList<String> collaboratorsNames = new ArrayList<>();
 
-    public void initialize() throws IOException {
+    public void initialize() throws Exception {
         //Get collaborators
-        StringBuffer contentProjectCollaborators = HttpRequest.getCollaborators();
+        String contentProjectCollaborators = HttpRequest.getCollaborators();
 
         projectTitleLabel.setText(CreateProjectController.getProject().getName());
 
-        ArrayList<String> collaborators = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectCollaborators).toString(), "email");
+        ArrayList<String> collaborators = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectCollaborators), "email");
 
         vboxCollaboratorList.setSpacing(10);
         vboxCollaboratorList.setStyle("-fx-padding: 5px");
@@ -62,15 +62,14 @@ public class AddCollaboratorsController {
     protected void handleValidateCollaborators() throws Exception{
         for(JFXTextField jfxTextField : getCollaboratorsList()){
             if(jfxTextField.getText() != null){
-                System.out.println("getTextField: " + jfxTextField.getText());
                 if(!getCollaboratorsNames().contains(jfxTextField.getText())){
-                    System.out.println("getTextField2: " + jfxTextField.getText());
-                    String addCollaboratorsRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId()))
-                            .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/accounts/rel/").concat(jfxTextField.getText());
-                    //Lancement de l'ajout des collaborateurs
-                    StringBuffer contentAddCollaboratorsToProject = HttpRequest.setRequest(addCollaboratorsRequest, null, null, "PUT", null, LoginConnectionController.getUserToken());
+                    String contentAddCollaboratorsToProject = HttpRequest.addCollaboratorsToProject(jfxTextField.getText(), CreateProjectController.getProject().getId());
+                    System.out.println("content: " + contentAddCollaboratorsToProject);
                     if(contentAddCollaboratorsToProject != null){
-                        Label label = LabelHelper.createLabel(jfxTextField.getText(), Double.MAX_VALUE, new Font("Times New Roman", 14), Pos.CENTER);
+                        LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsProject.fxml", ProjectsController.getMainPane(), true, true);
+                    }else{
+                        Label label = LabelHelper.createLabel("Impossible d'ajouter le collaborateur", Double.MAX_VALUE, new Font("Times New Roman", 14), Pos.CENTER);
+                        LabelHelper.setLabel(label, null, null, "#FF0000");
                         vboxCollaboratorList.getChildren().add(label);
                     }
                 }

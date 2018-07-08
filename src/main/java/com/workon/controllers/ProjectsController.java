@@ -42,8 +42,8 @@ public class ProjectsController {
     private static JFXButton evolution;
 
     @FXML
-    public void initialize() throws IOException {
-        StringBuffer contentRequest = HttpRequest.getProjects();
+    public void initialize() throws Exception {
+        String contentRequest = HttpRequest.getProjects();
         setMainPane(mainScrollPane);
         setProjectListPane(scrollPaneProjectList);
 
@@ -56,8 +56,8 @@ public class ProjectsController {
 
         projectListVBox.setSpacing(10);
         projectListVBox.setStyle("-fx-padding: 5px");
-        ArrayList<String> names = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentRequest).toString(), "name");
-        ArrayList<String> ids = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentRequest).toString(), "id");
+        ArrayList<String> names = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentRequest), "name");
+        ArrayList<String> ids = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentRequest), "id");
 
         for(int counter = 0; counter < names.size(); counter++){
             String projectName = names.get(counter).substring(1, names.get(counter).length() - 1);
@@ -78,8 +78,8 @@ public class ProjectsController {
             projectListVBox.getChildren().add(button);
         }
 
-        StringBuffer contentAccountInformations = HttpRequest.getAccount(LoginConnectionController.getUserId().toString());
-        String firstname = ParseRequestContent.getValueOf(Objects.requireNonNull(contentAccountInformations).toString(), "firstname");
+        String contentAccountInformations = HttpRequest.getAccount(LoginConnectionController.getUserId().toString());
+        String firstname = ParseRequestContent.getValueOf(Objects.requireNonNull(contentAccountInformations), "firstname");
         firstname = firstname.substring(1, firstname.length() - 1);
 
         Label mainLabel = LabelHelper.createLabel("Bienvenue ".concat(firstname).concat(" !"), Double.MAX_VALUE, new Font("Times New Roman", 40), Pos.CENTER);
@@ -106,6 +106,11 @@ public class ProjectsController {
     @FXML
     protected void handleDocumentationButton() throws Exception {
         LoadFXML.loadFXMLInScrollPane("/fxml/fileList.fxml", mainScrollPane, true, true);
+    }
+
+    @FXML
+    protected void handleMessagesList() throws Exception {
+        LoadFXML.loadFXMLInScrollPane("/fxml/messagesList.fxml", mainScrollPane, true, true);
     }
 
     @FXML

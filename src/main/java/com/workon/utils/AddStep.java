@@ -30,7 +30,7 @@ public abstract class AddStep implements Comparable{
                 //Convert LocalDate to String
                 DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 
-                StringBuffer contentAddStepsToProject = HttpRequest.addStep(projectId, textFieldStepNameArray.get(counter).getText(), datePickerStepArray.get(counter).getValue().format(formatter));
+                String contentAddStepsToProject = HttpRequest.addStep(projectId, textFieldStepNameArray.get(counter).getText(), datePickerStepArray.get(counter).getValue().format(formatter));
 
                 //Si l'ajout a bien été effectué
                 if(contentAddStepsToProject != null){

@@ -37,7 +37,7 @@ public class CardBugController {
     @FXML
     protected void handleValidateBug() throws Exception{
         if(!bugName.getText().isEmpty() && !bugDescription.getText().isEmpty()){
-            StringBuffer contentRequest = HttpRequest.addBug(bugName.getText(), bugDescription.getText(), CreateProjectController.getProject().getId());
+            String contentRequest = HttpRequest.addBug(bugName.getText(), bugDescription.getText(), CreateProjectController.getProject().getId());
             if(contentRequest != null){
                 Bug bug = new Bug(bugName.getText(), bugDescription.getText());
                 CreateProjectController.getProject().addBugToArrayList(bug);

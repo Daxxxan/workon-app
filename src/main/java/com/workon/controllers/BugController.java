@@ -31,22 +31,22 @@ public class BugController {
 
     @FXML
     public void initialize() throws Exception {
-        StringBuffer contentBug = HttpRequest.getCurrentBugs();
-        String description = ParseRequestContent.getValueOf(Objects.requireNonNull(contentBug).toString(), "description");
-        String creatorId = ParseRequestContent.getValueOf(contentBug.toString(), "creatorId");
+        String contentBug = HttpRequest.getCurrentBugs();
+        String description = ParseRequestContent.getValueOf(Objects.requireNonNull(contentBug), "description");
+        String creatorId = ParseRequestContent.getValueOf(contentBug, "creatorId");
 
-        StringBuffer contentCreator = HttpRequest.getCollaboratorAccount(creatorId);
-        String creatorMail = ParseRequestContent.getValueOf(Objects.requireNonNull(contentCreator).toString(), "email");
+        String contentCreator = HttpRequest.getCollaboratorAccount(creatorId);
+        String creatorMail = ParseRequestContent.getValueOf(Objects.requireNonNull(contentCreator), "email");
 
-        StringBuffer contentBugMessages = HttpRequest.getBugMessages();
-        ArrayList<String> accountsId = ParseRequestContent.getValuesOf(contentBugMessages.toString(), "accountId");
-        ArrayList<String> messages = ParseRequestContent.getValuesOf(contentBugMessages.toString(), "content");
+        String contentBugMessages = HttpRequest.getBugMessages();
+        ArrayList<String> accountsId = ParseRequestContent.getValuesOf(contentBugMessages, "accountId");
+        ArrayList<String> messages = ParseRequestContent.getValuesOf(contentBugMessages, "content");
 
         description = description.replace("\\n", " ");
 
         for(int counter = 0; counter < accountsId.size(); counter++){
-            StringBuffer account = HttpRequest.getCollaboratorAccount(accountsId.get(counter));
-            String accountEmail = ParseRequestContent.getValueOf(account.toString(), "email");
+            String account = HttpRequest.getCollaboratorAccount(accountsId.get(counter));
+            String accountEmail = ParseRequestContent.getValueOf(account, "email");
 
             String contentLabel = accountEmail.substring(1, accountEmail.length() - 1) + " : "
                     + messages.get(counter);
@@ -77,6 +77,6 @@ public class BugController {
 
     @FXML
     protected void handleClose() throws Exception{
-        StringBuffer str = HttpRequest.updateBug();
+        String str = HttpRequest.updateBug();
     }
 }

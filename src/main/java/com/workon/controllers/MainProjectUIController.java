@@ -29,12 +29,12 @@ public class MainProjectUIController {
     private ArrayList<JFXTextField> textFieldStepNameArray = new ArrayList<>();
     private ArrayList<JFXDatePicker> datePickerStepArray = new ArrayList<>();
 
-    public void initialize() throws IOException {
+    public void initialize() throws Exception {
         //Get steps du projet
-        StringBuffer contentProjectSteps = HttpRequest.getProjectSteps();
+        String contentProjectSteps = HttpRequest.getProjectSteps();
         //Fill des dates
-        ArrayList<String> stepsName = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectSteps).toString(), "name");
-        ArrayList<String> stepsDate = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectSteps).toString(), "date");
+        ArrayList<String> stepsName = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectSteps), "name");
+        ArrayList<String> stepsDate = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectSteps), "date");
         //Set map
         Map<String, String> steps = SetMap.setStringStringMapWithArrayLists(stepsName, stepsDate);
         //Sorted map

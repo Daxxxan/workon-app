@@ -31,9 +31,9 @@ public class FileController {
         LabelHelper.setLabel(listOfFiles, "Liste des documents", Pos.CENTER, "#FFFFFF");
         vboxFiles.setSpacing(10);
 
-        StringBuffer files = HttpRequest.getFiles();
-        ArrayList<String> filesNames = ParseRequestContent.getValuesOf(files.toString(), "name");
-        ArrayList<String> fileDirectory = ParseRequestContent.getValuesOf(files.toString(), "container");
+        String files = HttpRequest.getFiles();
+        ArrayList<String> filesNames = ParseRequestContent.getValuesOf(files, "name");
+        ArrayList<String> fileDirectory = ParseRequestContent.getValuesOf(files, "container");
 
         for(int counter = 0; counter < filesNames.size(); counter++){
             JFXButton fileButton = ButtonHelper.setButton(filesNames.get(counter).substring(1, filesNames.get(counter).length() - 1),

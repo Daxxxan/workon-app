@@ -72,20 +72,19 @@ public class CreateProjectController {
         if(!(projectNameTextField.getText().isEmpty())){
             Project project = new Project();
             //Lancement de la création d'un projet
-            StringBuffer contentCreateProject = HttpRequest.addProject(projectNameTextField.getText());
+            String contentCreateProject = HttpRequest.addProject(projectNameTextField.getText());
 
             //Si le projet a été créé
             if(contentCreateProject != null){
                 //Récupération de l'ID du projet créé
-                String projectId = ParseRequestContent.getValueOf(contentCreateProject.toString(), "id");
-                String addCollaboratorsRequest;
+                String projectId = ParseRequestContent.getValueOf(contentCreateProject, "id");
 
                 //Set d'un objet ProjectsController
                 project.setName(projectNameTextField.getText());
                 project.setDirector(LoginConnectionController.getUserId());
 
                 //Lancement de l'ajout du directeur aux collaborateurs
-                StringBuffer contentAddDirectorToProjectCollaborators = HttpRequest.addCollaboratorsToProject(LoginConnectionController.getUserId().toString(), projectId);
+                String contentAddDirectorToProjectCollaborators = HttpRequest.addCollaboratorsToProject(LoginConnectionController.getUserId().toString(), projectId);
 
                 //Si le directeur a bien été ajouté
                 if(contentAddDirectorToProjectCollaborators != null){
@@ -97,10 +96,10 @@ public class CreateProjectController {
                     //Ajout de chaque collaborateurs au projet
                     for(JFXTextField textField : getTextFieldCollaboratorArray()) {
                         //Lancement de l'ajout des collaborateurs
-                        StringBuffer contentAddCollaboratorsToProject = HttpRequest.addCollaboratorsToProject(textField.getText(), projectId);
+                        String contentAddCollaboratorsToProject = HttpRequest.addCollaboratorsToProject(textField.getText(), projectId);
                         if(contentAddCollaboratorsToProject != null){
                             //Récupération de l'id du collaborateur
-                            int collaboratorId = Integer.parseInt(Objects.requireNonNull(ParseRequestContent.getValueOf(contentAddCollaboratorsToProject.toString(), "accountId")));
+                            int collaboratorId = Integer.parseInt(Objects.requireNonNull(ParseRequestContent.getValueOf(contentAddCollaboratorsToProject, "accountId")));
 
                             //Vérifier que l'id n'est pas déjà dans le tableau des users
                             int exist = 0;
