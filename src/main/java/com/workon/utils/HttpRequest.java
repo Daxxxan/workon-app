@@ -5,6 +5,7 @@ import com.workon.controllers.LoginConnectionController;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import okhttp3.*;
 
@@ -22,39 +23,45 @@ public class HttpRequest {
             }else if(formBody != null){
                 request = new Request.Builder()
                         .url(url)
-                        .header("Authorization", LoginConnectionController.getUserToken())
+                        .header("Authorization", "Bearer " + LoginConnectionController.getUserToken())
                         .post(formBody)
                         .build();
             }else{
                 request = new Request.Builder()
                         .url(url)
-                        .header("Authorization", LoginConnectionController.getUserToken())
+                        .header("Authorization", "Bearer " + LoginConnectionController.getUserToken())
                         .build();
             }
         }else if(type.equals("GET")){
             request = new Request.Builder()
                     .url(url)
-                    .header("Authorization", LoginConnectionController.getUserToken())
+                    .header("Authorization", "Bearer " + LoginConnectionController.getUserToken())
                     .build();
         }else if(type.equals("PATCH")){
             if(formBody != null){
                 request = new Request.Builder()
                         .url(url)
-                        .header("Authorization", LoginConnectionController.getUserToken())
+                        .header("Authorization", "Bearer " +LoginConnectionController.getUserToken())
                         .patch(formBody)
                         .build();
             }else{
                 request = new Request.Builder()
                         .url(url)
-                        .header("Authorization", LoginConnectionController.getUserToken())
+                        .header("Authorization", "Bearer " + LoginConnectionController.getUserToken())
                         .method("PATCH", null)
                         .build();
             }
         }else if(type.equals("PUT")){
             request = new Request.Builder()
                     .url(url)
-                    .header("Authorization", LoginConnectionController.getUserToken())
+                    .header("Authorization", "Bearer " + LoginConnectionController.getUserToken())
                     .put(formBody)
+                    .build();
+        }else if(type.equals("DELETE")){
+            request = new Request.Builder()
+                    .url(url)
+                    .header("Authorization", "Bearer " + LoginConnectionController.getUserToken())
+                    .delete()
                     .build();
         }
         
@@ -142,7 +149,7 @@ public class HttpRequest {
                 .build();
         String response = setOkHttpRequest(LoginConnectionController.getPath().concat("accounts/login"), formBody, true, "POST");
         if(response == null){
-            LabelHelper.setLabel(loginErrorConnectionLabel, "Les identifiants de connexion ne sont pas valide.", Pos.CENTER, "#FF0000");
+            LabelHelper.setLabel(loginErrorConnectionLabel, "Les identifiants de connexion ne sont pas valide.", Pos.CENTER, "#FF0000", new Font("Book Antiqua", 16));
             return null;
         }else{
             return response;
@@ -167,8 +174,9 @@ public class HttpRequest {
         return setOkHttpRequest(getProjectSteps, null, false, "GET");
     }
 
-    public static String getProjects() throws Exception {
-        String getProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
+    public static String getProjects(String finished) throws Exception {
+        String getProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects")
+                .concat("?filter={\"where\":{\"finished\":" + finished + "}}");
         return setOkHttpRequest(getProjectRequest, null, false, "GET");
     }
 
@@ -190,6 +198,12 @@ public class HttpRequest {
                 .add("conversationId", conversationId)
                 .build();
         return setOkHttpRequest(addMessageRequest, formBody, false, "POST");
+    }
+
+    public static String deleteConversation(String conversationId) throws Exception {
+        String deleteConversation = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
+                .concat("/conversations/rel/").concat(conversationId);
+        return setOkHttpRequest(deleteConversation, null, false, "DELETE");
     }
 
     public static String getMessagesFromConversation(String conversationId) throws Exception{
@@ -230,18 +244,40 @@ public class HttpRequest {
 
         RequestBody formBody = new FormBody.Builder()
                 .add("state", "1")
+                .add("closerId", LoginConnectionController.getUserId().toString())
                 .build();
 
         return setOkHttpRequest(getBugRequest, formBody, false, "PATCH");
     }
 
-    public static String logout() throws Exception {
-        String logout = LoginConnectionController.getPath().concat("accounts/logout");
-        return setOkHttpRequest(logout, null, false, "POST");
+    public static String deleteBug(String bugId) throws Exception {
+        String getBugRequest = LoginConnectionController.getPath().concat("Bugs/").concat(bugId);
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("state", "1")
+                .build();
+
+        return setOkHttpRequest(getBugRequest, formBody, false, "PATCH");
     }
 
-    public static String getFiles() throws Exception {
-        String getFiles = LoginConnectionController.getPath().concat("Containers/").concat(CreateProjectController.getProject().getId()).concat("/files");
+    public static String updateProject(String projectId) throws Exception {
+        String getProjectRequest = LoginConnectionController.getPath().concat("Projects/").concat(projectId);
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("finished", "true")
+                .build();
+
+        return setOkHttpRequest(getProjectRequest, formBody, false, "PATCH");
+    }
+
+    public static String logout() throws Exception {
+        String logout = LoginConnectionController.getPath().concat("accounts/logout");
+        RequestBody formBody = RequestBody.create(null, new byte[]{});
+        return setOkHttpRequest(logout, formBody, false, "POST");
+    }
+
+    public static String getFiles(String projectId) throws Exception {
+        String getFiles = LoginConnectionController.getPath().concat("Containers/").concat(projectId).concat("/files");
         return setOkHttpRequest(getFiles, null, false, "GET");
     }
 

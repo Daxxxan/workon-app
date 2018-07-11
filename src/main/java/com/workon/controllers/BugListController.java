@@ -32,15 +32,17 @@ public class BugListController {
             bugsNames = ParseRequestContent.getValuesOf(contentBugs, "name");
             bugsId = ParseRequestContent.getValuesOf(contentBugs, "id");
             if(bugsNames.isEmpty() || bugsId.isEmpty()){
-                LabelHelper.setLabel(listBugLabel, "Pas de bug dans ce projet", Pos.CENTER, "#FFFFFF");
+                LabelHelper.setLabel(listBugLabel, "Pas de bug dans ce projet", Pos.CENTER, "#FFFFFF", new Font("Book Antiqua", 16));
             }else{
-                LabelHelper.setLabel(listBugLabel, "Liste des bugs dans ce projet", Pos.CENTER, "#FFFFFF");
+                LabelHelper.setLabel(listBugLabel, "Liste des bugs dans ce projet", Pos.CENTER, "#FFFFFF", new Font("Book Antiqua", 16));
                 for(int counter = 0; counter < bugsNames.size(); counter++){
                     String bugName = bugsNames.get(counter).substring(1, bugsNames.get(counter).length() - 1);
                     JFXButton bugButton = ButtonHelper.setButton(bugsNames.get(counter).substring(1, bugsNames.get(counter).length() - 1),
                             bugsId.get(counter), Double.MAX_VALUE,
                             "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
-                            new Font("Times New Roman", 16));
+                            new Font("Book Antiqua", 16));
+
+                    ContextMenuHelper.setContextMenuToButtonToDeleteBug(bugButton);
 
                     bugButton.setOnAction(event -> {
                         CreateProjectController.getProject().setCurrentBugId(bugButton.getId());
@@ -61,7 +63,7 @@ public class BugListController {
                 }
             }
         }else{
-            LabelHelper.setLabel(listBugLabel, "Erreur technique: Veuillez contacter le support.", Pos.CENTER, "#FF0000");
+            LabelHelper.setLabel(listBugLabel, "Erreur technique: Veuillez contacter le support.", Pos.CENTER, "#FF0000", new Font("Book Antiqua", 16));
         }
     }
 

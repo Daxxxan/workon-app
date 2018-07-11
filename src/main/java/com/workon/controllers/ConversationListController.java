@@ -25,8 +25,8 @@ public class ConversationListController {
     @FXML
     public void initialize() throws Exception {
         vboxConversationsList.setSpacing(10);
-        LabelHelper.setLabel(messageTitleLabel, "Messagerie", Pos.CENTER, null);
-        LabelHelper.setLabel(listMessagesLabel, "Liste des conversations", Pos.CENTER, null);
+        LabelHelper.setLabel(messageTitleLabel, "Messagerie", Pos.CENTER, null, new Font("Book Antiqua", 16));
+        LabelHelper.setLabel(listMessagesLabel, "Liste des conversations", Pos.CENTER, null, new Font("Book Antiqua", 16));
         String getConversation = HttpRequest.getConversations();
         ArrayList<String>conversations = ParseRequestContent.getValuesOf(getConversation, "name");
         ArrayList<String>ids = ParseRequestContent.getValuesOf(getConversation, "id");
@@ -35,9 +35,11 @@ public class ConversationListController {
             JFXButton conversationButton = ButtonHelper.setButton(conversations.get(counter).substring(1, conversations.get(counter).length() - 1),
                     ids.get(counter), Double.MAX_VALUE,
                     "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
-                    new Font("Times New Roman", 16));
+                    new Font("Book Antiqua", 16));
 
             vboxConversationsList.getChildren().add(conversationButton);
+
+            ContextMenuHelper.setContextMenuToButtonToDeleteConversation(conversationButton);
 
             int finalCounter = counter;
             conversationButton.setOnAction(event -> {

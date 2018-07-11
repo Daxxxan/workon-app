@@ -51,7 +51,7 @@ public class BugController {
             String contentLabel = accountEmail.substring(1, accountEmail.length() - 1) + " : "
                     + messages.get(counter);
 
-            Label label = LabelHelper.createLabel(contentLabel, Double.MAX_VALUE, new Font("Times New Roman", 14), Pos.CENTER_LEFT);
+            Label label = LabelHelper.createLabel(contentLabel, Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER_LEFT);
             vboxMessages.getChildren().add(label);
         }
 

@@ -28,17 +28,23 @@
    <children>
       <VBox fx:id="vboxStepsList" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Liste de étapes du projet" textFill="WHITE" />
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Liste de étapes du projet" textFill="WHITE">
+               <font>
+                  <Font name="Book Antiqua" size="12.0" />
+               </font></Label>
          </children>
       </VBox>
       <VBox fx:id="vboxAddSteps" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
          <children>
-            <JFXButton fx:id="addStepsProjectButton" alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" onAction="#handleAddStepButtonAction" style="-fx-background-color: #483d8b;" text="Ajouter un jalon" textAlignment="CENTER" textFill="WHITE" />
+            <JFXButton fx:id="addStepsProjectButton" alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" onAction="#handleAddStepButtonAction" style="-fx-background-color: #483d8b;" text="Ajouter un jalon" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Book Antiqua" size="12.0" />
+               </font></JFXButton>
          </children>
       </VBox>
       <JFXButton fx:id="validateSteps" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleValidateSteps" text="Valider" textFill="#2a8212" GridPane.columnIndex="5" GridPane.columnSpan="2">
          <font>
-            <Font size="14.0" />
+            <Font name="Book Antiqua" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -46,12 +52,12 @@
       </JFXButton>
       <Label fx:id="projectTitleLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.columnSpan="2">
          <font>
-            <Font name="Times New Roman" size="24.0" />
+            <Font name="Book Antiqua" size="24.0" />
          </font>
       </Label>
       <JFXButton fx:id="switchToCollaborators" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleSwitchToCollaborators" text="Ajouter des collaborateurs" textFill="#2a8212" GridPane.columnIndex="1" GridPane.columnSpan="2">
          <font>
-            <Font size="14.0" />
+            <Font name="Book Antiqua" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />

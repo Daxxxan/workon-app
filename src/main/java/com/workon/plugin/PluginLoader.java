@@ -1,21 +1,41 @@
 package com.workon.plugin;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.jar.Attributes;
+import java.util.jar.JarInputStream;
+import java.util.jar.Manifest;
 
 
 public class PluginLoader {
-    public PluginLoader() throws Exception {
-        File dir = new File("src/main/resources/pluginsWorkon/workonPlugin.jar");
-        URL loadPath = dir.toURI().toURL();
+    private String dirPath;
+
+    public PluginLoader(){
+        this.dirPath = "src/main/resources/pluginsWorkon/";
+    }
+    public PluginLoader(String path) throws Exception {
+        this.dirPath = path;
+    }
+
+    public Object loadPlugin(String jarFile) throws Exception {
+        String path = this.dirPath + jarFile;
+        Path file = Paths.get(path);
+        URL loadPath = file.toUri().toURL();
         URL[] classUrl = new URL[]{loadPath};
 
         ClassLoader cl = new URLClassLoader(classUrl);
 
-        Class<?> loadedClass = cl.loadClass("com.workon.plugin.print"); // must be in package.class name format
-        Object object = loadedClass.getConstructor().newInstance();
-        printInterface printInterface = (com.workon.plugin.printInterface) object;
-        printInterface.printHello();
+        InputStream stream = loadPath.openStream();
+        JarInputStream jarStream = new JarInputStream(stream);
+        Manifest mf = jarStream.getManifest();
+        String className = mf.getMainAttributes().getValue("Main-Class");
+        Class loadedClass = cl.loadClass(className);
+        return loadedClass.getConstructor().newInstance();
     }
 }

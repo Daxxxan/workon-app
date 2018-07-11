@@ -26,14 +26,14 @@
    </columnConstraints>
    <rowConstraints>
       <RowConstraints maxHeight="-Infinity" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="48.800012207031244" minHeight="48.800012207031244" prefHeight="48.800012207031244" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="140.79997253417972" minHeight="59.20000610351562" prefHeight="140.79997253417972" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="400.0" minHeight="400.0" prefHeight="400.0" />
+      <RowConstraints maxHeight="48.800012207031244" minHeight="28.800012207031244" prefHeight="28.800012207031244" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="80.79998779296875" minHeight="59.20000610351562" prefHeight="80.79998779296875" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="452.7999725341797" minHeight="400.0" prefHeight="447.99998474121094" />
    </rowConstraints>
    <children>
       <VBox fx:id="vboxStepsList" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
          <children>
-            <Label fx:id="bugName" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefWidth="351.0" style="-fx-padding: 5px; -fx-background-color: #d4d4d4; -fx-border-radius: 10px; -fx-background-radius: 10;">
+            <Label fx:id="bugName" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefWidth="351.0" style="-fx-padding: 5px; -fx-background-color: #d4d4d4;">
                <font>
                   <Font size="14.0" />
                </font></Label>
@@ -41,12 +41,12 @@
       </VBox>
       <Label fx:id="projectTitleLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.columnSpan="2">
          <font>
-            <Font name="Times New Roman" size="24.0" />
+            <Font name="Book Antiqua" size="24.0" />
          </font>
       </Label>
       <JFXButton fx:id="close" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleClose" text="Clôturer" textFill="#2a8212" GridPane.columnIndex="5" GridPane.columnSpan="2">
          <font>
-            <Font size="14.0" />
+            <Font name="Book Antiqua" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -54,17 +54,17 @@
       </JFXButton>
       <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleBugsList" text="Liste des bugs" textFill="#2a8212" GridPane.columnIndex="1" GridPane.columnSpan="2">
          <font>
-            <Font size="14.0" />
+            <Font name="Book Antiqua" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <VBox fx:id="vboxDescription" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="2">
+      <VBox fx:id="vboxDescription" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <children>
             <Label fx:id="description" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefWidth="351.0" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Description" textFill="WHITE">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Book Antiqua" size="14.0" />
                </font>
             </Label>
             <Label fx:id="descriptionLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
@@ -76,7 +76,7 @@
                <children>
                   <Label fx:id="description1" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="586.0" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Discussion" textFill="WHITE">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Book Antiqua" size="14.0" />
                      </font>
                   </Label>
                   <HBox maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="598.0">
@@ -84,11 +84,17 @@
                         <Insets />
                      </VBox.margin>
                      <children>
-                        <JFXTextField fx:id="message" prefHeight="54.0" prefWidth="494.0" promptText="Votre message" HBox.hgrow="ALWAYS" />
+                        <JFXTextField fx:id="message" labelFloat="true" prefHeight="54.0" prefWidth="494.0" promptText="Votre message" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="Book Antiqua" size="12.0" />
+                           </font></JFXTextField>
                         <JFXButton fx:id="sendMessage" buttonType="RAISED" maxWidth="1.7976931348623157E308" onAction="#handleSendMessage" prefHeight="58.0" prefWidth="106.0" style="-fx-background-color: #FFF;" text="Envoyer" HBox.hgrow="ALWAYS">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <font>
+                              <Font name="Book Antiqua" size="12.0" />
+                           </font>
                         </JFXButton>
                      </children>
                   </HBox>

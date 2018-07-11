@@ -9,6 +9,7 @@ import com.workon.utils.LoadFXML;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,10 +44,10 @@ public class CardBugController {
                 CreateProjectController.getProject().addBugToArrayList(bug);
                 LoadFXML.loadFXMLInScrollPane("/fxml/bugList.fxml", ProjectsController.getMainPane(), true, true);
             }else{
-                LabelHelper.setLabel(errorCreateBugLabel, "Erreur technique: Veuillez contacter le support", Pos.CENTER, "#ff0000");
+                LabelHelper.setLabel(errorCreateBugLabel, "Erreur technique: Veuillez contacter le support", Pos.CENTER, "#ff0000", new Font("Book Antiqua", 16));
             }
         }else{
-            LabelHelper.setLabel(errorCreateBugLabel, "Veuillez renseigner tous les champs", Pos.CENTER, "#ff0000");
+            LabelHelper.setLabel(errorCreateBugLabel, "Veuillez renseigner tous les champs", Pos.CENTER, "#ff0000", new Font("Book Antiqua", 16));
         }
     }
 }

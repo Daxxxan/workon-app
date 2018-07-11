@@ -123,9 +123,11 @@ public class CreateProjectController {
                     //Création du bouton projet dans l'interface
                     JFXButton button = ButtonHelper.setButton(projectNameTextField.getText(), projectId, Double.MAX_VALUE,
                             "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
-                            new Font("Times New Roman", 16));
+                            new Font("Book Antiqua", 16));
                     CreateProjectController.getProject().setId(button.getId());
                     CreateProjectController.getProject().setName(projectNameTextField.getText());
+
+                    ContextMenuHelper.setContextMenuToButton(button);
 
                     button.setOnAction(event -> {
                         try {
@@ -148,7 +150,7 @@ public class CreateProjectController {
                 }
             }
         }else{
-            LabelHelper.setLabel(projectNameErrorLabel, "Veuillez saisir le nom du projet", Pos.CENTER_LEFT, "#FF0000");
+            LabelHelper.setLabel(projectNameErrorLabel, "Veuillez saisir le nom du projet", Pos.CENTER_LEFT, "#FF0000", new Font("Book Antiqua", 16));
         }
     }
 

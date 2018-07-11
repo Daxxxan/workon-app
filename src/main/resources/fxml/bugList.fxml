@@ -33,12 +33,12 @@
       </VBox>
       <Label fx:id="projectTitleLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.columnSpan="2">
          <font>
-            <Font name="Times New Roman" size="24.0" />
+            <Font name="Book Antiqua" size="24.0" />
          </font>
       </Label>
       <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleCreateBug" text="Créer une fiche" textFill="#2a8212" GridPane.columnIndex="5" GridPane.columnSpan="2">
          <font>
-            <Font size="14.0" />
+            <Font name="Book Antiqua" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />

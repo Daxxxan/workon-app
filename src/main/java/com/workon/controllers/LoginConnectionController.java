@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
@@ -108,12 +109,12 @@ public class LoginConnectionController implements Initializable {
     @FXML
     protected void handleLoginConnectionButtonAction() throws Exception {
         if(loginEmailField.getText().isEmpty() ) {
-            LabelHelper.setLabel(loginEmailErrorLabel, "Saisissez votre adresse mail.", Pos.CENTER_LEFT, "#FF0000");
+            LabelHelper.setLabel(loginEmailErrorLabel, "Saisissez votre adresse mail.", Pos.CENTER_LEFT, "#FF0000", new Font("Book Antiqua", 12));
         }else{
             loginEmailErrorLabel.setText("");
         }
         if(loginPasswordField.getText().isEmpty()){
-            LabelHelper.setLabel(loginPasswordErrorLabel, "Saisissez votre mot de passe", Pos.CENTER_LEFT, "#FF0000");
+            LabelHelper.setLabel(loginPasswordErrorLabel, "Saisissez votre mot de passe", Pos.CENTER_LEFT, "#FF0000", new Font("Book Antiqua", 12));
         }else{
             loginPasswordErrorLabel.setText("");
         }
@@ -150,19 +151,21 @@ public class LoginConnectionController implements Initializable {
         if(registerEmailField.getText().isEmpty() || registerFirstnameField.getText().isEmpty()
                 || registerLastnameField.getText().isEmpty() || registerPasswordField.getText().isEmpty()
                 || registerPasswordVerifyField.getText().isEmpty()){
-            LabelHelper.setLabel(registerErrorLabel, "Veuillez saisir tous les champs du formulaire", Pos.CENTER, "#FF0000");
+            LabelHelper.setLabel(registerErrorLabel, "Veuillez saisir tous les champs du formulaire", Pos.CENTER, "#FF0000", new Font("Book Antiqua", 16));
         }else if(!Objects.equals(registerPasswordField.getText(), registerPasswordVerifyField.getText())){
-            LabelHelper.setLabel(registerErrorLabel, "Les mots de passe ne sont pas identiques", Pos.CENTER, "#FF0000");
+            LabelHelper.setLabel(registerErrorLabel, "Les mots de passe ne sont pas identiques", Pos.CENTER, "#FF0000", new Font("Book Antiqua", 16));
         }else{
             Matcher emailMatcher = emailPattern.matcher(registerEmailField.getText());
             if(emailMatcher.matches()){
                 String content = HttpRequest.createAccount(registerLastnameField.getText(), registerFirstnameField.getText(),
                         registerEmailField.getText(), registerPasswordField.getText(), registerErrorLabel);
                 if(content != null){
-                    LabelHelper.setLabel(registerErrorLabel, "Votre compte a été créé avec succes", Pos.CENTER, "#00CD00");
+                    LabelHelper.setLabel(registerErrorLabel, "Votre compte a été créé avec succes", Pos.CENTER, "#00CD00", new Font("Book Antiqua", 16));
+                }else{
+                    LabelHelper.setLabel(registerErrorLabel, "Le compte existe déjà", Pos.CENTER, "#FF0000", new Font("Book Antiqua", 16));
                 }
             }else{
-                LabelHelper.setLabel(registerErrorLabel, "Votre email est inccorect", Pos.CENTER, "#FF0000");
+                LabelHelper.setLabel(registerErrorLabel, "Votre email est inccorect", Pos.CENTER, "#FF0000", new Font("Book Antiqua", 16));
             }
         }
     }

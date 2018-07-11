@@ -31,12 +31,12 @@
    <children>
       <Label fx:id="projectTitleLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.columnSpan="2">
          <font>
-            <Font name="Times New Roman" size="24.0" />
+            <Font name="Book Antiqua" size="24.0" />
          </font>
       </Label>
       <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleConversationList" text="Liste des conversations" textFill="#2a8212" GridPane.columnIndex="1" GridPane.columnSpan="2">
          <font>
-            <Font size="14.0" />
+            <Font name="Book Antiqua" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -48,7 +48,7 @@
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="586.0" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Discussion" textFill="WHITE">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Book Antiqua" size="14.0" />
                      </font>
                   </Label>
                   <HBox maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="598.0">
@@ -56,11 +56,17 @@
                         <Insets />
                      </VBox.margin>
                      <children>
-                        <JFXTextField fx:id="message" prefHeight="54.0" prefWidth="494.0" promptText="Votre message" HBox.hgrow="ALWAYS" />
+                        <JFXTextField fx:id="message" labelFloat="true" prefHeight="54.0" prefWidth="494.0" promptText="Votre message" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="Book Antiqua" size="12.0" />
+                           </font></JFXTextField>
                         <JFXButton fx:id="sendMessage" buttonType="RAISED" maxWidth="1.7976931348623157E308" onAction="#handleSendMessage" prefHeight="58.0" prefWidth="106.0" style="-fx-background-color: #FFF;" text="Envoyer" HBox.hgrow="ALWAYS">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <font>
+                              <Font name="Book Antiqua" size="12.0" />
+                           </font>
                         </JFXButton>
                      </children>
                   </HBox>

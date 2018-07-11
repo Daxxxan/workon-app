@@ -38,7 +38,7 @@ public class AddCollaboratorsController {
         vboxAddCollaborators.setSpacing(10);
 
         for (String collaborator : collaborators){
-            Label collaboratorLabel = LabelHelper.createLabel(collaborator.substring(1, collaborator.length() - 1), Double.MAX_VALUE, new Font("Times New Roman", 14), Pos.CENTER);
+            Label collaboratorLabel = LabelHelper.createLabel(collaborator.substring(1, collaborator.length() - 1), Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER);
             vboxCollaboratorList.getChildren().add(collaboratorLabel);
             setCollaboratorsNames(collaborator.substring(1, collaborator.length() - 1));
         }
@@ -67,8 +67,8 @@ public class AddCollaboratorsController {
                     if(contentAddCollaboratorsToProject != null){
                         LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsProject.fxml", ProjectsController.getMainPane(), true, true);
                     }else{
-                        Label label = LabelHelper.createLabel("Impossible d'ajouter le collaborateur", Double.MAX_VALUE, new Font("Times New Roman", 14), Pos.CENTER);
-                        LabelHelper.setLabel(label, null, null, "#FF0000");
+                        Label label = LabelHelper.createLabel("Impossible d'ajouter le collaborateur", Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER);
+                        LabelHelper.setLabel(label, null, null, "#FF0000", new Font("Book Antiqua", 16));
                         vboxCollaboratorList.getChildren().add(label);
                     }
                 }

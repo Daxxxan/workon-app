@@ -2,28 +2,31 @@ package com.workon.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.workon.Main;
+import com.workon.plugin.PluginInterface;
 import com.workon.plugin.PluginLoader;
-import com.workon.utils.*;
+import com.workon.utils.HttpRequest;
+import com.workon.utils.LabelHelper;
+import com.workon.utils.LoadFXML;
+import com.workon.utils.ParseRequestContent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 public class ProjectsController {
     @FXML
     private ScrollPane mainScrollPane;
-    @FXML
-    private VBox projectListVBox;
     @FXML
     private GridPane mainGridPane;
     @FXML
@@ -34,6 +37,8 @@ public class ProjectsController {
     private JFXButton createDocumentationButton;
     @FXML
     private ScrollPane scrollPaneProjectList;
+    @FXML
+    private Menu pluginMenu;
 
     private static ScrollPane mainPane;
     private static ScrollPane projectListPane;
@@ -43,9 +48,10 @@ public class ProjectsController {
 
     @FXML
     public void initialize() throws Exception {
-        String contentRequest = HttpRequest.getProjects();
         setMainPane(mainScrollPane);
         setProjectListPane(scrollPaneProjectList);
+
+        LoadFXML.loadFXMLInScrollPane("/fxml/vboxProject.fxml", scrollPaneProjectList, true, true);
 
         createBugButton.setDisable(true);
         createEvolutionButton.setDisable(true);
@@ -54,36 +60,30 @@ public class ProjectsController {
         setEvolution(createEvolutionButton);
         setDocumentation(createDocumentationButton);
 
-        projectListVBox.setSpacing(10);
-        projectListVBox.setStyle("-fx-padding: 5px");
-        ArrayList<String> names = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentRequest), "name");
-        ArrayList<String> ids = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentRequest), "id");
-
-        for(int counter = 0; counter < names.size(); counter++){
-            String projectName = names.get(counter).substring(1, names.get(counter).length() - 1);
-            JFXButton button = ButtonHelper.setButton(projectName, ids.get(counter), Double.MAX_VALUE,
-                    "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
-                    new Font("Times New Roman", 16));
-            button.setOnAction(event -> {
-                CreateProjectController.getProject().setId(button.getId());
-                CreateProjectController.getProject().setName(projectName);
-                    try {
-                    LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", mainScrollPane, true, true);
-                    createBugButton.setDisable(false);
-                    createDocumentationButton.setDisable(false);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            projectListVBox.getChildren().add(button);
-        }
-
         String contentAccountInformations = HttpRequest.getAccount(LoginConnectionController.getUserId().toString());
         String firstname = ParseRequestContent.getValueOf(Objects.requireNonNull(contentAccountInformations), "firstname");
         firstname = firstname.substring(1, firstname.length() - 1);
 
-        Label mainLabel = LabelHelper.createLabel("Bienvenue ".concat(firstname).concat(" !"), Double.MAX_VALUE, new Font("Times New Roman", 40), Pos.CENTER);
+        Label mainLabel = LabelHelper.createLabel("Bienvenue ".concat(firstname).concat(" !"), Double.MAX_VALUE, new Font("Book Antiqua", 40), Pos.CENTER);
         mainGridPane.add(mainLabel, 2, 0, 4, 1);
+
+        Files.list(Paths.get("src/main/resources/pluginsWorkon/"))
+                .forEach(path -> {
+                    MenuItem plugin = new MenuItem(path.getFileName().toString());
+                    plugin.setOnAction(event -> {
+                        PluginLoader pluginLoader = new PluginLoader();
+                        PluginInterface pluginInterface = null;
+                        try {
+                            pluginInterface = (PluginInterface) pluginLoader.loadPlugin(path.getFileName().toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if(pluginInterface != null){
+                            pluginInterface.LoadPane(mainScrollPane);
+                        }
+                    });
+                    pluginMenu.getItems().add(plugin);
+                });
     }
 
     @FXML
@@ -94,8 +94,6 @@ public class ProjectsController {
     @FXML
     protected void handlePluginMenuItem() throws Exception {
         LoadFXML.loadFXMLInScrollPane("/fxml/pluginPanel.fxml", mainScrollPane, true, true);
-
-        PluginLoader pluginLoader = new PluginLoader();
     }
 
     @FXML

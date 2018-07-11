@@ -3,10 +3,16 @@ package com.workon.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.workon.Main;
 import com.workon.utils.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
@@ -28,10 +34,10 @@ public class FileController {
     @FXML
     public void initialize() throws Exception {
         projectTitleLabel.setText(CreateProjectController.getProject().getName());
-        LabelHelper.setLabel(listOfFiles, "Liste des documents", Pos.CENTER, "#FFFFFF");
+        LabelHelper.setLabel(listOfFiles, "Liste des documents", Pos.CENTER, "#FFFFFF", new Font("Book Antiqua", 16));
         vboxFiles.setSpacing(10);
 
-        String files = HttpRequest.getFiles();
+        String files = HttpRequest.getFiles(CreateProjectController.getProject().getId());
         ArrayList<String> filesNames = ParseRequestContent.getValuesOf(files, "name");
         ArrayList<String> fileDirectory = ParseRequestContent.getValuesOf(files, "container");
 
@@ -39,7 +45,8 @@ public class FileController {
             JFXButton fileButton = ButtonHelper.setButton(filesNames.get(counter).substring(1, filesNames.get(counter).length() - 1),
                     fileDirectory.get(counter).substring(1, fileDirectory.get(counter).length() - 1), Double.MAX_VALUE,
                     "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
-                    new Font("Times New Roman", 16));
+                    new Font("Book Antiqua", 16));
+
             String fileName = filesNames.get(counter).substring(1, filesNames.get(counter).length() - 1);
             String container = fileDirectory.get(counter).substring(1, fileDirectory.get(counter).length() - 1);
             fileButton.setOnAction(event -> {
@@ -59,11 +66,9 @@ public class FileController {
         fileChooser.setTitle("Choisir votre fichier");
         File file = fileChooser.showOpenDialog(Main.getMainStage());
 
-
         HttpRequestFile httpRequestFile = new HttpRequestFile(
                 LoginConnectionController.getPath().concat("Containers/").concat(CreateProjectController.getProject().getId()).concat("/upload")
         );
-        httpRequestFile.addFormField("description", "Cool Pictures");
         httpRequestFile.addFilePart("fileUpload", file);
         httpRequestFile.finish();
         LoadFXML.loadFXMLInScrollPane("/fxml/fileList.fxml", ProjectsController.getMainPane(), true, true);

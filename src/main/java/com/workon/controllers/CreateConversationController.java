@@ -2,6 +2,7 @@ package com.workon.controllers;
 
 import com.jfoenix.controls.JFXTextField;
 import com.workon.utils.HttpRequest;
+import com.workon.utils.LoadFXML;
 import com.workon.utils.ParseRequestContent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
@@ -37,6 +38,7 @@ public class CreateConversationController {
             for(JFXTextField collaborator : textFieldCollaboratorArray){
                 if(!collaborator.getText().isEmpty()){
                     HttpRequest.addCollaboratorToConversation(conversationId, collaborator.getText());
+                    LoadFXML.loadFXMLInScrollPane("/fxml/conversationList.fxml", ProjectsController.getMainPane(), true, true);
                 }
             }
         }

@@ -34,7 +34,7 @@ public class ConversationController {
             String contentLabel = email + " : " +
                     content.get(counter).substring( 1 , content.get(counter).length() - 1);
 
-            Label label = LabelHelper.createLabel(contentLabel, Double.MAX_VALUE, new Font("Times New Roman", 14), Pos.CENTER_LEFT);
+            Label label = LabelHelper.createLabel(contentLabel, Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER_LEFT);
             vboxMessages.getChildren().add(label);
         }
     }

@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class LabelHelper {
-    public static void setLabel(Label label, String text, Pos position, String color){
+    public static void setLabel(Label label, String text, Pos position, String color, Font font){
         if(text != null){
             label.setText(text);
         }
@@ -15,6 +15,9 @@ public class LabelHelper {
         }
         if(color != null){
             label.setTextFill(Color.web(color));
+        }
+        if(font != null){
+            label.setFont(font);
         }
     }
 

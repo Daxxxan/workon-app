@@ -14,13 +14,6 @@ public class HttpRequestFile {
     private final String crlf = "\r\n";
     private final String twoHyphens = "--";
 
-    /**
-     * This constructor initializes a new HTTP POST request with content type
-     * is set to multipart/form-data
-     *
-     * @param requestURL
-     * @throws IOException
-     */
     public HttpRequestFile(String requestURL)
             throws IOException {
 
@@ -45,28 +38,6 @@ public class HttpRequestFile {
         request =  new DataOutputStream(httpConn.getOutputStream());
     }
 
-    /**
-     * Adds a form field to the request
-     *
-     * @param name  field name
-     * @param value field value
-     */
-    public void addFormField(String name, String value)throws IOException  {
-        request.writeBytes(this.twoHyphens + this.boundary + this.crlf);
-        request.writeBytes("Content-Disposition: form-data; name=\"" + name + "\""+ this.crlf);
-        request.writeBytes("Content-Type: text/plain; charset=UTF-8" + this.crlf);
-        request.writeBytes(this.crlf);
-        request.writeBytes(value+ this.crlf);
-        request.flush();
-    }
-
-    /**
-     * Adds a upload file section to the request
-     *
-     * @param fieldName  name attribute in <input type="file" name="..." />
-     * @param uploadFile a File to be uploaded
-     * @throws IOException
-     */
     public void addFilePart(String fieldName, File uploadFile)
             throws IOException {
         String fileName = uploadFile.getName();
@@ -80,16 +51,7 @@ public class HttpRequestFile {
         request.write(bytes);
     }
 
-    /**
-     * Completes the request and receives response from the server.
-     *
-     * @return a list of Strings as response in case the server returned
-     * status OK, otherwise an exception is thrown.
-     * @throws IOException
-     */
-    public String finish() throws IOException {
-        String response ="";
-
+    public void finish() throws IOException {
         request.writeBytes(this.crlf);
         request.writeBytes(this.twoHyphens + this.boundary +
                 this.twoHyphens + this.crlf);
@@ -100,26 +62,9 @@ public class HttpRequestFile {
         // checks server's status code first
         int status = httpConn.getResponseCode();
         if (status == HttpURLConnection.HTTP_OK) {
-            InputStream responseStream = new
-                    BufferedInputStream(httpConn.getInputStream());
-
-            BufferedReader responseStreamReader =
-                    new BufferedReader(new InputStreamReader(responseStream));
-
-            String line = "";
-            StringBuilder stringBuilder = new StringBuilder();
-
-            while ((line = responseStreamReader.readLine()) != null) {
-                stringBuilder.append(line).append("\n");
-            }
-            responseStreamReader.close();
-
-            response = stringBuilder.toString();
             httpConn.disconnect();
         } else {
             throw new IOException("Server returned non-OK status: " + status);
         }
-
-        return response;
     }
 }

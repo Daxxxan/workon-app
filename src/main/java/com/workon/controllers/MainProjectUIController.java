@@ -51,7 +51,7 @@ public class MainProjectUIController {
             Map.Entry entry = (Map.Entry) aSet;
             Label labelStepName = LabelHelper.createLabel(entry.getKey().toString().substring(1, entry.getKey().toString().length() - 1) +
                             " : " + FormatedDate.localDateToString((LocalDate)entry.getValue()),
-                            Double.MAX_VALUE, new Font("Times New Roman", 14), Pos.CENTER);
+                            Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER);
             vboxStepsList.getChildren().add(labelStepName);
         }
     }
