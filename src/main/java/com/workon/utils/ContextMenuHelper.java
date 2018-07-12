@@ -40,7 +40,7 @@ public class ContextMenuHelper {
 
     public static void setContextMenuToButtonToDeleteConversation(JFXButton button){
         ContextMenu contextMenu = new ContextMenu();
-        MenuItem finished = new MenuItem("Supprimer la conversation");
+        MenuItem finished = new MenuItem("Quitter la conversation");
         contextMenu.getItems().add(finished);
         button.setContextMenu(contextMenu);
 
