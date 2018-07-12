@@ -7,6 +7,7 @@
     <groupId>com.workon</groupId>
     <artifactId>workon</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <url>http://localhost</url>
 
     <properties>
         <maven.compiler.source>1.9</maven.compiler.source>

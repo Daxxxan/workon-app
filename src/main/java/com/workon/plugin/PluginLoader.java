@@ -1,14 +1,10 @@
 package com.workon.plugin;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
-import java.util.jar.Attributes;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
@@ -18,6 +14,7 @@ public class PluginLoader {
 
     public PluginLoader(){
         this.dirPath = "src/main/resources/pluginsWorkon/";
+
     }
     public PluginLoader(String path) throws Exception {
         this.dirPath = path;

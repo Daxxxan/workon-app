@@ -32,7 +32,7 @@ public class ProjectsController {
     @FXML
     private JFXButton createBugButton;
     @FXML
-    private JFXButton createEvolutionButton;
+    private JFXButton createMeetingButton;
     @FXML
     private JFXButton createDocumentationButton;
     @FXML
@@ -40,6 +40,7 @@ public class ProjectsController {
     @FXML
     private Menu pluginMenu;
 
+    private static Menu mainPluginMenu;
     private static ScrollPane mainPane;
     private static ScrollPane projectListPane;
     private static JFXButton bug;
@@ -54,10 +55,10 @@ public class ProjectsController {
         LoadFXML.loadFXMLInScrollPane("/fxml/vboxProject.fxml", scrollPaneProjectList, true, true);
 
         createBugButton.setDisable(true);
-        createEvolutionButton.setDisable(true);
+        createMeetingButton.setDisable(true);
         createDocumentationButton.setDisable(true);
         setBug(createBugButton);
-        setEvolution(createEvolutionButton);
+        setEvolution(createMeetingButton);
         setDocumentation(createDocumentationButton);
 
         String contentAccountInformations = HttpRequest.getAccount(LoginConnectionController.getUserId().toString());
@@ -67,23 +68,25 @@ public class ProjectsController {
         Label mainLabel = LabelHelper.createLabel("Bienvenue ".concat(firstname).concat(" !"), Double.MAX_VALUE, new Font("Book Antiqua", 40), Pos.CENTER);
         mainGridPane.add(mainLabel, 2, 0, 4, 1);
 
+        setMainPluginMenu(pluginMenu);
+
         Files.list(Paths.get("src/main/resources/pluginsWorkon/"))
-                .forEach(path -> {
-                    MenuItem plugin = new MenuItem(path.getFileName().toString());
-                    plugin.setOnAction(event -> {
-                        PluginLoader pluginLoader = new PluginLoader();
-                        PluginInterface pluginInterface = null;
-                        try {
-                            pluginInterface = (PluginInterface) pluginLoader.loadPlugin(path.getFileName().toString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        if(pluginInterface != null){
-                            pluginInterface.LoadPane(mainScrollPane);
-                        }
-                    });
-                    pluginMenu.getItems().add(plugin);
+            .forEach(path -> {
+                MenuItem plugin = new MenuItem(path.getFileName().toString());
+                plugin.setOnAction(event -> {
+                    PluginLoader pluginLoader = new PluginLoader();
+                    PluginInterface pluginInterface = null;
+                    try {
+                        pluginInterface = (PluginInterface) pluginLoader.loadPlugin(path.getFileName().toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if(pluginInterface != null){
+                        pluginInterface.LoadPane(mainScrollPane);
+                    }
                 });
+                pluginMenu.getItems().add(plugin);
+            });
     }
 
     @FXML
@@ -162,5 +165,13 @@ public class ProjectsController {
 
     public static void setEvolution(JFXButton evolution) {
         ProjectsController.evolution = evolution;
+    }
+
+    public static Menu getMainPluginMenu() {
+        return mainPluginMenu;
+    }
+
+    public static void setMainPluginMenu(Menu mainPluginMenu) {
+        ProjectsController.mainPluginMenu = mainPluginMenu;
     }
 }

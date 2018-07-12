@@ -37,7 +37,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="createEvolutionButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="138.0" prefWidth="600.0" text="Evolutions" textFill="WHITE" GridPane.columnIndex="1">
+                  <JFXButton fx:id="createMeetingButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="138.0" prefWidth="600.0" text="Réunions" textFill="WHITE" GridPane.columnIndex="1">
                      <font>
                         <Font name="Book Antiqua" size="18.0" />
                      </font>

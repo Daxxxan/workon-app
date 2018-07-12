@@ -2,6 +2,8 @@ package com.workon.utils;
 
 import com.workon.controllers.CreateProjectController;
 import com.workon.controllers.LoginConnectionController;
+import com.workon.utils.parser.AnnotationParser;
+import com.workon.utils.parser.NoNull;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -10,7 +12,8 @@ import javafx.stage.Stage;
 import okhttp3.*;
 
 public class HttpRequest {
-    public static String setOkHttpRequest(String url, RequestBody formBody, Boolean connection, String type) throws Exception{
+    public static String setOkHttpRequest(@NoNull String url, RequestBody formBody, @NoNull Boolean connection, @NoNull String type) throws Exception{
+        AnnotationParser.parse(url, formBody, connection, type);
         OkHttpClient client = new OkHttpClient();
         Request request = null;
         
@@ -88,24 +91,28 @@ public class HttpRequest {
 
     }
 
-    public static String getAccount(String id) throws Exception {
+    public static String getAccount(@NoNull String id) throws Exception {
+        AnnotationParser.parse(id);
         String getCreator = LoginConnectionController.getPath().concat("accounts/").concat(id);
         return setOkHttpRequest(getCreator, null, false, "GET");
     }
 
-    public static String getAccountFromConversation(String conversationId, String accountId) throws Exception{
+    public static String getAccountFromConversation(@NoNull String conversationId, @NoNull String accountId) throws Exception{
+        AnnotationParser.parse(conversationId, accountId);
         String getAccount = LoginConnectionController.getPath().concat("/Conversations/").concat(conversationId)
                 .concat("/accounts/").concat(accountId);
         return setOkHttpRequest(getAccount, null, false, "GET");
     }
 
-    public static String getCollaboratorAccount(String id) throws Exception {
+    public static String getCollaboratorAccount(@NoNull String id) throws Exception {
+        AnnotationParser.parse(id);
         String getCreator = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/accounts/").concat(id);
         return setOkHttpRequest(getCreator, null, false, "GET");
     }
 
-    public static String getBugs(String state) throws Exception {
+    public static String getBugs(@NoNull String state) throws Exception {
+        AnnotationParser.parse(state);
         String getBugs = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/bugs")
                 .concat("?filter={\"where\":{\"state\":" + state + "}}");
@@ -113,7 +120,8 @@ public class HttpRequest {
         return setOkHttpRequest(getBugs, null, false, "GET");
     }
 
-    public static String addBug(String name, String description, String projectId) throws Exception {
+    public static String addBug(@NoNull String name, @NoNull String description, @NoNull String projectId) throws Exception {
+        AnnotationParser.parse(name, description, projectId);
         String getBugRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/bugs");
 
         RequestBody formBody = new FormBody.Builder()
@@ -125,7 +133,8 @@ public class HttpRequest {
         return setOkHttpRequest(getBugRequest, formBody, false, "POST");
     }
 
-    public static String addProject(String name) throws Exception {
+    public static String addProject(@NoNull String name) throws Exception {
+        AnnotationParser.parse(name);
         String createProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
         RequestBody formBody = new FormBody.Builder()
                 .add("name", name)
@@ -135,14 +144,16 @@ public class HttpRequest {
 
     }
 
-    public static String addCollaboratorsToProject(String collaboratorIdOrEmail, String projectId) throws Exception {
+    public static String addCollaboratorsToProject(@NoNull String collaboratorIdOrEmail, @NoNull String projectId) throws Exception {
+        AnnotationParser.parse(collaboratorIdOrEmail, projectId);
         String addDirectorRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId()))
                 .concat("/projects/").concat(projectId).concat("/accounts/rel/").concat(collaboratorIdOrEmail);
         RequestBody formBody = RequestBody.create(null, new byte[]{});
         return setOkHttpRequest(addDirectorRequest, formBody, false, "PUT");
     }
 
-    public static String connection(String email, String password, Label loginErrorConnectionLabel) throws Exception {
+    public static String connection(@NoNull String email, @NoNull String password, @NoNull Label loginErrorConnectionLabel) throws Exception {
+        AnnotationParser.parse(email, password, loginErrorConnectionLabel);
         RequestBody formBody = new FormBody.Builder()
                 .add("email", email)
                 .add("password", password)
@@ -156,7 +167,8 @@ public class HttpRequest {
         }
     }
 
-    public static String createAccount(String lastname, String firstname, String email, String password, Label registerErrorLabel) throws Exception {
+    public static String createAccount(@NoNull String lastname, @NoNull String firstname, @NoNull String email, @NoNull String password, @NoNull Label registerErrorLabel) throws Exception {
+        AnnotationParser.parse(lastname, firstname, email, password, registerErrorLabel);
         String request = LoginConnectionController.getPath().concat("accounts");
         RequestBody formBody = new FormBody.Builder()
                 .add("lastname", lastname)
@@ -174,13 +186,15 @@ public class HttpRequest {
         return setOkHttpRequest(getProjectSteps, null, false, "GET");
     }
 
-    public static String getProjects(String finished) throws Exception {
+    public static String getProjects(@NoNull String finished) throws Exception {
+        AnnotationParser.parse(finished);
         String getProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects")
                 .concat("?filter={\"where\":{\"finished\":" + finished + "}}");
         return setOkHttpRequest(getProjectRequest, null, false, "GET");
     }
 
-    public static String addMessage(String content) throws Exception {
+    public static String addMessage(@NoNull String content) throws Exception {
+        AnnotationParser.parse(content);
         String addMessageRequest = LoginConnectionController.getPath().concat("Bugs/").concat(CreateProjectController.getProject().getCurrentBugId())
                 .concat("/messages");
         RequestBody formBody = new FormBody.Builder()
@@ -190,7 +204,8 @@ public class HttpRequest {
         return setOkHttpRequest(addMessageRequest, formBody, false, "POST");
     }
 
-    public static String addMessageToConversation(String content, String conversationId) throws Exception {
+    public static String addMessageToConversation(@NoNull String content, @NoNull String conversationId) throws Exception {
+        AnnotationParser.parse(content, conversationId);
         String addMessageRequest = LoginConnectionController.getPath().concat("Conversations/").concat(conversationId).concat("/messages");
         RequestBody formBody = new FormBody.Builder()
                 .add("content", content)
@@ -200,18 +215,21 @@ public class HttpRequest {
         return setOkHttpRequest(addMessageRequest, formBody, false, "POST");
     }
 
-    public static String deleteConversation(String conversationId) throws Exception {
+    public static String deleteConversation(@NoNull String conversationId) throws Exception {
+        AnnotationParser.parse(conversationId);
         String deleteConversation = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/conversations/rel/").concat(conversationId);
         return setOkHttpRequest(deleteConversation, null, false, "DELETE");
     }
 
-    public static String getMessagesFromConversation(String conversationId) throws Exception{
+    public static String getMessagesFromConversation(@NoNull String conversationId) throws Exception{
+        AnnotationParser.parse(conversationId);
         String addMessageRequest = LoginConnectionController.getPath().concat("Conversations/").concat(conversationId).concat("/messages");
         return setOkHttpRequest(addMessageRequest, null, false, "GET");
     }
 
-    public static String createConversation(String name) throws Exception{
+    public static String createConversation(@NoNull String name) throws Exception{
+        AnnotationParser.parse(name);
         String createConversationRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
                 .concat("/conversations");
         RequestBody formBody = new FormBody.Builder()
@@ -220,7 +238,8 @@ public class HttpRequest {
         return setOkHttpRequest(createConversationRequest, formBody, false, "POST");
     }
 
-    public static String addCollaboratorToConversation(String conversationId, String accountIdOrEmail) throws Exception{
+    public static String addCollaboratorToConversation(@NoNull String conversationId, String accountIdOrEmail) throws Exception{
+        AnnotationParser.parse(conversationId, accountIdOrEmail);
         String addCollaborator = LoginConnectionController.getPath().concat("Conversations/").concat(conversationId).concat("/accounts/rel/")
                 .concat(accountIdOrEmail);
         RequestBody formBody = RequestBody.create(null, new byte[]{});
@@ -250,7 +269,8 @@ public class HttpRequest {
         return setOkHttpRequest(getBugRequest, formBody, false, "PATCH");
     }
 
-    public static String deleteBug(String bugId) throws Exception {
+    public static String deleteBug(@NoNull String bugId) throws Exception {
+        AnnotationParser.parse(bugId);
         String getBugRequest = LoginConnectionController.getPath().concat("Bugs/").concat(bugId);
 
         RequestBody formBody = new FormBody.Builder()
@@ -260,7 +280,8 @@ public class HttpRequest {
         return setOkHttpRequest(getBugRequest, formBody, false, "PATCH");
     }
 
-    public static String updateProject(String projectId) throws Exception {
+    public static String updateProject(@NoNull String projectId) throws Exception {
+        AnnotationParser.parse(projectId);
         String getProjectRequest = LoginConnectionController.getPath().concat("Projects/").concat(projectId);
 
         RequestBody formBody = new FormBody.Builder()
@@ -276,12 +297,14 @@ public class HttpRequest {
         return setOkHttpRequest(logout, formBody, false, "POST");
     }
 
-    public static String getFiles(String projectId) throws Exception {
+    public static String getFiles(@NoNull String projectId) throws Exception {
+        AnnotationParser.parse(projectId);
         String getFiles = LoginConnectionController.getPath().concat("Containers/").concat(projectId).concat("/files");
         return setOkHttpRequest(getFiles, null, false, "GET");
     }
 
-    public static void downloadFile(String container, String fileName) throws Exception{
+    public static void downloadFile(@NoNull String container, @NoNull String fileName) throws Exception{
+        AnnotationParser.parse(container, fileName);
         Application application = new Application() {
             @Override
             public void start(Stage stage) {}
@@ -289,7 +312,8 @@ public class HttpRequest {
         application.getHostServices().showDocument(LoginConnectionController.getPath().concat("Containers/").concat(container).concat("/download/").concat(fileName));
     }
 
-    public static String addStep(String projectId, String name, String date) throws Exception{
+    public static String addStep(@NoNull String projectId, @NoNull String name, @NoNull String date) throws Exception{
+        AnnotationParser.parse(projectId, name, date);
         String addStepsRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnectionController.getUserId()))
                 .concat("/projects/").concat(projectId).concat("/steps");
 

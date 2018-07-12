@@ -1,11 +1,16 @@
 package com.workon.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.workon.models.Project;
+import com.workon.plugin.PluginInterface;
+import com.workon.plugin.PluginLoader;
 import com.workon.utils.ButtonHelper;
 import com.workon.utils.HttpRequest;
 import com.workon.utils.ParseRequestContent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -37,15 +42,15 @@ public class PluginController {
             String fileName = filesNames.get(counter).substring(1, filesNames.get(counter).length() - 1);
 
             fileButton.setOnAction(event -> {
-                URL website = null;
+                URL url = null;
                 try {
-                    website = new URL(LoginConnectionController.getPath().concat("Containers/plugins/download/").concat(fileName));
+                    url = new URL(LoginConnectionController.getPath().concat("Containers/plugins/download/").concat(fileName));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
                 ReadableByteChannel rbc = null;
                 try {
-                    rbc = Channels.newChannel(Objects.requireNonNull(website).openStream());
+                    rbc = Channels.newChannel(Objects.requireNonNull(url).openStream());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -60,6 +65,22 @@ public class PluginController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                Menu menu = ProjectsController.getMainPluginMenu();
+                MenuItem plugin = new MenuItem(fileName);
+                menu.setOnAction(events -> {
+                    PluginInterface pluginInterface = null;
+                    PluginLoader pluginLoader = new PluginLoader();
+                    try {
+                        pluginInterface = (PluginInterface) pluginLoader.loadPlugin(fileName);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if(pluginInterface != null){
+                        pluginInterface.LoadPane(ProjectsController.getMainPane());
+                    }
+                });
+                menu.getItems().add(plugin);
             });
 
             vboxPlugins.getChildren().add(fileButton);
