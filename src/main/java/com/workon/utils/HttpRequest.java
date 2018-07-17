@@ -97,7 +97,6 @@ public class HttpRequest {
     public static String getAccount(@NoNull String id) throws Exception {
         AnnotationParser.parse(id);
         String getCreator = LoginConnectionController.getPath().concat("accounts/").concat(id);
-        System.out.println(getCreator);
         return setOkHttpRequest(getCreator, null, false, "GET");
     }
 
