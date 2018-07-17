@@ -8,6 +8,8 @@ public class Project {
     private int director;
     private String currentBugId;
     private String currentBugName;
+    private String currentMeetingId;
+    private String currentMeetingName;
     private ArrayList<Step> steps = new ArrayList<>();
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Bug> bugs = new ArrayList<>();
@@ -81,6 +83,22 @@ public class Project {
 
     public void setCurrentBugId(String currentBugId) {
         this.currentBugId = currentBugId;
+    }
+
+    public String getCurrentMeetingId() {
+        return currentMeetingId;
+    }
+
+    public void setCurrentMeetingId(String currentMeetingId) {
+        this.currentMeetingId = currentMeetingId;
+    }
+
+    public String getCurrentMeetingName() {
+        return currentMeetingName;
+    }
+
+    public void setCurrentMeetingName(String currentMeetingName) {
+        this.currentMeetingName = currentMeetingName;
     }
 
     public String getCurrentBugName() {

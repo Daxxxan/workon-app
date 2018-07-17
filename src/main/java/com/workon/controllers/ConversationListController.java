@@ -34,7 +34,8 @@ public class ConversationListController {
         for(int counter = 0; counter < conversations.size(); counter++){
             JFXButton conversationButton = ButtonHelper.setButton(conversations.get(counter).substring(1, conversations.get(counter).length() - 1),
                     ids.get(counter), Double.MAX_VALUE,
-                    "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
+                    "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;"
+                    + "-fx-background-color: #A9CCE3", Cursor.HAND,
                     new Font("Book Antiqua", 16));
 
             vboxConversationsList.getChildren().add(conversationButton);

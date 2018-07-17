@@ -45,7 +45,7 @@
          <font>
             <Font name="Book Antiqua" size="12.0" />
          </font></JFXTextField>
-      <JFXTextArea fx:id="bugDescription" labelFloat="true" promptText="Description du problème" style="-fx-border-color: #000000; -fx-background-color: #DDDDDD;" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="2">
+      <JFXTextArea fx:id="bugDescription" labelFloat="true" promptText="Description du problème" style="-fx-border-color: #000000; -fx-background-color: #A9CCE3;" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="2">
          <font>
             <Font name="Book Antiqua" size="12.0" />
          </font></JFXTextArea>

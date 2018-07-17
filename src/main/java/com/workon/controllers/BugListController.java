@@ -39,7 +39,8 @@ public class BugListController {
                     String bugName = bugsNames.get(counter).substring(1, bugsNames.get(counter).length() - 1);
                     JFXButton bugButton = ButtonHelper.setButton(bugsNames.get(counter).substring(1, bugsNames.get(counter).length() - 1),
                             bugsId.get(counter), Double.MAX_VALUE,
-                            "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
+                            "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;"
+                            + "-fx-background-color: #A9CCE3;", Cursor.HAND,
                             new Font("Book Antiqua", 16));
 
                     ContextMenuHelper.setContextMenuToButtonToDeleteBug(bugButton);

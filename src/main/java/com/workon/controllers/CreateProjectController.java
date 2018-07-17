@@ -122,7 +122,8 @@ public class CreateProjectController {
 
                     //Création du bouton projet dans l'interface
                     JFXButton button = ButtonHelper.setButton(projectNameTextField.getText(), projectId, Double.MAX_VALUE,
-                            "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
+                            "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;"
+                                    + "-fx-background-color:  #A9CCE3;", Cursor.HAND,
                             new Font("Book Antiqua", 16));
                     CreateProjectController.getProject().setId(button.getId());
                     CreateProjectController.getProject().setName(projectNameTextField.getText());
@@ -146,6 +147,7 @@ public class CreateProjectController {
 
                     LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(),true, true);
                     ProjectsController.getBug().setDisable(false);
+                    ProjectsController.getMeeting().setDisable(false);
                     ProjectsController.getDocumentation().setDisable(false);
                 }
             }

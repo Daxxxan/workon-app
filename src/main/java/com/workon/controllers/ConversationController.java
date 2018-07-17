@@ -25,16 +25,16 @@ public class ConversationController {
         String messages = HttpRequest.getMessagesFromConversation(ConversationListController.getSelectedConversation());
         ArrayList<String>accountId = ParseRequestContent.getValuesOf(messages, "accountId");
         ArrayList<String>content = ParseRequestContent.getValuesOf(messages, "content");
-        System.out.println(accountId + " : " + content);
+        
         for(int counter = 0; counter < accountId.size(); counter++){
             String account = HttpRequest.getAccountFromConversation(ConversationListController.getSelectedConversation(), accountId.get(counter));
-            System.out.println("account: " + account);
             String email = ParseRequestContent.getValueOf(account, "email");
 
             String contentLabel = email + " : " +
                     content.get(counter).substring( 1 , content.get(counter).length() - 1);
 
             Label label = LabelHelper.createLabel(contentLabel, Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER_LEFT);
+            LabelHelper.setMessageStyle(accountId.get(counter), label);
             vboxMessages.getChildren().add(label);
         }
     }

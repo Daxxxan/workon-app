@@ -45,7 +45,7 @@ public class ProjectsController {
     private static ScrollPane projectListPane;
     private static JFXButton bug;
     private static JFXButton documentation;
-    private static JFXButton evolution;
+    private static JFXButton meeting;
 
     @FXML
     public void initialize() throws Exception {
@@ -58,7 +58,7 @@ public class ProjectsController {
         createMeetingButton.setDisable(true);
         createDocumentationButton.setDisable(true);
         setBug(createBugButton);
-        setEvolution(createMeetingButton);
+        setMeeting(createMeetingButton);
         setDocumentation(createDocumentationButton);
 
         String contentAccountInformations = HttpRequest.getAccount(LoginConnectionController.getUserId().toString());
@@ -102,6 +102,11 @@ public class ProjectsController {
     @FXML
     protected void handleCreateBugButton() throws Exception{
         LoadFXML.loadFXMLInScrollPane("/fxml/bugList.fxml", mainScrollPane, true, true);
+    }
+
+    @FXML
+    protected void handleCreateMeetingButton() throws Exception {
+        LoadFXML.loadFXMLInScrollPane("/fxml/meetingList.fxml", mainScrollPane, true, true);
     }
 
     @FXML
@@ -159,12 +164,12 @@ public class ProjectsController {
         ProjectsController.documentation = documentation;
     }
 
-    public static JFXButton getEvolution() {
-        return evolution;
+    public static JFXButton getMeeting() {
+        return meeting;
     }
 
-    public static void setEvolution(JFXButton evolution) {
-        ProjectsController.evolution = evolution;
+    public static void setMeeting(JFXButton meeting) {
+        ProjectsController.meeting = meeting;
     }
 
     public static Menu getMainPluginMenu() {

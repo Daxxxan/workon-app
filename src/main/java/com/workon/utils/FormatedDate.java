@@ -26,6 +26,17 @@ abstract public class FormatedDate implements Comparable{
         return localDate.format(formatter);
     }
 
+    public static LocalDateTime stringToLocalDateTime(String date){
+        Instant instant = Instant.parse(date);
+        //get date time only
+        return LocalDateTime.ofInstant(instant, ZoneId.of(String.valueOf(ZoneOffset.UTC)));
+    }
+
+    public static String localDateTimeToString(LocalDateTime localDate){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy HH:mm");
+        return localDate.format(formatter);
+    }
+
     public static Map<String, LocalDate> sortStringLocalDate(Map<String, String> map){
         Map<String, LocalDate> localDateMap = new HashMap<>();
         Map<String, LocalDate> localDateMapSorted;

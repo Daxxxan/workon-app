@@ -2,6 +2,7 @@ package com.workon.utils;
 
 import com.workon.controllers.CreateProjectController;
 import com.workon.controllers.LoginConnectionController;
+import com.workon.controllers.ProjectsController;
 import com.workon.utils.parser.AnnotationParser;
 import com.workon.utils.parser.NoNull;
 import javafx.application.Application;
@@ -10,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import okhttp3.*;
+
+import java.time.LocalDate;
 
 public class HttpRequest {
     public static String setOkHttpRequest(@NoNull String url, RequestBody formBody, @NoNull Boolean connection, @NoNull String type) throws Exception{
@@ -324,5 +327,53 @@ public class HttpRequest {
                 .build();
 
         return setOkHttpRequest(addStepsRequest, formBody, false, "POST");
+    }
+
+    public static String createMeeting(@NoNull String subject, @NoNull String place, @NoNull String date) throws Exception {
+        AnnotationParser.parse(subject, place, date);
+        String createMeetingRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
+                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/meetings");
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("subject", subject)
+                .add("place", place)
+                .add("date", date)
+                .build();
+
+        return setOkHttpRequest(createMeetingRequest, formBody, false, "POST");
+    }
+
+    public static String setSummaryMeeting(@NoNull String summary, @NoNull String id) throws Exception{
+        AnnotationParser.parse(summary, id);
+        String updateMeetingRequest = LoginConnectionController.getPath().concat("/meetings/").concat(id);
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("summary", summary)
+                .build();
+
+        return setOkHttpRequest(updateMeetingRequest, formBody, false, "PATCH");
+    }
+
+    public static String getMeetings() throws Exception {
+        String getMeetingRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
+                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/meetings")
+                .concat("?filter[where][date][gt]=" + LocalDate.now() + "&filter[order]=date ASC");
+
+        return setOkHttpRequest(getMeetingRequest, null, false, "GET");
+    }
+
+    public static String getOldMeetings() throws Exception {
+        String getOldMeetingsRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
+                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/meetings")
+                .concat("?filter[where][date][lt]=" + LocalDate.now() + "&filter[order]=date ASC");
+
+        return setOkHttpRequest(getOldMeetingsRequest, null, false, "GET");
+    }
+
+    public static String getMeetingById(String id) throws Exception{
+        String getMeetingRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId().toString())
+                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/meetings/")
+                .concat(id);
+        return setOkHttpRequest(getMeetingRequest, null, false, "GET");
     }
 }

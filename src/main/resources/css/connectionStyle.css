@@ -1,0 +1,11 @@
+.tab{
+    -fx-background-color: #483D8B;
+}
+
+.tab-header-background{
+    -fx-background-color: #483D8B;
+}
+
+.backgroundTabPane{
+    -fx-background-color: #ffffff;
+}

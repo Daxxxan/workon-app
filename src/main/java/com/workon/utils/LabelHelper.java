@@ -1,5 +1,8 @@
 package com.workon.utils;
 
+import com.workon.controllers.LoginConnectionController;
+import com.workon.utils.parser.AnnotationParser;
+import com.workon.utils.parser.NoNull;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -35,5 +38,14 @@ public class LabelHelper {
         }
 
         return label;
+    }
+
+    public static void setMessageStyle(@NoNull String accountId, @NoNull Label label){
+        AnnotationParser.parse(accountId, label);
+        if(accountId.equals(LoginConnectionController.getUserId().toString())){
+            label.setStyle("-fx-background-color: #CACFD2; -fx-background-radius: 10; -fx-label-padding: 5;");
+        }else{
+            label.setStyle("-fx-background-color: #A9CCE3; -fx-background-radius: 10; -fx-label-padding: 5;");
+        }
     }
 }

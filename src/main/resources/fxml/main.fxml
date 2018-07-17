@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="911.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.ProjectsController">
+<AnchorPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="911.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../css/mainStyle.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.ProjectsController">
    <children>
       <ScrollPane fx:id="scrollPaneProjectList" fitToHeight="true" fitToWidth="true" layoutY="223.0" prefHeight="343.0" prefWidth="239.0" style="-fx-border-color: #483D8B;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="331.0" />
       <AnchorPane layoutX="238.0" layoutY="26.0" prefHeight="85.0" prefWidth="673.0" style="-fx-background-color: #483D8B; -fx-border-color: #483D8B;" AnchorPane.leftAnchor="238.0" AnchorPane.rightAnchor="0.0">
@@ -37,7 +37,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="createMeetingButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="138.0" prefWidth="600.0" text="Réunions" textFill="WHITE" GridPane.columnIndex="1">
+                  <JFXButton fx:id="createMeetingButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleCreateMeetingButton" prefHeight="138.0" prefWidth="600.0" text="Réunions" textFill="WHITE" GridPane.columnIndex="1">
                      <font>
                         <Font name="Book Antiqua" size="18.0" />
                      </font>
@@ -123,7 +123,7 @@
          </content></ScrollPane>
       <AnchorPane layoutY="276.0" prefHeight="55.0" prefWidth="239.0" style="-fx-background-color: #483D8B;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="276.0">
          <children>
-            <JFXButton fx:id="createProjectButton1" buttonType="RAISED" onAction="#handleCreateProjectView" prefHeight="57.0" prefWidth="239.0" style="-fx-border-color: #000000; -fx-border-width: 0.5;" text="Créer un projet" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <JFXButton fx:id="createProjectButton1" buttonType="RAISED" onAction="#handleCreateProjectView" prefHeight="55.0" prefWidth="239.0" style="-fx-border-color: #000000; -fx-border-width: 0.5;" text="Créer un projet" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="Book Antiqua" size="14.0" />
                </font>

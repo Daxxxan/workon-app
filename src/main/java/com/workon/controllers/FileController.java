@@ -44,7 +44,8 @@ public class FileController {
         for(int counter = 0; counter < filesNames.size(); counter++){
             JFXButton fileButton = ButtonHelper.setButton(filesNames.get(counter).substring(1, filesNames.get(counter).length() - 1),
                     fileDirectory.get(counter).substring(1, fileDirectory.get(counter).length() - 1), Double.MAX_VALUE,
-                    "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;", Cursor.HAND,
+                    "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;"
+                    + "-fx-background-color: #A9CCE3", Cursor.HAND,
                     new Font("Book Antiqua", 16));
 
             String fileName = filesNames.get(counter).substring(1, filesNames.get(counter).length() - 1);

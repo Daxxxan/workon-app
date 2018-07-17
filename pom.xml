@@ -30,6 +30,11 @@
             <artifactId>okhttp</artifactId>
             <version>3.4.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.calendarfx</groupId>
+            <artifactId>view</artifactId>
+            <version>8.4.2</version>
+        </dependency>
     </dependencies>
 
     <build>
