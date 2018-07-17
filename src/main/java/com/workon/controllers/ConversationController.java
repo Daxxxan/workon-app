@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ConversationController {
@@ -49,6 +50,15 @@ public class ConversationController {
         if(!message.getText().isEmpty()){
             HttpRequest.addMessageToConversation(message.getText(), ConversationListController.getSelectedConversation());
             LoadFXML.loadFXMLInScrollPane("/fxml/conversation.fxml", ProjectsController.getMainPane(), true, true);
+        }
+    }
+
+    @FXML
+    protected void handleAddCollaborator(){
+        try {
+            LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsToConversation.fxml", ProjectsController.getMainPane(), true, true);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

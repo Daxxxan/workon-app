@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Project {
     private String id;
     private String name;
-    private int director;
+    private String director;
     private String currentBugId;
     private String currentBugName;
     private String currentMeetingId;
@@ -16,7 +16,7 @@ public class Project {
 
     public Project(){}
 
-    public Project(String name, int director) {
+    public Project(String name, String director) {
         this.name = name;
         this.director = director;
     }
@@ -37,11 +37,11 @@ public class Project {
         this.name = name;
     }
 
-    public int getDirector() {
+    public String getDirector() {
         return director;
     }
 
-    public void setDirector(int director) {
+    public void setDirector(String director) {
         this.director = director;
     }
 

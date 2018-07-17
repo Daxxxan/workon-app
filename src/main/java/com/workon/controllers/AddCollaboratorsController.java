@@ -63,7 +63,6 @@ public class AddCollaboratorsController {
             if(jfxTextField.getText() != null){
                 if(!getCollaboratorsNames().contains(jfxTextField.getText())){
                     String contentAddCollaboratorsToProject = HttpRequest.addCollaboratorsToProject(jfxTextField.getText(), CreateProjectController.getProject().getId());
-                    System.out.println("content: " + contentAddCollaboratorsToProject);
                     if(contentAddCollaboratorsToProject != null){
                         LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsProject.fxml", ProjectsController.getMainPane(), true, true);
                     }else{

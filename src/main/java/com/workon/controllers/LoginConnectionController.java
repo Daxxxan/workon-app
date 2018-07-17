@@ -57,7 +57,7 @@ public class LoginConnectionController implements Initializable {
     @FXML
     private ScrollPane mainScrollPane;
 
-    private static Integer userId;
+    private static String userId;
     private static String userToken;
     private static String path;
 
@@ -79,11 +79,11 @@ public class LoginConnectionController implements Initializable {
         setPath(properties.getProperty("apiPath"));
     }
 
-    public static Integer getUserId() {
+    public static String getUserId() {
         return userId;
     }
 
-    private void setUserId(Integer userId) {
+    private void setUserId(String userId) {
         LoginConnectionController.userId = userId;
     }
 
@@ -125,9 +125,9 @@ public class LoginConnectionController implements Initializable {
 
             if(content != null){
                 //Récupération de l'id et du token user
-                String userId = ParseRequestContent.getValueOf(content.toString(), "userId");
-                String userToken = ParseRequestContent.getValueOf(content.toString(), "id");
-                setUserId(Integer.parseInt(userId));
+                String userId = ParseRequestContent.getValueOf(content, "userId");
+                String userToken = ParseRequestContent.getValueOf(content, "id");
+                setUserId(userId);
                 setUserToken(userToken.substring(1, userToken.length() - 1));
 
                 //Load de la nouvelle scene

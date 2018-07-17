@@ -97,6 +97,7 @@ public class HttpRequest {
     public static String getAccount(@NoNull String id) throws Exception {
         AnnotationParser.parse(id);
         String getCreator = LoginConnectionController.getPath().concat("accounts/").concat(id);
+        System.out.println(getCreator);
         return setOkHttpRequest(getCreator, null, false, "GET");
     }
 
@@ -104,6 +105,13 @@ public class HttpRequest {
         AnnotationParser.parse(conversationId, accountId);
         String getAccount = LoginConnectionController.getPath().concat("/Conversations/").concat(conversationId)
                 .concat("/accounts/").concat(accountId);
+        return setOkHttpRequest(getAccount, null, false, "GET");
+    }
+
+    public static String getAccountsFromConversation(@NoNull String conversationId) throws Exception {
+        AnnotationParser.parse(conversationId);
+        String getAccount = LoginConnectionController.getPath().concat("/Conversations/").concat(conversationId)
+                .concat("/accounts");
         return setOkHttpRequest(getAccount, null, false, "GET");
     }
 
@@ -125,7 +133,7 @@ public class HttpRequest {
 
     public static String addBug(@NoNull String name, @NoNull String description, @NoNull String projectId) throws Exception {
         AnnotationParser.parse(name, description, projectId);
-        String getBugRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/bugs");
+        String getBugRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId()).concat("/bugs");
 
         RequestBody formBody = new FormBody.Builder()
                 .add("name", name)
@@ -138,7 +146,7 @@ public class HttpRequest {
 
     public static String addProject(@NoNull String name) throws Exception {
         AnnotationParser.parse(name);
-        String createProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects");
+        String createProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId()).concat("/projects");
         RequestBody formBody = new FormBody.Builder()
                 .add("name", name)
                 .build();
@@ -149,7 +157,7 @@ public class HttpRequest {
 
     public static String addCollaboratorsToProject(@NoNull String collaboratorIdOrEmail, @NoNull String projectId) throws Exception {
         AnnotationParser.parse(collaboratorIdOrEmail, projectId);
-        String addDirectorRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId()))
+        String addDirectorRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId())
                 .concat("/projects/").concat(projectId).concat("/accounts/rel/").concat(collaboratorIdOrEmail);
         RequestBody formBody = RequestBody.create(null, new byte[]{});
         return setOkHttpRequest(addDirectorRequest, formBody, false, "PUT");
@@ -191,7 +199,7 @@ public class HttpRequest {
 
     public static String getProjects(@NoNull String finished) throws Exception {
         AnnotationParser.parse(finished);
-        String getProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(Integer.toString(LoginConnectionController.getUserId())).concat("/projects")
+        String getProjectRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId()).concat("/projects")
                 .concat("?filter={\"where\":{\"finished\":" + finished + "}}");
         return setOkHttpRequest(getProjectRequest, null, false, "GET");
     }
@@ -317,7 +325,7 @@ public class HttpRequest {
 
     public static String addStep(@NoNull String projectId, @NoNull String name, @NoNull String date) throws Exception{
         AnnotationParser.parse(projectId, name, date);
-        String addStepsRequest = "http://localhost:3000/api/accounts/".concat(Integer.toString(LoginConnectionController.getUserId()))
+        String addStepsRequest = "http://localhost:3000/api/accounts/".concat(LoginConnectionController.getUserId())
                 .concat("/projects/").concat(projectId).concat("/steps");
 
         RequestBody formBody = new FormBody.Builder()

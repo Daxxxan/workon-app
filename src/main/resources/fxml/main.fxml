@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="911.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../css/mainStyle.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.ProjectsController">
+<AnchorPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="911.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.workon.controllers.ProjectsController">
    <children>
       <ScrollPane fx:id="scrollPaneProjectList" fitToHeight="true" fitToWidth="true" layoutY="223.0" prefHeight="343.0" prefWidth="239.0" style="-fx-border-color: #483D8B;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="331.0" />
       <AnchorPane layoutX="238.0" layoutY="26.0" prefHeight="85.0" prefWidth="673.0" style="-fx-background-color: #483D8B; -fx-border-color: #483D8B;" AnchorPane.leftAnchor="238.0" AnchorPane.rightAnchor="0.0">
