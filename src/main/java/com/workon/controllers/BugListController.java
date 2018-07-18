@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class BugListController {
@@ -23,7 +22,7 @@ public class BugListController {
     private VBox vboxBugsList;
 
     @FXML
-    public void initialize() throws Exception{
+    public void initialize() {
         projectTitleLabel.setText(CreateProjectController.getProject().getName());
         String contentBugs = HttpRequest.getBugs("0");
         if(contentBugs != null){
@@ -48,11 +47,7 @@ public class BugListController {
                     bugButton.setOnAction(event -> {
                         CreateProjectController.getProject().setCurrentBugId(bugButton.getId());
                         CreateProjectController.getProject().setCurrentBugName(bugName);
-                        try {
-                            LoadFXML.loadFXMLInScrollPane("/fxml/bug.fxml", ProjectsController.getMainPane(), true, true);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        LoadFXML.loadFXMLInScrollPane("/fxml/bug.fxml", ProjectsController.getMainPane(), true, true);
                     });
 
                     vboxBugsList.setSpacing(10);
@@ -69,7 +64,7 @@ public class BugListController {
     }
 
     @FXML
-    public void handleCreateBug() throws Exception{
+    public void handleCreateBug() {
         LoadFXML.loadFXMLInScrollPane("/fxml/ficheBug.fxml", ProjectsController.getMainPane(), true, true);
     }
 }

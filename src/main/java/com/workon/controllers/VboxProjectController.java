@@ -18,7 +18,7 @@ public class VboxProjectController {
     private VBox projectListVBox;
 
     @FXML
-    public void initialize() throws Exception {
+    public void initialize() {
         projectListVBox.setSpacing(10);
         projectListVBox.setStyle("-fx-padding: 5px");
         String contentRequest = HttpRequest.getProjects("0");
@@ -37,14 +37,11 @@ public class VboxProjectController {
             button.setOnAction(event -> {
                 CreateProjectController.getProject().setId(button.getId());
                 CreateProjectController.getProject().setName(projectName);
-                try {
-                    LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
-                    ProjectsController.getBug().setDisable(false);
-                    ProjectsController.getMeeting().setDisable(false);
-                    ProjectsController.getDocumentation().setDisable(false);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
+                ProjectsController.getBug().setDisable(false);
+                ProjectsController.getMeeting().setDisable(false);
+                ProjectsController.getDocumentation().setDisable(false);
             });
             projectListVBox.getChildren().add(button);
         }

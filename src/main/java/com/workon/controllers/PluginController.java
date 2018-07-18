@@ -1,7 +1,6 @@
 package com.workon.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import com.workon.models.Project;
 import com.workon.plugin.PluginInterface;
 import com.workon.plugin.PluginLoader;
 import com.workon.utils.ButtonHelper;
@@ -29,7 +28,7 @@ public class PluginController {
     @FXML
     private VBox vboxPlugins;
 
-    public void initialize() throws Exception {
+    public void initialize() {
         vboxPlugins.setSpacing(10);
         String plugins = HttpRequest.getFiles("plugins");
         ArrayList<String> filesNames = ParseRequestContent.getValuesOf(plugins, "name");
@@ -48,6 +47,7 @@ public class PluginController {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
+
                 ReadableByteChannel rbc = null;
                 try {
                     rbc = Channels.newChannel(Objects.requireNonNull(url).openStream());

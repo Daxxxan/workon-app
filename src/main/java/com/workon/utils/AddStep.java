@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import com.workon.controllers.LoginConnectionController;
 import com.workon.models.Step;
+import com.workon.utils.parser.AnnotationParser;
+import com.workon.utils.parser.NoNull;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -23,14 +25,20 @@ public abstract class AddStep implements Comparable{
         return datePickerStep;
     }
 
-    public static ArrayList<Step> addStepsInDB(ArrayList<JFXTextField> textFieldStepNameArray, ArrayList<JFXDatePicker> datePickerStepArray, String projectId) throws Exception {
+    public static ArrayList<Step> addStepsInDB(@NoNull ArrayList<JFXTextField> textFieldStepNameArray, @NoNull ArrayList<JFXDatePicker> datePickerStepArray, @NoNull String projectId) {
+        AnnotationParser.parse(textFieldStepNameArray, datePickerStepArray, projectId);
         ArrayList<Step> stepsList = new ArrayList<>();
         for(int counter = 0; counter < textFieldStepNameArray.size(); counter++){
             if(datePickerStepArray.get(counter).getValue() != null && textFieldStepNameArray.get(counter).getText() != null){
                 //Convert LocalDate to String
                 DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 
-                String contentAddStepsToProject = HttpRequest.addStep(projectId, textFieldStepNameArray.get(counter).getText(), datePickerStepArray.get(counter).getValue().format(formatter));
+                String contentAddStepsToProject = null;
+                try {
+                    contentAddStepsToProject = HttpRequest.addStep(projectId, textFieldStepNameArray.get(counter).getText(), datePickerStepArray.get(counter).getValue().format(formatter));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 //Si l'ajout a bien été effectué
                 if(contentAddStepsToProject != null){

@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ConversationController {
@@ -21,7 +20,7 @@ public class ConversationController {
     private VBox vboxMessages;
 
     @FXML
-    public void initialize() throws Exception{
+    public void initialize() {
         vboxMessages.setSpacing(10);
         String messages = HttpRequest.getMessagesFromConversation(ConversationListController.getSelectedConversation());
         ArrayList<String>accountId = ParseRequestContent.getValuesOf(messages, "accountId");
@@ -41,12 +40,12 @@ public class ConversationController {
     }
 
     @FXML
-    protected void handleConversationList() throws Exception{
+    protected void handleConversationList() {
         LoadFXML.loadFXMLInScrollPane("/fxml/conversationList.fxml", ProjectsController.getMainPane(), true, true);
     }
 
     @FXML
-    protected void handleSendMessage() throws Exception{
+    protected void handleSendMessage() {
         if(!message.getText().isEmpty()){
             HttpRequest.addMessageToConversation(message.getText(), ConversationListController.getSelectedConversation());
             LoadFXML.loadFXMLInScrollPane("/fxml/conversation.fxml", ProjectsController.getMainPane(), true, true);
@@ -55,10 +54,6 @@ public class ConversationController {
 
     @FXML
     protected void handleAddCollaborator(){
-        try {
-            LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsToConversation.fxml", ProjectsController.getMainPane(), true, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsToConversation.fxml", ProjectsController.getMainPane(), true, true);
     }
 }

@@ -1,6 +1,5 @@
 package com.workon.controllers;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import com.workon.models.Step;
@@ -11,14 +10,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class MainProjectUIController {
+public class AddStepsToProjectController {
     @FXML
     private VBox vboxStepsList;
     @FXML
@@ -29,9 +27,10 @@ public class MainProjectUIController {
     private ArrayList<JFXTextField> textFieldStepNameArray = new ArrayList<>();
     private ArrayList<JFXDatePicker> datePickerStepArray = new ArrayList<>();
 
-    public void initialize() throws Exception {
+    public void initialize() {
         //Get steps du projet
         String contentProjectSteps = HttpRequest.getProjectSteps();
+
         //Fill des dates
         ArrayList<String> stepsName = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectSteps), "name");
         ArrayList<String> stepsDate = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectSteps), "date");
@@ -57,7 +56,7 @@ public class MainProjectUIController {
     }
 
     @FXML
-    protected void handleAddStepButtonAction() throws Exception{
+    protected void handleAddStepButtonAction() {
         JFXTextField textFieldStepName = AddStep.setStepName();
         JFXDatePicker datePickerStep = AddStep.setDatePicker();
 
@@ -68,13 +67,13 @@ public class MainProjectUIController {
     }
 
     @FXML
-    protected void handleValidateSteps() throws Exception{
+    protected void handleValidateSteps() {
         ArrayList<Step> steps = AddStep.addStepsInDB(textFieldStepNameArray, datePickerStepArray, CreateProjectController.getProject().getId());
         LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
     }
 
     @FXML
-    protected void handleSwitchToCollaborators() throws Exception{
+    protected void handleSwitchToCollaborators() {
         LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsProject.fxml", ProjectsController.getMainPane(), true, true);
     }
 

@@ -15,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -44,7 +43,7 @@ public class CreateProjectController {
     }
 
     @FXML
-    protected void handleAddCollaboratorButtonAction() throws IOException {
+    protected void handleAddCollaboratorButtonAction() {
         JFXTextField textFieldCollaborator = new JFXTextField();
         textFieldCollaborator.setPromptText("Adresse email du collaborateur");
         setTextFieldCollaboratorArray(textFieldCollaborator);
@@ -52,7 +51,7 @@ public class CreateProjectController {
     }
 
     @FXML
-    protected void handleAddStepButtonAction() throws  IOException{
+    protected void handleAddStepButtonAction() {
         JFXTextField textFieldStepName = AddStep.setStepName();
         JFXDatePicker datePickerStep = AddStep.setDatePicker();
 
@@ -63,64 +62,48 @@ public class CreateProjectController {
     }
 
     @FXML
-    protected void handleValidateProjectButtonAction() throws Exception {
+    protected void handleValidateProjectButtonAction() {
         if(!(projectNameTextField.getText().isEmpty())){
             Project project = new Project();
-            //Lancement de la création d'un projet
             String contentCreateProject = HttpRequest.addProject(projectNameTextField.getText());
 
-            //Si le projet a été créé
             if(contentCreateProject != null){
-                //Récupération de l'ID du projet créé
                 String projectId = ParseRequestContent.getValueOf(contentCreateProject, "id");
 
-                //Set d'un objet ProjectsController
                 project.setName(projectNameTextField.getText());
                 project.setDirector(LoginConnectionController.getUserId());
 
-                //Lancement de l'ajout du directeur aux collaborateurs
                 String contentAddDirectorToProjectCollaborators = HttpRequest.addCollaboratorsToProject(LoginConnectionController.getUserId().toString(), projectId);
 
-                //Si le directeur a bien été ajouté
                 if(contentAddDirectorToProjectCollaborators != null){
                     ArrayList<User> usersList = new ArrayList<>();
                     User director = new User(LoginConnectionController.getUserId());
                     director.setRole("Director");
                     usersList.add(director);
 
-                    //Ajout de chaque collaborateurs au projet
                     for(JFXTextField textField : getTextFieldCollaboratorArray()) {
-                        //Lancement de l'ajout des collaborateurs
                         String contentAddCollaboratorsToProject = HttpRequest.addCollaboratorsToProject(textField.getText(), projectId);
                         if(contentAddCollaboratorsToProject != null){
-                            //Récupération de l'id du collaborateur
                             int collaboratorId = Integer.parseInt(Objects.requireNonNull(ParseRequestContent.getValueOf(contentAddCollaboratorsToProject, "accountId")));
 
-                            //Vérifier que l'id n'est pas déjà dans le tableau des users
                             int exist = 0;
                             for (User anUser : usersList) {
                                 if (collaboratorId == anUser.getId()) {
                                     exist = 1;
                                 }
                             }
-                            //Si le user n'existe pas on le créer
                             if(exist == 0){
                                 User user = new User(collaboratorId, textField.getText());
                                 usersList.add(user);
                             }
                         }
                     }
-                    //Ajout du tableau d'utilisateur au projet local
                     project.setUsers(usersList);
 
-                    //Ajout de chaque steps au projet
                     ArrayList<Step> stepsList = AddStep.addStepsInDB(textFieldStepNameArray, datePickerStepArray, projectId);
-                    //Ajout des steps au projet local
                     project.setSteps(stepsList);
-                    //Création du projet global
                     setProject(project);
 
-                    //Création du bouton projet dans l'interface
                     JFXButton button = ButtonHelper.setButton(projectNameTextField.getText(), projectId, Double.MAX_VALUE,
                             "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;"
                                     + "-fx-background-color:  #A9CCE3;", Cursor.HAND,
@@ -131,13 +114,9 @@ public class CreateProjectController {
                     ContextMenuHelper.setContextMenuToButton(button);
 
                     button.setOnAction(event -> {
-                        try {
-                            CreateProjectController.getProject().setId(button.getId());
-                            CreateProjectController.getProject().setName(projectNameTextField.getText());
-                            LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        CreateProjectController.getProject().setId(button.getId());
+                        CreateProjectController.getProject().setName(projectNameTextField.getText());
+                        LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
                     });
 
                     VBox projectListVBox = (VBox)ProjectsController.getProjectListPane().lookup("#projectListVBox");

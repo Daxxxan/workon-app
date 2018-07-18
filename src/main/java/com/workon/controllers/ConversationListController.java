@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ConversationListController {
@@ -23,7 +22,7 @@ public class ConversationListController {
     private static String selectedConversation;
 
     @FXML
-    public void initialize() throws Exception {
+    public void initialize() {
         vboxConversationsList.setSpacing(10);
         LabelHelper.setLabel(messageTitleLabel, "Messagerie", Pos.CENTER, null, new Font("Book Antiqua", 16));
         LabelHelper.setLabel(listMessagesLabel, "Liste des conversations", Pos.CENTER, null, new Font("Book Antiqua", 16));
@@ -45,17 +44,13 @@ public class ConversationListController {
             int finalCounter = counter;
             conversationButton.setOnAction(event -> {
                 setSelectedConversation(ids.get(finalCounter));
-                try {
-                    LoadFXML.loadFXMLInScrollPane("/fxml/conversation.fxml", ProjectsController.getMainPane(), true, true);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                LoadFXML.loadFXMLInScrollPane("/fxml/conversation.fxml", ProjectsController.getMainPane(), true, true);
             });
         }
     }
 
     @FXML
-    protected void handleCreateConversation() throws Exception{
+    protected void handleCreateConversation() {
         LoadFXML.loadFXMLInScrollPane("/fxml/createConversation.fxml", ProjectsController.getMainPane(), true, true);
     }
 

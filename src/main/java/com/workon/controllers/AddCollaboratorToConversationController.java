@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class AddCollaboratorToConversationController {
@@ -23,19 +22,9 @@ public class AddCollaboratorToConversationController {
     @FXML
     public void initialize(){
         vboxCollaborators.setSpacing(10);
-        String accounts = null;
-        try {
-            accounts = HttpRequest.getAccountsFromConversation(ConversationListController.getSelectedConversation());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String accounts = HttpRequest.getAccountsFromConversation(ConversationListController.getSelectedConversation());
 
-        ArrayList<String> emails = new ArrayList<>();
-        try {
-            emails = ParseRequestContent.getValuesOf(accounts, "email");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ArrayList<String> emails = ParseRequestContent.getValuesOf(accounts, "email");
 
         if (emails != null && emails.size() != 0){
             for (String email : emails){
@@ -50,22 +39,14 @@ public class AddCollaboratorToConversationController {
     protected void handleValidateCollaborators(){
         for(JFXTextField collaborator : textFieldCollaboratorArray){
             if(!collaborator.getText().isEmpty()){
-                try {
-                    HttpRequest.addCollaboratorToConversation(ConversationListController.getSelectedConversation(), collaborator.getText());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                HttpRequest.addCollaboratorToConversation(ConversationListController.getSelectedConversation(), collaborator.getText());
             }
         }
-        try {
-            LoadFXML.loadFXMLInScrollPane("/fxml/conversation.fxml", ProjectsController.getMainPane(), true, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        LoadFXML.loadFXMLInScrollPane("/fxml/conversation.fxml", ProjectsController.getMainPane(), true, true);
     }
 
     @FXML
-    protected void handleAddCollaboratorButtonAction() throws Exception{
+    protected void handleAddCollaboratorButtonAction(){
         JFXTextField textFieldCollaborator = new JFXTextField();
         textFieldCollaborator.setPromptText("Adresse email du collaborateur");
         setTextFieldCollaboratorArray(textFieldCollaborator);

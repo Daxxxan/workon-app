@@ -23,7 +23,7 @@ public class CreateConversationController {
     }
 
     @FXML
-    protected void handleAddCollaboratorButtonAction() throws Exception{
+    protected void handleAddCollaboratorButtonAction() {
         JFXTextField textFieldCollaborator = new JFXTextField();
         textFieldCollaborator.setPromptText("Adresse email du collaborateur");
         setTextFieldCollaboratorArray(textFieldCollaborator);
@@ -31,7 +31,7 @@ public class CreateConversationController {
     }
 
     @FXML
-    protected void handleValidateConversation() throws Exception{
+    protected void handleValidateConversation() {
         if(!conversationNameTextField.getText().isEmpty()){
             String conversation = HttpRequest.createConversation(conversationNameTextField.getText());
             String conversationId = ParseRequestContent.getValueOf(conversation, "id");

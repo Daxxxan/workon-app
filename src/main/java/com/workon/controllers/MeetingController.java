@@ -28,24 +28,11 @@ public class MeetingController {
             e.printStackTrace();
         }
         if(currentMeeting != null){
-            String summaryContent = null;
-            try {
-                summaryContent = ParseRequestContent.getValueOf(currentMeeting, "summary");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String meetingArea = null;
-            try {
-                meetingArea = ParseRequestContent.getValueOf(currentMeeting, "place");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            String summaryContent = ParseRequestContent.getValueOf(currentMeeting, "summary");
+            String meetingArea = ParseRequestContent.getValueOf(currentMeeting, "place");
             if(meetingArea != null){
                 meetingLabel.setText("Emplacement: " + meetingArea.substring(1, meetingArea.length() - 1));
             }
-
             if(!Objects.equals(summaryContent, "null")){
                 summary.setText(summaryContent.substring(1, Objects.requireNonNull(summaryContent).length() - 1));
             }
@@ -53,7 +40,7 @@ public class MeetingController {
     }
 
     @FXML
-    protected void handleValidate()throws Exception{
+    protected void handleValidate() {
         if(!summary.getText().isEmpty()){
             HttpRequest.setSummaryMeeting(summary.getText(), CreateProjectController.getProject().getCurrentMeetingId());
             LoadFXML.loadFXMLInScrollPane("/fxml/meetingList.fxml", ProjectsController.getMainPane(), true, true);
@@ -61,7 +48,7 @@ public class MeetingController {
     }
 
     @FXML
-    protected void handleMeetingList() throws Exception{
+    protected void handleMeetingList() {
         LoadFXML.loadFXMLInScrollPane("/fxml/meetingList.fxml", ProjectsController.getMainPane(), true, true);
     }
 }

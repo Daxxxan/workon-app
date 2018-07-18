@@ -3,16 +3,18 @@ package com.workon.utils;
 import com.jfoenix.controls.JFXButton;
 import com.workon.controllers.CreateProjectController;
 import com.workon.controllers.ProjectsController;
+import com.workon.utils.parser.AnnotationParser;
+import com.workon.utils.parser.NoNull;
 import javafx.scene.Cursor;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MeetingHelper {
-    public static void displayMeetingList(ArrayList<String> subjects, ArrayList<String>dates, ArrayList<String>meetingId, VBox vboxMeetingList) {
+    public static void displayMeetingList(@NoNull ArrayList<String> subjects, @NoNull ArrayList<String>dates, @NoNull ArrayList<String>meetingId, @NoNull VBox vboxMeetingList) {
+        AnnotationParser.parse(subjects, dates, meetingId, vboxMeetingList);
         for (int counter = 0; counter < subjects.size(); counter++) {
             LocalDateTime meetingDate = FormatedDate.stringToLocalDateTime(dates.get(counter).substring(1, dates.get(counter).length() - 1));
             String meetingDateString = FormatedDate.localDateTimeToString(meetingDate);
@@ -28,11 +30,7 @@ public class MeetingHelper {
             meetingButton.setOnAction(event -> {
                 CreateProjectController.getProject().setCurrentMeetingId(meetingButton.getId());
                 CreateProjectController.getProject().setCurrentMeetingName(meetingName);
-                try {
-                    LoadFXML.loadFXMLInScrollPane("/fxml/meeting.fxml", ProjectsController.getMainPane(), true, true);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                LoadFXML.loadFXMLInScrollPane("/fxml/meeting.fxml", ProjectsController.getMainPane(), true, true);
             });
 
             vboxMeetingList.setSpacing(10);

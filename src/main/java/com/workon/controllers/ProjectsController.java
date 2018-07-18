@@ -48,7 +48,7 @@ public class ProjectsController {
     private static JFXButton meeting;
 
     @FXML
-    public void initialize() throws Exception {
+    public void initialize() {
         setMainPane(mainScrollPane);
         setProjectListPane(scrollPaneProjectList);
 
@@ -63,64 +63,68 @@ public class ProjectsController {
 
         String contentAccountInformations = HttpRequest.getAccount(LoginConnectionController.getUserId().toString());
         String firstname = ParseRequestContent.getValueOf(Objects.requireNonNull(contentAccountInformations), "firstname");
-        firstname = firstname.substring(1, firstname.length() - 1);
+        firstname = firstname.substring(1, Objects.requireNonNull(firstname).length() - 1);
 
         Label mainLabel = LabelHelper.createLabel("Bienvenue ".concat(firstname).concat(" !"), Double.MAX_VALUE, new Font("Book Antiqua", 40), Pos.CENTER);
         mainGridPane.add(mainLabel, 2, 0, 4, 1);
 
         setMainPluginMenu(pluginMenu);
 
-        Files.list(Paths.get("src/main/resources/pluginsWorkon/"))
-            .forEach(path -> {
-                MenuItem plugin = new MenuItem(path.getFileName().toString());
-                plugin.setOnAction(event -> {
-                    PluginLoader pluginLoader = new PluginLoader();
-                    PluginInterface pluginInterface = null;
-                    try {
-                        pluginInterface = (PluginInterface) pluginLoader.loadPlugin(path.getFileName().toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    if(pluginInterface != null){
-                        pluginInterface.LoadPane(mainScrollPane);
-                    }
+        try {
+            Files.list(Paths.get("src/main/resources/pluginsWorkon/"))
+                .forEach(path -> {
+                    MenuItem plugin = new MenuItem(path.getFileName().toString());
+                    plugin.setOnAction(event -> {
+                        PluginLoader pluginLoader = new PluginLoader();
+                        PluginInterface pluginInterface = null;
+                        try {
+                            pluginInterface = (PluginInterface) pluginLoader.loadPlugin(path.getFileName().toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if(pluginInterface != null){
+                            pluginInterface.LoadPane(mainScrollPane);
+                        }
+                    });
+                    pluginMenu.getItems().add(plugin);
                 });
-                pluginMenu.getItems().add(plugin);
-            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    protected void handleCreateProjectView() throws IOException {
+    protected void handleCreateProjectView() {
         LoadFXML.loadFXMLInScrollPane("/fxml/createProject.fxml", mainScrollPane, true, true);
     }
 
     @FXML
-    protected void handlePluginMenuItem() throws Exception {
+    protected void handlePluginMenuItem() {
         LoadFXML.loadFXMLInScrollPane("/fxml/pluginPanel.fxml", mainScrollPane, true, true);
     }
 
     @FXML
-    protected void handleCreateBugButton() throws Exception{
+    protected void handleCreateBugButton() {
         LoadFXML.loadFXMLInScrollPane("/fxml/bugList.fxml", mainScrollPane, true, true);
     }
 
     @FXML
-    protected void handleCreateMeetingButton() throws Exception {
+    protected void handleCreateMeetingButton() {
         LoadFXML.loadFXMLInScrollPane("/fxml/meetingList.fxml", mainScrollPane, true, true);
     }
 
     @FXML
-    protected void handleDocumentationButton() throws Exception {
+    protected void handleDocumentationButton() {
         LoadFXML.loadFXMLInScrollPane("/fxml/fileList.fxml", mainScrollPane, true, true);
     }
 
     @FXML
-    protected void handleMessagesList() throws Exception {
+    protected void handleMessagesList() {
         LoadFXML.loadFXMLInScrollPane("/fxml/conversationList.fxml", mainScrollPane, true, true);
     }
 
     @FXML
-    protected void handleLogout() throws Exception{
+    protected void handleLogout() {
         HttpRequest.logout();
         Main.getMainStage().close();
         Platform.runLater( () -> {

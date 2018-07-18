@@ -30,7 +30,7 @@ public class BugController {
     private JFXTextField message;
 
     @FXML
-    public void initialize() throws Exception {
+    public void initialize() {
         String contentBug = HttpRequest.getCurrentBugs();
         String description = ParseRequestContent.getValueOf(Objects.requireNonNull(contentBug), "description");
         String creatorId = ParseRequestContent.getValueOf(contentBug, "creatorId");
@@ -42,14 +42,12 @@ public class BugController {
         ArrayList<String> accountsId = ParseRequestContent.getValuesOf(contentBugMessages, "accountId");
         ArrayList<String> messages = ParseRequestContent.getValuesOf(contentBugMessages, "content");
 
-        description = description.replace("\\n", " ");
+        description = Objects.requireNonNull(description).replace("\\n", " ");
 
         for(int counter = 0; counter < accountsId.size(); counter++){
             String account = HttpRequest.getCollaboratorAccount(accountsId.get(counter));
             String accountEmail = ParseRequestContent.getValueOf(account, "email");
-            String contentLabel = null;
-
-            contentLabel = accountEmail.substring(1, accountEmail.length() - 1) + " : "
+            String contentLabel = accountEmail.substring(1, Objects.requireNonNull(accountEmail).length() - 1) + " : "
                     + messages.get(counter);
 
             Label label = LabelHelper.createLabel(contentLabel, Double.MAX_VALUE , new Font("Book Antiqua", 14), Pos.CENTER_LEFT);
@@ -65,12 +63,12 @@ public class BugController {
         descriptionLabel.setWrapText(true);
     }
     @FXML
-    protected void handleBugsList() throws Exception{
+    protected void handleBugsList() {
         LoadFXML.loadFXMLInScrollPane("/fxml/bugList.fxml", ProjectsController.getMainPane(), true, true);
     }
 
     @FXML
-    protected void handleSendMessage() throws Exception{
+    protected void handleSendMessage() {
         if(!message.getText().isEmpty()){
             HttpRequest.addMessage(message.getText());
             LoadFXML.loadFXMLInScrollPane("/fxml/bug.fxml", ProjectsController.getMainPane(), true, true);
@@ -78,7 +76,7 @@ public class BugController {
     }
 
     @FXML
-    protected void handleClose() throws Exception{
+    protected void handleClose() {
         String str = HttpRequest.updateBug();
         LoadFXML.loadFXMLInScrollPane("/fxml/bugList.fxml", ProjectsController.getMainPane(), true, true);
     }

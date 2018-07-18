@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class OldMeetingListController {
@@ -18,7 +17,7 @@ public class OldMeetingListController {
     private VBox vboxMeetingList;
 
     @FXML
-    public void initialize() throws IOException {
+    public void initialize() {
         projectTitleLabel.setText(CreateProjectController.getProject().getName());
         String meetings = null;
         try {
@@ -35,10 +34,6 @@ public class OldMeetingListController {
 
     @FXML
     protected void handleDisplayNextMeetings(){
-        try {
-            LoadFXML.loadFXMLInScrollPane("/fxml/meetingList.fxml", ProjectsController.getMainPane(), true, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        LoadFXML.loadFXMLInScrollPane("/fxml/meetingList.fxml", ProjectsController.getMainPane(), true, true);
     }
 }

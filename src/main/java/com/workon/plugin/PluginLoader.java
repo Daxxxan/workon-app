@@ -16,7 +16,7 @@ public class PluginLoader {
         this.dirPath = "src/main/resources/pluginsWorkon/";
 
     }
-    public PluginLoader(String path) throws Exception {
+    public PluginLoader(String path) {
         this.dirPath = path;
     }
 

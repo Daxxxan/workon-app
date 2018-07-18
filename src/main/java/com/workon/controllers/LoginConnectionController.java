@@ -107,7 +107,7 @@ public class LoginConnectionController implements Initializable {
      * Connection method
      */
     @FXML
-    protected void handleLoginConnectionButtonAction() throws Exception {
+    protected void handleLoginConnectionButtonAction() {
         if(loginEmailField.getText().isEmpty() ) {
             LabelHelper.setLabel(loginEmailErrorLabel, "Saisissez votre adresse mail.", Pos.CENTER_LEFT, "#FF0000", new Font("Book Antiqua", 12));
         }else{
@@ -128,11 +128,16 @@ public class LoginConnectionController implements Initializable {
                 String userId = ParseRequestContent.getValueOf(content, "userId");
                 String userToken = ParseRequestContent.getValueOf(content, "id");
                 setUserId(userId);
-                setUserToken(userToken.substring(1, userToken.length() - 1));
+                setUserToken(userToken.substring(1, Objects.requireNonNull(userToken).length() - 1));
 
                 //Load de la nouvelle scene
-                Parent mainParent = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
-                Scene mainScene = new Scene(mainParent);
+                Parent mainParent = null;
+                try {
+                    mainParent = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Scene mainScene = new Scene(Objects.requireNonNull(mainParent));
                 Stage primaryStage = (Stage) loginConnectionButton.getScene().getWindow();
                 primaryStage.setResizable(true);
                 primaryStage.setScene(mainScene);
@@ -146,7 +151,7 @@ public class LoginConnectionController implements Initializable {
      * Registration method
      */
     @FXML
-    protected void handleRegisterValidateButtonAction() throws Exception {
+    protected void handleRegisterValidateButtonAction() {
         Pattern emailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         if(registerEmailField.getText().isEmpty() || registerFirstnameField.getText().isEmpty()
                 || registerLastnameField.getText().isEmpty() || registerPasswordField.getText().isEmpty()

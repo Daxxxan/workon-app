@@ -1,15 +1,13 @@
 package com.workon.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.workon.utils.*;
+import com.workon.utils.HttpRequest;
+import com.workon.utils.LoadFXML;
+import com.workon.utils.MeetingHelper;
+import com.workon.utils.ParseRequestContent;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MeetingListController {
@@ -19,7 +17,7 @@ public class MeetingListController {
     private VBox vboxMeetingList;
 
     @FXML
-    public void initialize() throws Exception {
+    public void initialize() {
         projectTitleLabel.setText(CreateProjectController.getProject().getName());
         String meetings = HttpRequest.getMeetings();
         ArrayList<String>subjects = ParseRequestContent.getValuesOf(meetings, "subject");
@@ -30,12 +28,12 @@ public class MeetingListController {
     }
 
     @FXML
-    protected void handleCreateMeetings() throws Exception{
+    protected void handleCreateMeetings() {
         LoadFXML.loadFXMLInScrollPane("/fxml/createMeeting.fxml", ProjectsController.getMainPane(), true ,true);
     }
 
     @FXML
-    protected void handleDisplayOldMeetings() throws Exception{
+    protected void handleDisplayOldMeetings() {
         LoadFXML.loadFXMLInScrollPane("/fxml/oldMeetingList.fxml", ProjectsController.getMainPane(), true, true);
     }
 }

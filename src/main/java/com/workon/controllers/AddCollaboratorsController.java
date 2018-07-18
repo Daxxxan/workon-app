@@ -25,7 +25,7 @@ public class AddCollaboratorsController {
     private ArrayList<JFXTextField> collaboratorsList = new ArrayList<>();
     private ArrayList<String> collaboratorsNames = new ArrayList<>();
 
-    public void initialize() throws Exception {
+    public void initialize(){
         //Get collaborators
         String contentProjectCollaborators = HttpRequest.getCollaborators();
 
@@ -37,20 +37,22 @@ public class AddCollaboratorsController {
         vboxCollaboratorList.setStyle("-fx-padding: 5px");
         vboxAddCollaborators.setSpacing(10);
 
-        for (String collaborator : collaborators){
-            Label collaboratorLabel = LabelHelper.createLabel(collaborator.substring(1, collaborator.length() - 1), Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER);
-            vboxCollaboratorList.getChildren().add(collaboratorLabel);
-            setCollaboratorsNames(collaborator.substring(1, collaborator.length() - 1));
+        if(collaborators != null){
+            for (String collaborator : collaborators){
+                Label collaboratorLabel = LabelHelper.createLabel(collaborator.substring(1, collaborator.length() - 1), Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER);
+                vboxCollaboratorList.getChildren().add(collaboratorLabel);
+                setCollaboratorsNames(collaborator.substring(1, collaborator.length() - 1));
+            }
         }
     }
 
     @FXML
-    protected void handleSwitchToSteps() throws Exception{
+    protected void handleSwitchToSteps(){
         LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
     }
 
     @FXML
-    protected void handleAddCollaboratorProjectButton() throws Exception{
+    protected void handleAddCollaboratorProjectButton(){
         JFXTextField collaboratorEmail = new JFXTextField();
         setCollaboratorsList(collaboratorEmail);
         collaboratorEmail.setPromptText("Email du collaborateur");
@@ -58,11 +60,11 @@ public class AddCollaboratorsController {
     }
 
     @FXML
-    protected void handleValidateCollaborators() throws Exception{
+    protected void handleValidateCollaborators(){
         for(JFXTextField jfxTextField : getCollaboratorsList()){
             if(jfxTextField.getText() != null){
                 if(!getCollaboratorsNames().contains(jfxTextField.getText())){
-                    String contentAddCollaboratorsToProject = HttpRequest.addCollaboratorsToProject(jfxTextField.getText(), CreateProjectController.getProject().getId());
+                    String contentAddCollaboratorsToProject =  HttpRequest.addCollaboratorsToProject(jfxTextField.getText(), CreateProjectController.getProject().getId());
                     if(contentAddCollaboratorsToProject != null){
                         LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsProject.fxml", ProjectsController.getMainPane(), true, true);
                     }else{

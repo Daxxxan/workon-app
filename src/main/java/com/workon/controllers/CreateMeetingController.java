@@ -28,12 +28,12 @@ public class CreateMeetingController {
     }
 
     @FXML
-    protected void handleListMeeting() throws Exception {
+    protected void handleListMeeting() {
         LoadFXML.loadFXMLInScrollPane("/fxml/meetingList.fxml", ProjectsController.getMainPane(), true, true);
     }
 
     @FXML
-    protected void handleValidateMeeting() throws Exception {
+    protected void handleValidateMeeting() {
         if(meetingName.getText().isEmpty() || meetingArea.getText().isEmpty() || meetingDate.getValue() == null || meetingTime.getValue() == null){
             errorLabel.setText("Veuillez saisir tous les champs");
         }else{

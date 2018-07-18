@@ -11,10 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class CardBugController {
+public class CreateBugController {
 
     @FXML
     private Label projectTitleLabel;
@@ -31,12 +28,12 @@ public class CardBugController {
     }
 
     @FXML
-    protected void handleBugsList() throws Exception{
+    protected void handleBugsList() {
         LoadFXML.loadFXMLInScrollPane("/fxml/bugList.fxml", ProjectsController.getMainPane(), true, true);
     }
 
     @FXML
-    protected void handleValidateBug() throws Exception{
+    protected void handleValidateBug() {
         if(!bugName.getText().isEmpty() && !bugDescription.getText().isEmpty()){
             String contentRequest = HttpRequest.addBug(bugName.getText(), bugDescription.getText(), CreateProjectController.getProject().getId());
             if(contentRequest != null){
