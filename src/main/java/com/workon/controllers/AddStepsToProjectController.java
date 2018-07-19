@@ -68,8 +68,9 @@ public class AddStepsToProjectController {
 
     @FXML
     protected void handleValidateSteps() {
-        ArrayList<Step> steps = AddStep.addStepsInDB(textFieldStepNameArray, datePickerStepArray, CreateProjectController.getProject().getId());
-        LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
+        ArrayList<Step> steps = AddStep.addStepsInDB(textFieldStepNameArray, datePickerStepArray, CreateProjectController.getProject().getId(), vboxStepsList);
+        if (steps.size() != 0)
+            LoadFXML.loadFXMLInScrollPane("/fxml/addStepsProject.fxml", ProjectsController.getMainPane(), true, true);
     }
 
     @FXML

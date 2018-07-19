@@ -100,7 +100,7 @@ public class CreateProjectController {
                     }
                     project.setUsers(usersList);
 
-                    ArrayList<Step> stepsList = AddStep.addStepsInDB(textFieldStepNameArray, datePickerStepArray, projectId);
+                    ArrayList<Step> stepsList = AddStep.addStepsInDB(textFieldStepNameArray, datePickerStepArray, projectId, vboxStep);
                     project.setSteps(stepsList);
                     setProject(project);
 

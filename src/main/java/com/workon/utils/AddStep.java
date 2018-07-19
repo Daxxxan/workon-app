@@ -6,6 +6,10 @@ import com.workon.controllers.LoginConnectionController;
 import com.workon.models.Step;
 import com.workon.utils.parser.AnnotationParser;
 import com.workon.utils.parser.NoNull;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -46,12 +50,15 @@ public abstract class AddStep implements Comparable{
      *        ArrayList des dates des jalons
      * @param projectId
      *        ID du projet
+     * @param vboxSteps
+     *        Vbox contenant les steps
      * @return ArrayList
      *         Retourne une ArrayList de jalon
      */
-    public static ArrayList<Step> addStepsInDB(@NoNull ArrayList<JFXTextField> textFieldStepNameArray, @NoNull ArrayList<JFXDatePicker> datePickerStepArray, @NoNull String projectId) {
-        AnnotationParser.parse(textFieldStepNameArray, datePickerStepArray, projectId);
+    public static ArrayList<Step> addStepsInDB(@NoNull ArrayList<JFXTextField> textFieldStepNameArray, @NoNull ArrayList<JFXDatePicker> datePickerStepArray, @NoNull String projectId, @NoNull VBox vboxSteps) {
+        AnnotationParser.parse(textFieldStepNameArray, datePickerStepArray, projectId, vboxSteps);
         ArrayList<Step> stepsList = new ArrayList<>();
+        int count = 0;
         for(int counter = 0; counter < textFieldStepNameArray.size(); counter++){
             if(datePickerStepArray.get(counter).getValue() != null && textFieldStepNameArray.get(counter).getText() != null){
                 //Convert LocalDate to String
@@ -68,6 +75,13 @@ public abstract class AddStep implements Comparable{
                 if(contentAddStepsToProject != null){
                     Step step = new Step(textFieldStepNameArray.get(counter).getText(), datePickerStepArray.get(counter).getValue());
                     stepsList.add(step);
+                }
+            }else{
+                if(count == 0){
+                    Label label = LabelHelper.createLabel("Impossible d'ajouter le jalon", Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER);
+                    LabelHelper.setLabel(label, null, null, "#FF0000", new Font("Book Antiqua", 14));
+                    vboxSteps.getChildren().add(label);
+                    count++;
                 }
             }
         }

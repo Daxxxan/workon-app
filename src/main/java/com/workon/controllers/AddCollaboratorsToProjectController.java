@@ -14,7 +14,7 @@ import javafx.scene.text.Font;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class AddCollaboratorsController {
+public class AddCollaboratorsToProjectController {
     @FXML
     private Label projectTitleLabel;
     @FXML
@@ -61,6 +61,7 @@ public class AddCollaboratorsController {
 
     @FXML
     protected void handleValidateCollaborators(){
+        int counter = 0;
         for(JFXTextField jfxTextField : getCollaboratorsList()){
             if(jfxTextField.getText() != null){
                 if(!getCollaboratorsNames().contains(jfxTextField.getText())){
@@ -68,9 +69,12 @@ public class AddCollaboratorsController {
                     if(contentAddCollaboratorsToProject != null){
                         LoadFXML.loadFXMLInScrollPane("/fxml/addCollaboratorsProject.fxml", ProjectsController.getMainPane(), true, true);
                     }else{
-                        Label label = LabelHelper.createLabel("Impossible d'ajouter le collaborateur", Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER);
-                        LabelHelper.setLabel(label, null, null, "#FF0000", new Font("Book Antiqua", 16));
-                        vboxCollaboratorList.getChildren().add(label);
+                        if(counter == 0){
+                            Label label = LabelHelper.createLabel("Impossible d'ajouter le collaborateur", Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER);
+                            LabelHelper.setLabel(label, null, null, "#FF0000", new Font("Book Antiqua", 14));
+                            vboxCollaboratorList.getChildren().add(label);
+                            counter++;
+                        }
                     }
                 }
             }

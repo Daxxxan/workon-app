@@ -21,6 +21,8 @@ public class ContextMenuHelper {
      *        Bouton pour attacher le menu
      * @param menuItemName
      *        nom du MenuItem
+     * @param fxmlMainPane
+     *        ScrollPane sur laquelle charger le nouveau FXML
      * @param fxmlPath
      *        Chemin vers le FXML a load
      */
