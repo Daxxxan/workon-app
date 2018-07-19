@@ -30,23 +30,8 @@ public class ConversationListController {
         ArrayList<String>conversations = ParseRequestContent.getValuesOf(getConversation, "name");
         ArrayList<String>ids = ParseRequestContent.getValuesOf(getConversation, "id");
 
-        for(int counter = 0; counter < conversations.size(); counter++){
-            JFXButton conversationButton = ButtonHelper.setButton(conversations.get(counter).substring(1, conversations.get(counter).length() - 1),
-                    ids.get(counter), Double.MAX_VALUE,
-                    "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;"
-                    + "-fx-background-color: #A9CCE3", Cursor.HAND,
-                    new Font("Book Antiqua", 16));
-
-            vboxConversationsList.getChildren().add(conversationButton);
-
-            ContextMenuHelper.setContextMenuToButtonToDeleteConversation(conversationButton);
-
-            int finalCounter = counter;
-            conversationButton.setOnAction(event -> {
-                setSelectedConversation(ids.get(finalCounter));
-                LoadFXML.loadFXMLInScrollPane("/fxml/conversation.fxml", ProjectsController.getMainPane(), true, true);
-            });
-        }
+        String buttonStyle = "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;" + "-fx-background-color: #A9CCE3";
+        ButtonHelper.loadListOfButton(conversations, ids, buttonStyle, "conversation", vboxConversationsList);
     }
 
     @FXML

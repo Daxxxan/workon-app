@@ -111,7 +111,7 @@ public class CreateProjectController {
                     CreateProjectController.getProject().setId(button.getId());
                     CreateProjectController.getProject().setName(projectNameTextField.getText());
 
-                    ContextMenuHelper.setContextMenuToButton(button, "Clôturer le projet", "/fxml/vboxProject.fxml");
+                    ContextMenuHelper.setContextMenuToButton(button, "Clôturer le projet", "/fxml/vboxProject.fxml", "/fxml/createProject.fxml");
 
                     button.setOnAction(event -> {
                         CreateProjectController.getProject().setId(button.getId());

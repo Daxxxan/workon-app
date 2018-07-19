@@ -1,11 +1,9 @@
 package com.workon.controllers;
 
-import com.jfoenix.controls.JFXButton;
 import com.workon.Main;
 import com.workon.utils.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -33,24 +31,8 @@ public class FileController {
         ArrayList<String> filesNames = ParseRequestContent.getValuesOf(files, "name");
         ArrayList<String> fileDirectory = ParseRequestContent.getValuesOf(files, "container");
 
-        for(int counter = 0; counter < filesNames.size(); counter++){
-            JFXButton fileButton = ButtonHelper.setButton(filesNames.get(counter).substring(1, filesNames.get(counter).length() - 1),
-                    fileDirectory.get(counter).substring(1, fileDirectory.get(counter).length() - 1), Double.MAX_VALUE,
-                    "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;"
-                    + "-fx-background-color: #A9CCE3", Cursor.HAND,
-                    new Font("Book Antiqua", 16));
-
-            String fileName = filesNames.get(counter).substring(1, filesNames.get(counter).length() - 1);
-            String container = fileDirectory.get(counter).substring(1, fileDirectory.get(counter).length() - 1);
-            fileButton.setOnAction(event -> {
-                try {
-                    HttpRequest.downloadFile(container, fileName);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            vboxFiles.getChildren().add(fileButton);
-        }
+        String buttonStyle = "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;" + "-fx-background-color: #A9CCE3";
+        ButtonHelper.loadListOfButton(filesNames, fileDirectory, buttonStyle, "file", vboxFiles);
     }
 
     @FXML

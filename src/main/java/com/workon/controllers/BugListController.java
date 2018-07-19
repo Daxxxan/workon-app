@@ -26,37 +26,15 @@ public class BugListController {
         projectTitleLabel.setText(CreateProjectController.getProject().getName());
         String contentBugs = HttpRequest.getBugs("0");
         if(contentBugs != null){
-            ArrayList<String> bugsNames;
-            ArrayList<String> bugsId;
-            bugsNames = ParseRequestContent.getValuesOf(contentBugs, "name");
-            bugsId = ParseRequestContent.getValuesOf(contentBugs, "id");
+            ArrayList<String>bugsNames = ParseRequestContent.getValuesOf(contentBugs, "name");
+            ArrayList<String>bugsId = ParseRequestContent.getValuesOf(contentBugs, "id");
             if(bugsNames.isEmpty() || bugsId.isEmpty()){
                 LabelHelper.setLabel(listBugLabel, "Pas de bug dans ce projet", Pos.CENTER, "#FFFFFF", new Font("Book Antiqua", 16));
             }else{
                 LabelHelper.setLabel(listBugLabel, "Liste des bugs dans ce projet", Pos.CENTER, "#FFFFFF", new Font("Book Antiqua", 16));
-                for(int counter = 0; counter < bugsNames.size(); counter++){
-                    String bugName = bugsNames.get(counter).substring(1, bugsNames.get(counter).length() - 1);
-                    JFXButton bugButton = ButtonHelper.setButton(bugsNames.get(counter).substring(1, bugsNames.get(counter).length() - 1),
-                            bugsId.get(counter), Double.MAX_VALUE,
-                            "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;"
-                            + "-fx-background-color: #A9CCE3;", Cursor.HAND,
-                            new Font("Book Antiqua", 16));
 
-                    ContextMenuHelper.setContextMenuToButtonToDeleteBug(bugButton);
-
-                    bugButton.setOnAction(event -> {
-                        CreateProjectController.getProject().setCurrentBugId(bugButton.getId());
-                        CreateProjectController.getProject().setCurrentBugName(bugName);
-                        LoadFXML.loadFXMLInScrollPane("/fxml/bug.fxml", ProjectsController.getMainPane(), true, true);
-                    });
-
-                    vboxBugsList.setSpacing(10);
-                    vboxBugsList.getChildren().add(bugButton);
-
-                    Bug bug = new Bug(bugsNames.get(counter).substring(1, bugsNames.get(counter).length() - 1),
-                            bugsId.get(counter));
-                    CreateProjectController.getProject().addBugToArrayList(bug);
-                }
+                String buttonStyle = "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;" + "-fx-background-color: #A9CCE3;";
+                ButtonHelper.loadListOfButton(bugsNames, bugsId, buttonStyle, "bug", vboxBugsList);
             }
         }else{
             LabelHelper.setLabel(listBugLabel, "Erreur technique: Veuillez contacter le support.", Pos.CENTER, "#FF0000", new Font("Book Antiqua", 16));

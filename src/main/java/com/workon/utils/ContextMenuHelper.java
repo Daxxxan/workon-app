@@ -24,7 +24,7 @@ public class ContextMenuHelper {
      * @param fxmlPath
      *        Chemin vers le FXML a load
      */
-    public static void setContextMenuToButton(@NoNull JFXButton button, String menuItemName, String fxmlPath){
+    public static void setContextMenuToButton(@NoNull JFXButton button, String menuItemName, String fxmlPath, String fxmlMainPane){
         AnnotationParser.parse(button);
         ContextMenu contextMenu = new ContextMenu();
         MenuItem finished = new MenuItem(menuItemName);
@@ -34,7 +34,11 @@ public class ContextMenuHelper {
         finished.setOnAction(event -> {
             try {
                 HttpRequest.updateProject(button.getId());
+                ProjectsController.getBug().setDisable(true);
+                ProjectsController.getMeeting().setDisable(true);
+                ProjectsController.getDocumentation().setDisable(true);
                 LoadFXML.loadFXMLInScrollPane(fxmlPath, ProjectsController.getProjectListPane(), true, true);
+                LoadFXML.loadFXMLInScrollPane(fxmlMainPane, ProjectsController.getMainPane(), true, true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
