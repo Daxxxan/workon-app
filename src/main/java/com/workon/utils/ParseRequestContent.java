@@ -9,6 +9,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ParseRequestContent {
+    /**
+     * Parser json pour recuperer la valeur d'un cle dans un JSON
+     *
+     * @param content
+     *        Contenu JSON
+     * @param key
+     *        Cle pour recuperer la valeur
+     * @return String
+     */
     public static String getValueOf(String content, String key){
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonContent = null;
@@ -25,6 +34,15 @@ public class ParseRequestContent {
         }
     }
 
+    /**
+     * Parser JSON pour recuperer une ArrayList de cle dans un contenu JSON
+     *
+     * @param content
+     *        Contenu JSON
+     * @param key
+     *        Cle pour recuperer la valeur
+     * @return ArrayList String
+     */
     public static ArrayList<String> getValuesOf(@NoNull String content, @NoNull String key){
         AnnotationParser.parse(content, key);
         ObjectMapper objectMapper = new ObjectMapper();

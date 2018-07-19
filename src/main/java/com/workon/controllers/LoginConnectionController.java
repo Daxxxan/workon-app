@@ -128,7 +128,7 @@ public class LoginConnectionController implements Initializable {
                 String userId = ParseRequestContent.getValueOf(content, "userId");
                 String userToken = ParseRequestContent.getValueOf(content, "id");
                 setUserId(userId);
-                setUserToken(userToken.substring(1, Objects.requireNonNull(userToken).length() - 1));
+                setUserToken(userToken.substring(1, userToken.length() - 1));
 
                 //Load de la nouvelle scene
                 Parent mainParent = null;
@@ -137,7 +137,7 @@ public class LoginConnectionController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Scene mainScene = new Scene(Objects.requireNonNull(mainParent));
+                Scene mainScene = new Scene(mainParent);
                 Stage primaryStage = (Stage) loginConnectionButton.getScene().getWindow();
                 primaryStage.setResizable(true);
                 primaryStage.setScene(mainScene);

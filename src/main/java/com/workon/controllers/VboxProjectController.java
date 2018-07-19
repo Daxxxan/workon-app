@@ -32,7 +32,7 @@ public class VboxProjectController {
                     + "-fx-background-color:  #A9CCE3;", Cursor.HAND,
                     new Font("Book Antiqua", 16));
 
-            ContextMenuHelper.setContextMenuToButton(button);
+            ContextMenuHelper.setContextMenuToButton(button, "Clôturer le projet", "/fxml/vboxProject.fxml");
 
             button.setOnAction(event -> {
                 CreateProjectController.getProject().setId(button.getId());

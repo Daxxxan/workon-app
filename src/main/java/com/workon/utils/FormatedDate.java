@@ -10,13 +10,14 @@ import java.util.*;
 import static com.workon.utils.FormatedDate.sortByValue;
 
 abstract public class FormatedDate implements Comparable{
-    public static String StringFormater(@NoNull String date){
-        AnnotationParser.parse(date);
-        LocalDate localDate = LocalDate.parse(date);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-        return localDate.format(formatter);
-    }
 
+    /**
+     * Transforme une string en LocalDate
+     *
+     * @param date
+     *        Date a convertir
+     * @return Annee mois jour d'une date
+     */
     public static LocalDate stringToLocalDate(@NoNull String date){
         AnnotationParser.parse(date);
         Instant instant = Instant.parse(date);
@@ -26,12 +27,26 @@ abstract public class FormatedDate implements Comparable{
         return  result.toLocalDate();
     }
 
+    /**
+     * Transofrme une LocalDate en String sous le format (14 Juillet 2018)
+     *
+     * @param localDate
+     *        Date a transofrmer
+     * @return String
+     */
     public static String localDateToString(@NoNull LocalDate localDate){
         AnnotationParser.parse(localDate);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
         return localDate.format(formatter);
     }
 
+    /**
+     * Transforme une string en LocalDateTime
+     *
+     * @param date
+     *        Date a transformer
+     * @return LocalDateTime
+     */
     public static LocalDateTime stringToLocalDateTime(@NoNull String date){
         AnnotationParser.parse(date);
         Instant instant = Instant.parse(date);
@@ -39,12 +54,26 @@ abstract public class FormatedDate implements Comparable{
         return LocalDateTime.ofInstant(instant, ZoneId.of(String.valueOf(ZoneOffset.UTC)));
     }
 
+    /**
+     * Transforme une LocalDateTime en String
+     *
+     * @param localDate
+     *        Date a transformer
+     * @return String
+     */
     public static String localDateTimeToString(@NoNull LocalDateTime localDate){
         AnnotationParser.parse(localDate);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy HH:mm");
         return localDate.format(formatter);
     }
 
+    /**
+     * Tri une map par LocalDate
+     *
+     * @param map
+     *        ID de la conversation
+     * @return Map
+     */
     public static Map<String, LocalDate> sortStringLocalDate(@NoNull Map<String, String> map){
         AnnotationParser.parse(map);
         Map<String, LocalDate> localDateMap = new HashMap<>();
@@ -66,6 +95,13 @@ abstract public class FormatedDate implements Comparable{
         return localDateMapSorted;
     }
 
+    /**
+     * Tri une map par LocalDate
+     *
+     * @param unsortMap
+     *        ID de la conversation
+     * @return Map
+     */
     public static Map<String, LocalDate> sortByValue(@NoNull Map<String, LocalDate> unsortMap) {
         AnnotationParser.parse(unsortMap);
         List<Map.Entry<String, LocalDate>> list = new LinkedList<>(unsortMap.entrySet());

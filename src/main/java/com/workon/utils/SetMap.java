@@ -8,6 +8,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SetMap {
+    /**
+     * Set une map avec deux ArrayList la premiere etant la cle et la seconde la valeur
+     *
+     * @param first
+     *        Premiere ArrayList designant la cle
+     * @param second
+     *        Deuxieme ArrayList designant la valeur
+     * @return Map String String
+     */
     public static Map<String, String> setStringStringMapWithArrayLists(@NoNull ArrayList<String> first, @NoNull ArrayList<String> second){
         AnnotationParser.parse(first, second);
         Map<String, String> map = new HashMap<>();

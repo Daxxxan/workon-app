@@ -10,6 +10,18 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
 public class LoadFXML {
+    /**
+     * Charge un FXML
+     *
+     * @param path
+     *        Chemin vers le FXML
+     * @param scrollPane
+     *        La scrollPane sur laquelle nous devons attacher le FXML
+     * @param fitToHeight
+     *        True si Le FXML doit prendre toute la hauteur sinon false
+     * @param fitToWidth
+     * True si le FXML doit prendre toute la largeur sinon false
+     */
     public static void loadFXMLInScrollPane(@NoNull String path, @NoNull ScrollPane scrollPane, @NoNull Boolean fitToHeight, @NoNull Boolean fitToWidth){
         AnnotationParser.parse(path, scrollPane, fitToHeight, fitToWidth);
         Parent parent = null;

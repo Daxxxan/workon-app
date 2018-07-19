@@ -13,6 +13,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MeetingHelper {
+    /**
+     * Affiche toutes les reunions
+     *
+     * @param subjects
+     *        ArrayList des sujets
+     * @param dates
+     *        ArrayList des dates
+     * @param meetingId
+     *        ArrayList des ID des meetings
+     * @param vboxMeetingList
+     *        vbox sur laquel afficher la liste
+     */
     public static void displayMeetingList(@NoNull ArrayList<String> subjects, @NoNull ArrayList<String>dates, @NoNull ArrayList<String>meetingId, @NoNull VBox vboxMeetingList) {
         AnnotationParser.parse(subjects, dates, meetingId, vboxMeetingList);
         for (int counter = 0; counter < subjects.size(); counter++) {

@@ -2,8 +2,6 @@ package com.workon.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.workon.Main;
-import com.workon.plugin.PluginInterface;
-import com.workon.plugin.PluginLoader;
 import com.workon.utils.HttpRequest;
 import com.workon.utils.LabelHelper;
 import com.workon.utils.LoadFXML;
@@ -13,15 +11,11 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 public class ProjectsController {
@@ -40,7 +34,6 @@ public class ProjectsController {
     @FXML
     private Menu pluginMenu;
 
-    private static Menu mainPluginMenu;
     private static ScrollPane mainPane;
     private static ScrollPane projectListPane;
     private static JFXButton bug;
@@ -67,30 +60,6 @@ public class ProjectsController {
 
         Label mainLabel = LabelHelper.createLabel("Bienvenue ".concat(firstname).concat(" !"), Double.MAX_VALUE, new Font("Book Antiqua", 40), Pos.CENTER);
         mainGridPane.add(mainLabel, 2, 0, 4, 1);
-
-        setMainPluginMenu(pluginMenu);
-
-        try {
-            Files.list(Paths.get("src/main/resources/pluginsWorkon/"))
-                .forEach(path -> {
-                    MenuItem plugin = new MenuItem(path.getFileName().toString());
-                    plugin.setOnAction(event -> {
-                        PluginLoader pluginLoader = new PluginLoader();
-                        PluginInterface pluginInterface = null;
-                        try {
-                            pluginInterface = (PluginInterface) pluginLoader.loadPlugin(path.getFileName().toString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        if(pluginInterface != null){
-                            pluginInterface.LoadPane(mainScrollPane);
-                        }
-                    });
-                    pluginMenu.getItems().add(plugin);
-                });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -101,6 +70,11 @@ public class ProjectsController {
     @FXML
     protected void handlePluginMenuItem() {
         LoadFXML.loadFXMLInScrollPane("/fxml/pluginPanel.fxml", mainScrollPane, true, true);
+    }
+
+    @FXML
+    protected void handleYourPlugin(){
+        LoadFXML.loadFXMLInScrollPane("/fxml/userPlugin.fxml", mainScrollPane, true ,true);
     }
 
     @FXML
@@ -174,13 +148,5 @@ public class ProjectsController {
 
     public static void setMeeting(JFXButton meeting) {
         ProjectsController.meeting = meeting;
-    }
-
-    public static Menu getMainPluginMenu() {
-        return mainPluginMenu;
-    }
-
-    public static void setMainPluginMenu(Menu mainPluginMenu) {
-        ProjectsController.mainPluginMenu = mainPluginMenu;
     }
 }

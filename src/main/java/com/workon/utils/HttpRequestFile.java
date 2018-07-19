@@ -19,6 +19,12 @@ public class HttpRequestFile {
     private final String crlf = "\r\n";
     private final String twoHyphens = "--";
 
+    /**
+     * Set de la requete HTTP pour l'envoie l'upload d'un fichier
+     *
+     * @param requestURL
+     *        URL pour l'upload
+     */
     public HttpRequestFile(@NoNull String requestURL){
         AnnotationParser.parse(requestURL);
         // creates a unique boundary based on time stamp
@@ -34,8 +40,8 @@ public class HttpRequestFile {
             e.printStackTrace();
         }
         httpConn.setUseCaches(false);
-        httpConn.setDoOutput(true); // indicates POST method
-        httpConn.setDoInput(true);
+        httpConn.setDoOutput(true); // indicates POST method / Body
+        httpConn.setDoInput(true); //Lecture de données
 
         String value = LoginConnectionController.getUserToken();
         String accessToken = "Bearer ";
@@ -59,6 +65,14 @@ public class HttpRequestFile {
         }
     }
 
+    /**
+     * Set des informations a envoyer et du fichier
+     *
+     * @param fieldName
+     *        Nom du fichier
+     * @param uploadFile
+     *        Fichier a upload
+     */
     public void addFilePart(@NoNull String fieldName, @NoNull File uploadFile){
         AnnotationParser.parse(fieldName, uploadFile);
         String fileName = uploadFile.getName();
@@ -76,6 +90,9 @@ public class HttpRequestFile {
         }
     }
 
+    /**
+     * Envoie de la requete
+     */
     public void finish() {
         int status = 0;
 
