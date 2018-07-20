@@ -721,6 +721,14 @@ public class HttpRequest {
         return setOkHttpRequest(removeCollaboratorRequest, null, false, "DELETE");
     }
 
+    /**
+     * Creer une tache dans un jalon
+     *
+     * @param name
+     *        Nom de la tache
+     * @return String
+     *         le retour de la requete HTTP
+     */
     public static String createTask(String name){
         AnnotationParser.parse(name);
         String createTaskRequest = LoginConnectionController.getPath().concat("Steps/").concat(CreateProjectController.getProject().getCurrentStepId())
@@ -732,18 +740,40 @@ public class HttpRequest {
         return setOkHttpRequest(createTaskRequest, formBody, false, "POST");
     }
 
+    /**
+     * Get toutes les taches du jalon en cours
+     *
+     * @return String
+     *         le retour de la requete HTTP
+     */
     public static String getTasksFromStep(){
         String getTaskRequest = LoginConnectionController.getPath().concat("Steps/").concat(CreateProjectController.getProject().getCurrentStepId())
                 .concat("/tasks");
         return setOkHttpRequest(getTaskRequest, null, false, "GET");
     }
 
+    /**
+     * Supprimer une tache
+     *
+     * @param taskId
+     *        ID de la tache
+     * @return String
+     *         le retour de la requete HTTP
+     */
     public static String deleteTasksFromStep(String taskId){
         String removeTaskRequest = LoginConnectionController.getPath().concat("Steps/").concat(CreateProjectController.getProject().getCurrentStepId())
                 .concat("/tasks/").concat(taskId);
         return setOkHttpRequest(removeTaskRequest, null, false, "DELETE");
     }
 
+    /**
+     * Update une tache
+     *
+     * @param taskId
+     *        ID de la tache
+     * @return String
+     *         le retour de la requete HTTP
+     */
     public static String updateTasksFromStep(String taskId){
         String updateTaskRequest = LoginConnectionController.getPath().concat("Tasks/").concat(taskId);
         RequestBody formBody = new FormBody.Builder()
@@ -752,6 +782,14 @@ public class HttpRequest {
         return setOkHttpRequest(updateTaskRequest, formBody, false, "PATCH");
     }
 
+    /**
+     * Update un jalon
+     *
+     * @param state
+     *        Etat a modifier
+     * @return String
+     *         le retour de la requete HTTP
+     */
     public static String updateStateStep(String state){
         String updateStepState = LoginConnectionController.getPath().concat("Steps/").concat(CreateProjectController.getProject().getCurrentStepId());
         RequestBody formBody = new FormBody.Builder()
