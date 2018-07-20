@@ -1,6 +1,8 @@
 package com.workon.utils;
 
 import com.jfoenix.controls.JFXButton;
+import com.workon.controllers.CreateProjectController;
+import com.workon.controllers.LoginConnectionController;
 import com.workon.controllers.ProjectsController;
 import com.workon.plugin.PluginLoader;
 import com.workon.utils.parser.AnnotationParser;
@@ -15,7 +17,7 @@ import java.nio.file.Paths;
 
 public class ContextMenuHelper {
     /**
-     * Attache un menu clique gauche a un bouton pour cloturer un projet
+     * Attache un menu clique gauche a un bouton
      *
      * @param button
      *        Bouton pour attacher le menu
@@ -25,72 +27,49 @@ public class ContextMenuHelper {
      *        ScrollPane sur laquelle charger le nouveau FXML
      * @param fxmlPath
      *        Chemin vers le FXML a load
+     * @param contextType
+     *        Type de menu
      */
-    public static void setContextMenuToButton(@NoNull JFXButton button, String menuItemName, String fxmlPath, String fxmlMainPane){
-        AnnotationParser.parse(button);
+    public static void setContextMenuToButton(@NoNull JFXButton button, @NoNull String menuItemName, String fxmlPath, @NoNull String fxmlMainPane, @NoNull String contextType){
+        AnnotationParser.parse(button, menuItemName, fxmlPath, fxmlMainPane, contextType);
         ContextMenu contextMenu = new ContextMenu();
         MenuItem finished = new MenuItem(menuItemName);
         contextMenu.getItems().add(finished);
         button.setContextMenu(contextMenu);
 
-        finished.setOnAction(event -> {
-            try {
+        if(contextType.equals("project")){
+            finished.setOnAction(event -> {
                 HttpRequest.updateProject(button.getId());
                 ProjectsController.getBug().setDisable(true);
                 ProjectsController.getMeeting().setDisable(true);
                 ProjectsController.getDocumentation().setDisable(true);
                 LoadFXML.loadFXMLInScrollPane(fxmlPath, ProjectsController.getProjectListPane(), true, true);
                 LoadFXML.loadFXMLInScrollPane(fxmlMainPane, ProjectsController.getMainPane(), true, true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    /**
-     * Attache un menu clique gauche a un bouton pour supprimer un bug
-     *
-     * @param button
-     *        Bouton pour attacher le menu
-     */
-    public static void setContextMenuToButtonToDeleteBug(@NoNull JFXButton button){
-        AnnotationParser.parse(button);
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem finished = new MenuItem("Supprimer le bug");
-        contextMenu.getItems().add(finished);
-        button.setContextMenu(contextMenu);
-
-        finished.setOnAction(event -> {
-            try {
+            });
+        }else if(contextType.equals("bug")){
+            finished.setOnAction(event -> {
                 HttpRequest.deleteBug(button.getId());
-                LoadFXML.loadFXMLInScrollPane("/fxml/bugList.fxml", ProjectsController.getMainPane(), true, true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    /**
-     * Attache un menu clique gauche a un bouton pour supprimer une conversation
-     *
-     * @param button
-     *        Bouton pour attacher le menu
-     */
-    public static void setContextMenuToButtonToDeleteConversation(@NoNull JFXButton button){
-        AnnotationParser.parse(button);
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem finished = new MenuItem("Quitter la conversation");
-        contextMenu.getItems().add(finished);
-        button.setContextMenu(contextMenu);
-
-        finished.setOnAction(event -> {
-            try {
+                LoadFXML.loadFXMLInScrollPane(fxmlMainPane, ProjectsController.getMainPane(), true, true);
+            });
+        }else if(contextType.equals("conversation")){
+            finished.setOnAction(event -> {
                 HttpRequest.deleteConversation(button.getId());
-                LoadFXML.loadFXMLInScrollPane("/fxml/conversationList.fxml", ProjectsController.getMainPane(), true, true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+                LoadFXML.loadFXMLInScrollPane(fxmlMainPane, ProjectsController.getMainPane(), true, true);
+            });
+        }else if(contextType.equals("collaborator")){
+            finished.setOnAction(event -> {
+                HttpRequest.removeCollaboratorFromProject(button.getId());
+                if(button.getId().equals(LoginConnectionController.getUserId())){
+                    ProjectsController.getBug().setDisable(true);
+                    ProjectsController.getMeeting().setDisable(true);
+                    ProjectsController.getDocumentation().setDisable(true);
+                    LoadFXML.loadFXMLInScrollPane("/fxml/createProject.fxml", ProjectsController.getMainPane(), true, true);
+                }else{
+                    LoadFXML.loadFXMLInScrollPane(fxmlMainPane, ProjectsController.getMainPane(), true, true);
+                }
+                LoadFXML.loadFXMLInScrollPane(fxmlPath, ProjectsController.getProjectListPane(), true, true);
+            });
+        }
     }
 
     /**

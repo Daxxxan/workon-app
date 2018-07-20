@@ -30,7 +30,7 @@
          <children>
             <Label fx:id="listMeetingLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefWidth="351.0" style="-fx-padding: 5px; -fx-background-color: #483d8b;" text="Réunions" textFill="WHITE">
                <font>
-                  <Font name="Book Antiqua" size="14.0" />
+                  <Font name="Book Antiqua" size="16.0" />
                </font></Label>
          </children>
       </VBox>

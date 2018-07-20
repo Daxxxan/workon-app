@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ConversationController {
     @FXML
@@ -25,13 +26,17 @@ public class ConversationController {
         String messages = HttpRequest.getMessagesFromConversation(ConversationListController.getSelectedConversation());
         ArrayList<String>accountId = ParseRequestContent.getValuesOf(messages, "accountId");
         ArrayList<String>content = ParseRequestContent.getValuesOf(messages, "content");
-        
+
         for(int counter = 0; counter < accountId.size(); counter++){
             String account = HttpRequest.getAccountFromConversation(ConversationListController.getSelectedConversation(), accountId.get(counter));
-            String email = ParseRequestContent.getValueOf(account, "email");
+            String email;
+            if (account != null){
+                email = ParseRequestContent.getValueOf(account, "email");
+            }else{
+                email = " Inconnu ";
+            }
 
-            String contentLabel = email + " : " +
-                    content.get(counter).substring( 1 , content.get(counter).length() - 1);
+            String contentLabel = email.substring(1, Objects.requireNonNull(email).length() - 1) + " : " + content.get(counter);
 
             Label label = LabelHelper.createLabel(contentLabel, Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER_LEFT);
             LabelHelper.setMessageStyle(accountId.get(counter), label);

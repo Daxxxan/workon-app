@@ -36,7 +36,12 @@ public class BugController {
         String creatorId = ParseRequestContent.getValueOf(contentBug, "creatorId");
 
         String contentCreator = HttpRequest.getCollaboratorAccount(creatorId);
-        String creatorMail = ParseRequestContent.getValueOf(Objects.requireNonNull(contentCreator), "email");
+        String creatorMail;
+        if(contentCreator != null){
+            creatorMail = ParseRequestContent.getValueOf(Objects.requireNonNull(contentCreator), "email");
+        }else{
+            creatorMail = " Inconnu ";
+        }
 
         String contentBugMessages = HttpRequest.getBugMessages();
         ArrayList<String> accountsId = ParseRequestContent.getValuesOf(contentBugMessages, "accountId");
@@ -46,7 +51,12 @@ public class BugController {
 
         for(int counter = 0; counter < accountsId.size(); counter++){
             String account = HttpRequest.getCollaboratorAccount(accountsId.get(counter));
-            String accountEmail = ParseRequestContent.getValueOf(account, "email");
+            String accountEmail;
+            if(account != null){
+                accountEmail = ParseRequestContent.getValueOf(account, "email");
+            }else{
+                accountEmail = " Inconnu ";
+            }
             String contentLabel = accountEmail.substring(1, Objects.requireNonNull(accountEmail).length() - 1) + " : "
                     + messages.get(counter);
 

@@ -1,10 +1,7 @@
 package com.workon.controllers;
 
 import com.jfoenix.controls.JFXTextField;
-import com.workon.utils.HttpRequest;
-import com.workon.utils.LabelHelper;
-import com.workon.utils.LoadFXML;
-import com.workon.utils.ParseRequestContent;
+import com.workon.utils.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -32,17 +29,15 @@ public class AddCollaboratorsToProjectController {
         projectTitleLabel.setText(CreateProjectController.getProject().getName());
 
         ArrayList<String> collaborators = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectCollaborators), "email");
+        ArrayList<String> collaboratorsId = ParseRequestContent.getValuesOf(Objects.requireNonNull(contentProjectCollaborators), "id");
 
         vboxCollaboratorList.setSpacing(10);
         vboxCollaboratorList.setStyle("-fx-padding: 5px");
         vboxAddCollaborators.setSpacing(10);
 
         if(collaborators != null){
-            for (String collaborator : collaborators){
-                Label collaboratorLabel = LabelHelper.createLabel(collaborator.substring(1, collaborator.length() - 1), Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER);
-                vboxCollaboratorList.getChildren().add(collaboratorLabel);
-                setCollaboratorsNames(collaborator.substring(1, collaborator.length() - 1));
-            }
+            String buttonStyle = "-fx-border-color: #000000; " + "-fx-border-radius: 7; " + "-fx-padding: 10px;" + "-fx-background-color: #A9CCE3;";
+            ButtonHelper.loadListOfButton(collaborators, collaboratorsId, buttonStyle, "collaborators", vboxCollaboratorList);
         }
     }
 

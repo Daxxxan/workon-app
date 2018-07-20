@@ -160,7 +160,7 @@ public class HttpRequest {
      */
     public static String getAccountFromConversation(@NoNull String conversationId, @NoNull String accountId) {
         AnnotationParser.parse(conversationId, accountId);
-        String getAccount = LoginConnectionController.getPath().concat("/Conversations/").concat(conversationId)
+        String getAccount = LoginConnectionController.getPath().concat("Conversations/").concat(conversationId)
                 .concat("/accounts/").concat(accountId);
         return setOkHttpRequest(getAccount, null, false, "GET");
     }
@@ -176,7 +176,7 @@ public class HttpRequest {
      */
     public static String getAccountsFromConversation(@NoNull String conversationId) {
         AnnotationParser.parse(conversationId);
-        String getAccount = LoginConnectionController.getPath().concat("/Conversations/").concat(conversationId)
+        String getAccount = LoginConnectionController.getPath().concat("Conversations/").concat(conversationId)
                 .concat("/accounts");
         return setOkHttpRequest(getAccount, null, false, "GET");
     }
@@ -649,7 +649,7 @@ public class HttpRequest {
      */
     public static String setSummaryMeeting(@NoNull String summary, @NoNull String id) {
         AnnotationParser.parse(summary, id);
-        String updateMeetingRequest = LoginConnectionController.getPath().concat("/meetings/").concat(id);
+        String updateMeetingRequest = LoginConnectionController.getPath().concat("meetings/").concat(id);
 
         RequestBody formBody = new FormBody.Builder()
                 .add("summary", summary)
@@ -700,5 +700,21 @@ public class HttpRequest {
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/meetings/")
                 .concat(id);
         return setOkHttpRequest(getMeetingRequest, null, false, "GET");
+    }
+
+    /**
+     * Supprime un collaborateur d'un projet par son id
+     *
+     * @param collaboratorId
+     *        ID du collaborateur
+     * @return String
+     *         le retour de la requete HTTP
+     */
+    public static String removeCollaboratorFromProject(@NoNull String collaboratorId){
+        AnnotationParser.parse(collaboratorId);
+        String removeCollaboratorRequest = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId())
+                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/accounts/rel/")
+                .concat(collaboratorId);
+        return setOkHttpRequest(removeCollaboratorRequest, null, false, "DELETE");
     }
 }
