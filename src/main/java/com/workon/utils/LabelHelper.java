@@ -67,21 +67,4 @@ public class LabelHelper {
 
         return label;
     }
-
-    /**
-     * Set du style d'un message
-     *
-     * @param label
-     *        Label a modifier
-     * @param accountId
-     *        ID de l'emmeteur du message
-     */
-    public static void setMessageStyle(@NoNull String accountId, @NoNull Label label){
-        AnnotationParser.parse(accountId, label);
-        if(accountId.equals(LoginConnectionController.getUserId())){
-            label.setStyle("-fx-background-color: #CACFD2; -fx-background-radius: 10; -fx-label-padding: 5;");
-        }else{
-            label.setStyle("-fx-background-color: #A9CCE3; -fx-background-radius: 10; -fx-label-padding: 5;");
-        }
-    }
 }

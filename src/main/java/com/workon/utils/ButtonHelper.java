@@ -3,13 +3,16 @@ package com.workon.utils;
 import com.jfoenix.controls.JFXButton;
 import com.workon.controllers.ConversationListController;
 import com.workon.controllers.CreateProjectController;
+import com.workon.controllers.LoginConnectionController;
 import com.workon.controllers.ProjectsController;
 import com.workon.models.Bug;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ButtonHelper {
     /**
@@ -101,6 +104,58 @@ public class ButtonHelper {
             }
             vboxList.setSpacing(10);
             vboxList.getChildren().add(button);
+        }
+    }
+
+    /**
+     * Set du style d'un message
+     *
+     * @param button
+     *        Bouton a modifier
+     * @param accountId
+     *        ID de l'emmeteur du message
+     */
+    public static void setButtonStyle(JFXButton button, String accountId){
+        button.setAlignment(Pos.BASELINE_LEFT);
+        if(accountId.equals(LoginConnectionController.getUserId())){
+            button.setStyle("-fx-background-color: #CACFD2; -fx-background-radius: 10;");
+        }else{
+            button.setStyle("-fx-background-color: #A9CCE3; -fx-background-radius: 10;");
+        }
+    }
+
+    /**
+     * Creer un bouton
+     *
+     * @param accountsId
+     *        Liste des comptes ayant ecris des messages
+     * @param messages
+     *        Liste des messages
+     * @param vboxMessages
+     *        Emplacement des messages
+     * @param type
+     *        Type de conversation
+     */
+    public static void loadConversationList(ArrayList<String> accountsId, ArrayList<String> messages, VBox vboxMessages, String type){
+        for(int counter = 0; counter < accountsId.size(); counter++){
+            String account = null;
+            if(type.equals("bug")){
+                account = HttpRequest.getCollaboratorAccount(accountsId.get(counter));
+            }else if(type.equals("conversation")){
+                account = HttpRequest.getAccountFromConversation(ConversationListController.getSelectedConversation(), accountsId.get(counter));
+            }
+            String accountEmail;
+            if(account != null){
+                accountEmail = ParseRequestContent.getValueOf(account, "email");
+            }else{
+                accountEmail = " Inconnu ";
+            }
+            String contentLabel = accountEmail.substring(1, Objects.requireNonNull(accountEmail).length() - 1) + " : "
+                    + messages.get(counter);
+
+            JFXButton button = ButtonHelper.setButton(contentLabel, null, Double.MAX_VALUE, null, Cursor.DEFAULT, new Font("Book Antiqua", 14));
+            ButtonHelper.setButtonStyle(button, accountsId.get(counter));
+            vboxMessages.getChildren().add(button);
         }
     }
 }

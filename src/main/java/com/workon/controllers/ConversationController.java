@@ -1,12 +1,11 @@
 package com.workon.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import com.workon.utils.HttpRequest;
-import com.workon.utils.LabelHelper;
-import com.workon.utils.LoadFXML;
-import com.workon.utils.ParseRequestContent;
+import com.workon.utils.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -22,26 +21,12 @@ public class ConversationController {
 
     @FXML
     public void initialize() {
-        vboxMessages.setSpacing(10);
+        vboxMessages.setSpacing(15);
         String messages = HttpRequest.getMessagesFromConversation(ConversationListController.getSelectedConversation());
         ArrayList<String>accountId = ParseRequestContent.getValuesOf(messages, "accountId");
         ArrayList<String>content = ParseRequestContent.getValuesOf(messages, "content");
 
-        for(int counter = 0; counter < accountId.size(); counter++){
-            String account = HttpRequest.getAccountFromConversation(ConversationListController.getSelectedConversation(), accountId.get(counter));
-            String email;
-            if (account != null){
-                email = ParseRequestContent.getValueOf(account, "email");
-            }else{
-                email = " Inconnu ";
-            }
-
-            String contentLabel = email.substring(1, Objects.requireNonNull(email).length() - 1) + " : " + content.get(counter);
-
-            Label label = LabelHelper.createLabel(contentLabel, Double.MAX_VALUE, new Font("Book Antiqua", 14), Pos.CENTER_LEFT);
-            LabelHelper.setMessageStyle(accountId.get(counter), label);
-            vboxMessages.getChildren().add(label);
-        }
+        ButtonHelper.loadConversationList(accountId, content, vboxMessages, "conversation");
     }
 
     @FXML
