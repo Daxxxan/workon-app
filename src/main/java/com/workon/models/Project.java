@@ -7,7 +7,9 @@ public class Project {
     private String name;
     private String director;
     private String currentBugId;
+    private String currentStepId;
     private String currentBugName;
+    private String currentStepName;
     private String currentMeetingId;
     private String currentMeetingName;
     private ArrayList<Step> steps = new ArrayList<>();
@@ -107,5 +109,21 @@ public class Project {
 
     public void setCurrentBugName(String currentBugName) {
         this.currentBugName = currentBugName;
+    }
+
+    public String getCurrentStepId() {
+        return currentStepId;
+    }
+
+    public void setCurrentStepId(String currentStepId) {
+        this.currentStepId = currentStepId;
+    }
+
+    public String getCurrentStepName() {
+        return currentStepName;
+    }
+
+    public void setCurrentStepName(String currentStepName) {
+        this.currentStepName = currentStepName;
     }
 }

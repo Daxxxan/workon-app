@@ -1,7 +1,9 @@
 package com.workon.utils;
 
+import com.sun.javafx.tools.packager.Log;
 import com.workon.controllers.CreateProjectController;
 import com.workon.controllers.LoginConnectionController;
+import com.workon.controllers.ProjectsController;
 import com.workon.utils.parser.AnnotationParser;
 import com.workon.utils.parser.NoNull;
 import javafx.application.Application;
@@ -339,7 +341,8 @@ public class HttpRequest {
      */
     public static String getProjectSteps() {
         String getProjectSteps = LoginConnectionController.getPath().concat("accounts/").concat(LoginConnectionController.getUserId())
-                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/steps");
+                .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/steps")
+                .concat("?filter[order]=date ASC");
         return setOkHttpRequest(getProjectSteps, null, false, "GET");
     }
 
@@ -716,5 +719,44 @@ public class HttpRequest {
                 .concat("/projects/").concat(CreateProjectController.getProject().getId()).concat("/accounts/rel/")
                 .concat(collaboratorId);
         return setOkHttpRequest(removeCollaboratorRequest, null, false, "DELETE");
+    }
+
+    public static String createTask(String name){
+        AnnotationParser.parse(name);
+        String createTaskRequest = LoginConnectionController.getPath().concat("Steps/").concat(CreateProjectController.getProject().getCurrentStepId())
+                .concat("/tasks");
+        RequestBody formBody = new FormBody.Builder()
+                .add("name", name)
+                .build();
+
+        return setOkHttpRequest(createTaskRequest, formBody, false, "POST");
+    }
+
+    public static String getTasksFromStep(){
+        String getTaskRequest = LoginConnectionController.getPath().concat("Steps/").concat(CreateProjectController.getProject().getCurrentStepId())
+                .concat("/tasks");
+        return setOkHttpRequest(getTaskRequest, null, false, "GET");
+    }
+
+    public static String deleteTasksFromStep(String taskId){
+        String removeTaskRequest = LoginConnectionController.getPath().concat("Steps/").concat(CreateProjectController.getProject().getCurrentStepId())
+                .concat("/tasks/").concat(taskId);
+        return setOkHttpRequest(removeTaskRequest, null, false, "DELETE");
+    }
+
+    public static String updateTasksFromStep(String taskId){
+        String updateTaskRequest = LoginConnectionController.getPath().concat("Tasks/").concat(taskId);
+        RequestBody formBody = new FormBody.Builder()
+                .add("state", "1")
+                .build();
+        return setOkHttpRequest(updateTaskRequest, formBody, false, "PATCH");
+    }
+
+    public static String updateStateStep(String state){
+        String updateStepState = LoginConnectionController.getPath().concat("Steps/").concat(CreateProjectController.getProject().getCurrentStepId());
+        RequestBody formBody = new FormBody.Builder()
+                .add("state", state)
+                .build();
+        return setOkHttpRequest(updateStepState, formBody, false, "PATCH");
     }
 }

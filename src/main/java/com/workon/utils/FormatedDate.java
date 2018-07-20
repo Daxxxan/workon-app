@@ -7,8 +7,6 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static com.workon.utils.FormatedDate.sortByValue;
-
 abstract public class FormatedDate implements Comparable{
 
     /**
@@ -77,7 +75,6 @@ abstract public class FormatedDate implements Comparable{
     public static Map<String, LocalDate> sortStringLocalDate(@NoNull Map<String, String> map){
         AnnotationParser.parse(map);
         Map<String, LocalDate> localDateMap = new HashMap<>();
-        Map<String, LocalDate> localDateMapSorted;
 
         Set set = map.entrySet();
         for (Object aSet : set) {
@@ -90,31 +87,6 @@ abstract public class FormatedDate implements Comparable{
             Map.Entry entry = (Map.Entry) aSet;
         }
 
-        localDateMapSorted = sortByValue(localDateMap);
-
-        return localDateMapSorted;
+        return localDateMap;
     }
-
-    /**
-     * Tri une map par LocalDate
-     *
-     * @param unsortMap
-     *        ID de la conversation
-     * @return Map
-     */
-    public static Map<String, LocalDate> sortByValue(@NoNull Map<String, LocalDate> unsortMap) {
-        AnnotationParser.parse(unsortMap);
-        List<Map.Entry<String, LocalDate>> list = new LinkedList<>(unsortMap.entrySet());
-
-        list.sort(Comparator.comparing(o -> (o.getValue())));
-
-        Map<String, LocalDate> result = new LinkedHashMap<>();
-        for (Map.Entry<String, LocalDate> entry : list) {
-            result.put(entry.getKey(), entry.getValue());
-        }
-
-        return result;
-
-    }
-
 }

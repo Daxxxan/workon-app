@@ -96,4 +96,25 @@ public class ContextMenuHelper {
             }
         });
     }
+
+    public static void setContextMenuToButtonToManageTask(@NoNull JFXButton button, String taskId){
+        AnnotationParser.parse(button);
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem finished = new MenuItem("Supprimer une tâche");
+        MenuItem validate = new MenuItem("Valider une tâche");
+        contextMenu.getItems().addAll(finished, validate);
+        button.setContextMenu(contextMenu);
+
+        finished.setOnAction(event -> {
+            String delete = HttpRequest.deleteTasksFromStep(taskId);
+            LoadFXML.loadFXMLInScrollPane("/fxml/tasksList.fxml", ProjectsController.getMainPane(), true, true);
+        });
+
+        validate.setOnAction(event -> {
+            String update = HttpRequest.updateTasksFromStep(taskId);
+            if(update != null){
+                LoadFXML.loadFXMLInScrollPane("/fxml/tasksList.fxml", ProjectsController.getMainPane(), true, true);
+            }
+        });
+    }
 }
